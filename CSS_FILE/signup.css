@@ -1,0 +1,109 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    
+  }
+  body{
+      background-color: #e5e1e1;
+  }
+  
+  /* media queries breakpoints - responsive design*/
+  .row::after {
+    content: "";
+    clear: both;
+    display: block;
+  }
+  
+  [class*="col-"] {
+    float: left;
+    padding: 15px;
+  }
+  
+  /* For desktop: */
+  .col-1 {
+    width: 8.33%;
+  }
+  .col-2 {
+    width: 16.66%;
+  }
+  .col-3 {
+    width: 25%;
+  }
+  .col-4 {
+    width: 33.33%;
+  }
+  .col-5 {
+    width: 41.66%;
+  }
+  .col-6 {
+    width: 50%;
+  }
+  .col-7 {
+    width: 58.33%;
+  }
+  .col-8 {
+    width: 66.66%;
+  }
+  .col-9 {
+    width: 75%;
+  }
+  .col-10 {
+    width: 83.33%;
+  }
+  .col-11 {
+    width: 91.66%;
+  }
+  .col-12 {
+    width: 100%;
+  }
+  
+  @media only screen and (max-width: 768px) {
+    /* For mobile phones: */
+    [class*="col-"] {
+      width: 100%;
+    }
+  
+  
+  }
+  /* responsive design media queries breakpoints */
+.container{
+  background-color:forestgreen;
+  height:70vh;
+}
+
+.div1{
+  display:flex;
+  gap:1rem;
+  
+}
+
+input[type="text"],
+input[type="password"],
+input[type="date"],
+input[type=""]{
+    width: 100%; /* or set a specific width like 300px */
+    padding: 10px; /* Optional: Adds some padding for a better look */
+    box-sizing: border-box; /* Ensures padding doesn't affect the width */
+}
+
+button[type="submit"] {
+  padding: 10px 20px;
+  background-color: #4CAF50; /* Green background */
+  color: white; /* White text */
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+button[type="submit"]:hover {
+  background-color: #45a049;
+}
+
+main{
+  margin-top: 50px;
+}
+.agreement{
+  display: flex;
+
+}
