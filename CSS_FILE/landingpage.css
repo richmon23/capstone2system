@@ -7,7 +7,9 @@
 body,
 html {
   font-family: Arial, sans-serif;
+  scroll-behavior: smooth;
 }
+
 
 /* Header */
 .header {
@@ -61,6 +63,9 @@ html {
   text-align: center;
   padding-top: 10rem;
   padding-left: 3rem;
+  font-size: .7rem;
+  color: forestgreen;
+  text-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);
 }
 
 /* .left-content .timeless, .left-content .memorial {
@@ -80,7 +85,7 @@ html {
 
 .right-content {
   flex: 1 1 75%;
-  /* background-color: yellow; */
+
   text-align: center;
   padding-bottom: 20rem;
 }
@@ -94,31 +99,37 @@ html {
   text-align: center;
   margin: 2rem 0;
   height: 50vh;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }
+
 
 .packages h1 {
   margin-bottom: 1rem;
 }
 
 .package-detail {
-  background: #0a5c36;
-  color: white;
+  color: black;
   margin: 1rem;
   padding: 2rem;
   border-radius: 5px;
   flex: 1 1 calc(33.333% - 2rem);
   text-align: center;
+ /* From https://css.glass */
+background: rgba(179, 255, 200, 0.03);
+border-radius: 16px;
+box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+backdrop-filter: blur(6.1px);
+-webkit-backdrop-filter: blur(6.1px);
+border: 1px solid rgba(26, 133, 56, 0.19);
+  
 }
 .package-detail img {
-  width: 100%;
+  width: 104%;
   height: 30vh;
 }
 
-.packages {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-}
 
 /* Map Section */
 .map-section {
@@ -137,11 +148,48 @@ html {
 
 /* Footer */
 .footer {
-  background: #0a5c36;
-  color: white;
+  color: black;
   text-align: center;
   padding: 2rem;
+  display:flex;
+  flex-direction: row;
+  justify-content: space-between;
+  background: rgba( 58, 111, 5, 0.5 );
+  box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+  backdrop-filter: blur( 20px );
+  -webkit-backdrop-filter: blur( 20px );
+  border-radius: 10px;
+ 
+
 }
+
+.footer .footerqoute{
+  padding-bottom:50px;
+}
+
+.divimg{
+  font-size:.8rem;
+}
+.div1{
+  font-size:.8rem;
+  padding-top: 40px;
+}
+.div2{
+font-size:.8rem;
+padding-top: 40px;
+}
+.div3{
+  font-size:.8rem;
+  padding-top: 40px;
+}
+.social-media img{
+  width:50px;
+}
+
+.social-media img:hover{
+  transform: scale(1.1);
+}
+
 
 /* Responsive Styles */
 @media (max-width: 768px) {

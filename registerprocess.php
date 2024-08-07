@@ -1,7 +1,9 @@
 <?php
 session_start()
 
-require_once 'connection.php'; // Include your database connection file;
+
+// Include your database connection file
+require_once 'connection.php';
 
 
 
@@ -30,7 +32,8 @@ $stmt->bind_param("ssssss", $firstname, $surname, $email, $hashed_password, $bir
 
 // Execute the statement and check for errors
 if ($stmt->execute()) {
-    $_SESSION['message'] = "Registration successful! Please log in.";
+    $_SESSION['message'] = "";
+    //  echo ""; // Add JavaScript alert message
     header("Location: userlogin.php");
     exit();
 } else {

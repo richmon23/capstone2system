@@ -71,38 +71,38 @@ body {
   display: flex;
 }
 .left-content {
-  background-color: forestgreen;
-  color: white;
-  position: relative;
-  border-radius: 25px;
-  height: 98vh;
-  margin-top: 0.6rem;
-  margin-left: 0.7rem;
-}
-
-.memoriallogo img {
-  width: 150px;
-  position: absolute;
-  top: 2rem;
-}
-.hamburgermenu img {
-  width: 40px;
-  float: right;
-  margin-top: 2rem;
-}
-
-.adminprofile img {
-  width: 10rem;
-  margin-top: 6rem;
-  padding-left: 30px;
-}
-.main {
-  width: 100%;
-  margin-top: 1rem;
-  margin-left: 50px;
-}
+    background-color: forestgreen;
+    color: white;
+    position: relative;
+    border-radius: 25px;
+    height: 140vh;
+    margin-top: 0.6rem;
+    margin-left: 0.7rem;
+  }
+  
+  .memoriallogo img {
+    width: 150px;
+    position: absolute;
+    top: 2rem;
+  }
+  .hamburgermenu img {
+    width: 40px;
+    float: right;
+    margin-top: 2rem;
+  }
+  
+  .adminprofile img {
+    width: 10rem;
+    margin-top: 6rem;
+    padding-left: 30px;
+  }
+  .main {
+    width: 100%;
+    margin-top: 1rem;
+    margin-left: 50px;
+  }
 .right-content1 {
-  margin-left: 50px;
+  margin-left: 20px;
   width: 90%;
   height: 8rem;
   margin-top: 1rem;
@@ -111,7 +111,7 @@ body {
   border-radius: 20px;
 }
 .right-content2 {
-  margin-left: 50px;
+  margin-left: 20px;
   width: 90%;
   height: 70vh;
   margin-top: 4rem;
@@ -138,42 +138,45 @@ body {
     margin-top: 5rem;
   } */
 
-.adminlinks a {
-  text-decoration: none;
-  color: white;
-  font-size: 1.5rem;
-}
-.adminlinks img {
-  width: 30px;
-}
-
-.adminlinks {
-  display: block;
-  margin: 15px 10px;
-  padding: 15px;
-  padding-left: 23%; /* Adjust spacing between items */
-}
-
-.adminlinks span {
-  display: flex;
-  align-items: center;
-  margin: 40px 0; /* Adjust spacing between links */
-}
-
-.adminlinks img {
-  display: block;
-  margin-right: 15px; /* Adjust spacing between image and text */
-}
+  
+  .adminlinks a {
+    text-decoration: none;
+    color: white;
+    font-size: 1rem;
+  }
+  .adminlinks img {
+    width: 25px;
+  }
+  
+  .adminlinks {
+    display: block;
+    margin: 15px 10px;
+    padding: 15px;
+    padding-left: 23%; /* Adjust spacing between items */
+  }
+  
+  .adminlinks span {
+    display: flex;
+    align-items: center;
+    margin: 40px 0; /* Adjust spacing between links */
+  }
+  
+  .adminlinks img {
+    display: block;
+    margin-right: 15px; /* Adjust spacing between image and text */
+  }
+  
 table {
-  width: 80rem;
+  width: 80%;
   border-collapse: collapse;
   margin: 20px 0;
-  font-size: 18px;
+  font-size: 15px;
   text-align: left;
+  color:black;
 }
 th,
 td {
-  padding: 12px;
+  padding: 17px;
   border-bottom: 1px solid #ddd;
 }
 th {
@@ -187,7 +190,7 @@ tr:hover {
   gap: 10px;
 }
 .button {
-  padding: 6px 12px;
+  padding: 19px 10px;
   border: none;
   cursor: pointer;
   border-radius: 4px;
@@ -198,6 +201,9 @@ tr:hover {
 }
 .delete {
   background-color: #f44336;
+}
+.button:hover{
+  transform: scale(1.1);
 }
 
 /* Modal styles */
@@ -211,7 +217,7 @@ tr:hover {
   height: 100%;
   overflow: auto;
   background-color: rgba(0, 0, 0, 0.5);
-  padding-top: 60px;
+  padding-top:10px;
 }
 .modal-content {
   background-color: #fefefe;
@@ -243,16 +249,22 @@ tr:hover {
   text-align: right;
 }
 
-.btnsave {
+.btnadd {
   background-color: dodgerblue;
-  width: 100px;
+  width: 69px;
   height: 40px;
   cursor: pointer;
+  border-radius: 10px;
 }
-.btnsave img {
+
+.btnadd img {
   width: 2rem;
   height: 2vh;
   cursor: pointer;
+}
+
+.btnadd:hover{
+  transform: scale(1.1);
 }
 .button-save-modal {
   background-color: #4caf50;
@@ -265,3 +277,4 @@ tr:hover {
   box-sizing: border-box; /* Include padding and border in the element's total width */
   padding-left:5px;
 }
+

@@ -28,7 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         header("Location: userlogin.php");
         exit();
     } else {
-        echo "Error: " . $stmt->error;
+        echo "Error: " . $errorInfo[2];
     }
 
     // Close connections
@@ -45,38 +45,32 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SignUp</title>
-    <link rel="stylesheet" href="./CSS_FILE/signup.css">
+    <link rel="stylesheet" href="CSS_FILE/signup.css">
 </head>
 <body>
     <main>
-     <h2>Sign Up</h2>
-     <br>
-     <br>
         <div class="row">
              <div class="col-9 container">
                 <form method="POST" action="register.php">
-
+                    <h2>Sign Up</h2>
+                    <br>
+                    <br>
                     <div class="div1 col-6">
                     <!-- <label for="firstname">First Name:</label> -->
                     <input type="text" id="firstname" name="firstname" maxlength="50" placeholder="firstname" required>
                     <br>
+                    <br>
                     <!-- <label for="surname">Surname:</label> -->
                     <input type="text"id="surname" name="surname" maxlength="50"  placeholder="surname"required>
-                    </div>
                     <br>
-                    <div class="div2 col-6">
-                    <!-- <label for="email">Email or Contact Number:</label> -->
-                    <input type="text" id="email" name="email" maxlength="50"  placeholder="email"required>
-                    </div>
                     <br>
-                    <div class="div2 col-6">
-                    <!-- <label for="password">New Password:</label> -->
                     <input type="password" id="password" name="password" placeholder="New Password"><br>
-                    </div>
-                    <div class="div2 col-6">
-                    <!-- <label for="birthdate">Birthdate:</label> -->
+                    <br>
+                    <br>
+                    <input type="text" id="email" name="email" maxlength="50"  placeholder="email"required>
+                    <br>
+                    <br>
                     <input type="date" id="birthdate" name="birthdate" placeholder="Birthdate"><br>
-                    </div>
                     <br>
                     <br>
                     <label>Gender:</label><br>
@@ -85,19 +79,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <label for="male">Male</label><br>
                     <input type="radio" id="female" name="gender" value="Female">
                     <label for="female">Female</label><br>
-                    <input type="radio" id="other" name="gender" value="Other">
-                    <label for="other">Other</label><br><br>
-
-                    <!-- Add a submit button -->
-                   <center><button type= "submit">Sign Up</button> </center> 
-                   <br>
-                    <div class="agreement col-6">
-                    <span> <a href="userlogin.php">have an account? login</a>
-                   <br>
+                    <br>
+                   <p>
                     By clicking Sign Up, <br> you agree to our Terms,Privacy Policy and Cookies Policy.
-                    <br> You may receive SMS Notifications from us and can opt out anytime.
+                    <br> You may receive SMS Notifications from us and can opt out anytime.</p>
+                    <br>
+                    <br>
+                    <center><button type= "submit" class="button-29">Sign Up</button> </center> 
+                    <br>
+                    <span>have an account?<a href="userlogin.php" class="signuplogin" > login</a>
+                    <!-- <center>Don't have an account?<a href="register.php" class="loginbtnsignup"> Sign Up</a></center> -->
                    </span>
-                    </div>
                 </form>
                 <br>
             </div>      

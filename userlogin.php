@@ -3,13 +3,11 @@ session_start();
 ?>
 
 <?php
-    if (isset($_SESSION['message'])) {
-        echo "<p style='color: green;'>" . $_SESSION['message'] . "</p>";
-        unset($_SESSION['message']); // Clear the message after displaying it
-    }
-    ?>
-
-
+if (isset($_SESSION['message'])) {
+    echo "<p style='color: green;'>" . $_SESSION['message'] . "</p>";
+    unset($_SESSION['message']); // Clear the message after displaying it
+}
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -17,10 +15,9 @@ session_start();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <link rel="stylesheet" href="./CSS_FILE/login.css">
+    <link rel="stylesheet" href="CSS_FILE/userlogin.css">
+
 </head>
-
-
 <body>
     <main>
         <div class="row">
@@ -31,29 +28,39 @@ session_start();
             </div>
             <div class="col-6 right">
                 <center>
-                <form action="login.php" method="post" class="form">
-                    <center>
-                    <img src="./images/bogomemoriallogo.png" alt="">
-                    <h2>WELCOME ADMIN</h2>
-                    <br>
-                    <label for="Username">Email</label>
-                    <br>
-                    <input type="text" name="email" id="email"  placeholder="Enter Email" required>
-                    <br>
-                    <br>
-                    <label for="Password">Password</label>
-                    <br>
-                    <input type="password" name="password" id="password"  placeholder="Enter Password" required>
-                    <br>
-                    <br>
-                    <button type="submit">Login</button>
-                    </center>  
-                </form>
+                    <form action="login.php" method="post" class="form">
+                        <center>
+                        <img src="./images/bogomemoriallogo.png" alt="">
+                        <h2>WELCOME ADMIN</h2>
+                        <br>
+                        <div class="form-group">
+                            <input type="email" name="email" id="email" placeholder=" " required>
+                            <label for="email">Email</label>
+                        </div>
+                        <div class="form-group">
+                            <input type="password" name="password" id="password" placeholder=" " required>
+                            <label for="password">Password</label>
+                            <button type="button" class="toggle-password" onclick="togglePasswordVisibility()">
+                                <svg id="eye-icon" viewBox="0 0 24 24">
+                                    <path d="M12 5c-7.732 0-12 7-12 7s4.268 7 12 7 12-7 12-7-4.268-7-12-7zm0 12a5 5 0 1 1 0-10 5 5 0 0 1 0 10zm0-8a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"/>
+                                </svg>
+                            </button>
+                        </div>
+                        <br>
+                        <button type="submit" class="button-29" role="button">Login</button>
+                        </center>  
+                        <br>
+                        <center>Don't have an account?<a href="register.php" class="loginbtnsignup"> Sign Up</a></center>
+                    </form>
                 </center>
                 <br>
-                <center><a href="register.php">Don't have an account? Sign Up</a></center>
             </div>
         </div>
     </main>   
+    <script src="./JS_FILE/loginshowpassword.js"></script>
 </body>
 </html>
+
+
+
+

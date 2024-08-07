@@ -12,7 +12,7 @@
         <!-- <button class="hamburger" onclick="toggleMenu()">☰</button> -->
         <nav class="nav" id="navMenu">
             <a href="#">Home</a>
-            <a href="#">Contact Us</a>
+            <a href="#contact">Contact Us</a>
             <a href="#">Packages</a>
             <a href="#">Photos</a>
             <a href="#">Maps</a>
@@ -34,21 +34,35 @@
         <br>
         <br>
         <br>
+        <br>  
+        <br>
+        <br>
+        <br>
+        <br> 
+        <br>
+        <br>
+        <br>      
         <center><h1>PACKAGES OFFERED</h1></center>
+        <br>
+        <br>
         <section class="packages">
             <div class="package-detail"><h1>Lawn</h1>
                 <br>
-                <img src="./images/lawn.jpg" alt="">
+                <img src="./images/lawnpackage.jpg" alt="">
             </div>
             <div class="package-detail"><h1>Garden</h1>
                 <br>
-                <img src="./images/pic21.jpg" alt="">
+                <img src="./images/gardenpackage.jpg" alt="">
             </div>
             <div class="package-detail"><h1>Family State</h1>
                 <br>
-                <img src="./images/family.jpg" alt="">
+                <img src="./images/familypackage.jpg" alt="">
             </div>
         </section>
+        <br>
+        <br>
+        <br>
+        <br>
         <center><h1 class="memorialmaptext">Bogo Memorial Park Map</h1></center>
         <section class="map-section">
             <div class="bogomap">
@@ -60,9 +74,38 @@
             </div>
         </section>
     </main>
-
-    <footer class="footer">
-        <h1>Footer</h1>
+    <br>
+    <br>
+    <br>
+    <footer class="footer" id="contact">
+        <div class="divimg">
+            <img src="./images/bogomemoriallogo.png" alt="bogomemoriallogo">
+           <br>
+           <p class="footerqoute">The First and only Memorial Park  in
+Bogo City,Cebu where Memories Live 
+Forever...</p>
+        </div>
+        <div class="div1">
+        <h1>Packages</h1>
+        <p>Lawn</p>
+        <p>Garden</p>
+        <p>Family State</p>
+        </div>
+        <div class="div2">
+            <h1>Contact Us</h1>
+            <p>Phone:(123) 456-7890</p>
+            <p>Email:info@bogomemorial.com</p>
+            <p>Address:Taytayan Hills, Bogo City, Cebu City, Philippines</p>
+        </div>
+        <div class="div3">
+            <h1>Follow Us</h1>
+            <div class="social-media">
+                <a href="https://www.facebook.com/BogoMemorialPark"><img src="./images/facebook.png" alt="Facebook"></a>
+                <a href="#"><img src="./images/twitter.png" alt="Twitter"></a>
+                <a href="#"><img src="./images/instagram.png" alt="Instagram"></a>
+            </div>
+        </div>
+        </div>
     </footer>
     <!-- <script>
         function toggleMenu() {

@@ -69,36 +69,24 @@
   /* responsive design media queries breakpoints */
 .container{
   background-color:forestgreen;
-  height:70vh;
+  height:120vh;
+  width:50%;
+  margin-left:20%;
 }
 
-.div1{
-  display:flex;
-  gap:1rem;
-  
-}
 
 input[type="text"],
 input[type="password"],
 input[type="date"],
 input[type=""]{
-    width: 100%; /* or set a specific width like 300px */
-    padding: 10px; /* Optional: Adds some padding for a better look */
+    width: 500px; /* or set a specific width like 300px */
+    padding: 15px; /* Optional: Adds some padding for a better look */
     box-sizing: border-box; /* Ensures padding doesn't affect the width */
+    margin-left: 49px;
+    padding-top:10px;
 }
 
-button[type="submit"] {
-  padding: 10px 20px;
-  background-color: #4CAF50; /* Green background */
-  color: white; /* White text */
-  border: none;
-  cursor: pointer;
-  font-size: 16px;
-}
 
-button[type="submit"]:hover {
-  background-color: #45a049;
-}
 
 main{
   margin-top: 50px;
@@ -106,4 +94,58 @@ main{
 .agreement{
   display: flex;
 
+}
+/* Login Button CSS */
+.button-29 {
+    align-items: center;
+    appearance: none;
+    background-image: radial-gradient(100% 100% at 100% 0, #5adaff 0, #5468ff 100%);
+    border: 0;
+    border-radius: 6px;
+    box-shadow: rgba(45, 35, 66, 0.4) 0 2px 4px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px, rgba(58, 65, 111, 0.5) 0 -3px 0 inset;
+    box-sizing: border-box;
+    color: #fff;
+    cursor: pointer;
+    display: inline-flex;
+    font-family: "JetBrains Mono", monospace;
+    height: 48px;
+    justify-content: center;
+    line-height: 1;
+    list-style: none;
+    overflow: hidden;
+    padding-left: 16px;
+    padding-right: 16px;
+    position: relative;
+    text-align: left;
+    text-decoration: none;
+    transition: box-shadow 0.15s, transform 0.15s;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    white-space: nowrap;
+    will-change: box-shadow, transform;
+    font-size: 18px;
+  }
+  
+  .button-29:focus {
+    box-shadow: #3c4fe0 0 0 0 1.5px inset, rgba(45, 35, 66, 0.4) 0 2px 4px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #3c4fe0 0 -3px 0 inset;
+  }
+  
+  .button-29:hover {
+    box-shadow: rgba(45, 35, 66, 0.4) 0 4px 8px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #3c4fe0 0 -3px 0 inset;
+    transform: translateY(-2px);
+  }
+  
+  .button-29:active {
+    box-shadow: #3c4fe0 0 3px 7px inset;
+    transform: translateY(2px);
+  }
+
+.signuplogin{
+text-decoration: none;
+color:white;
+}
+
+.signuplogin:hover{
+    text-decoration: underline;
 }

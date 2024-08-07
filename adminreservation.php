@@ -61,11 +61,11 @@ if (isset($pdo)) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Reservation</title>
-    <link rel="stylesheet" href="./CSS_FILE/adminreservation.css">
+    <link rel="stylesheet" href="CSS_FILE/adminreserved.css">
 </head>
 <body>
     <div class="row">
-        <div class="left-content col-3">
+        <div class="left-content col-4">
             <div class="memoriallogo"><img src="./images/bogomemoriallogo.png" alt="bogomemoriallogo"></div>
             <div class="hamburgermenu"><img src="./images/hamburgermenu.png" alt="hamburgermenu"></div> 
             <div class="adminprofile">
@@ -89,7 +89,7 @@ if (isset($pdo)) {
         </div>
         <div class="main">
             <div class="right-content1">
-                <div class="right-header col-9">
+                <div class="right-header col-10">
                     <br>
                     <span><h1>Reservation</h1></span>
                     <!-- <button onclick="openAddModal()">Add Reservation</button> -->
@@ -104,7 +104,7 @@ if (isset($pdo)) {
             <div class="right-content2">
                 <div class="right-header col-9">
                     <br>
-                    <button class="btnsave "onclick="openAddModal()"><img src="./images/add-user.png" alt=""></button>
+                    <button class="btnadd "onclick="openAddModal()"><img src="./images/add-user.png" alt=""></button>
                     <table id="myTable">
                         <thead>
                             <tr>
@@ -196,21 +196,29 @@ if (isset($pdo)) {
                             <div class="modal-body">
                                 <form id="updateForm" method="post">
                                     <input type="hidden" name="id" id="modal_id">
-                                    <input type="hidden" name="action" value="update">
+                                    <input type="hidden" name="action" value="update" class="form-element">
                                     <label for="fullname">Full Name:</label><br>
-                                    <input type="text" id="modal_fullname" name="fullname"><br><br>
+                                    <input type="text" id="modal_fullname" name="fullname" class="form-element"><br><br>
                                     <label for="package">Package:</label><br>
-                                    <input type="text" id="modal_package" name="package"><br><br>
+                                    <!-- <input type="text" id="modal_package" name="package"><br><br> -->
+                                    <select id="modal_package"  name="package" class="form-element">
+                                        <option value="">Select Package</option>
+                                        <option value="garden">Garden</option>
+                                        <option value="family_state">Family State</option>
+                                        <option value="lawn">Lawn</option>
+                                    </select>
+                                    <br>
+                                    <br>
                                     <label for="plot">Plot #:</label><br>
-                                    <input type="text" id="modal_plot" name="plotnumber"><br><br>
+                                    <input type="text" id="modal_plot" name="plotnumber" class="form-element"><br><br>
                                     <label for="block">Block #:</label><br>
-                                    <input type="text" id="modal_block" name="blocknumber"><br><br>
+                                    <input type="text" id="modal_block" name="blocknumber" class="form-element"><br><br>
                                     <label for="email">Email:</label><br>
-                                    <input type="email" id="modal_email" name="email"><br><br>
+                                    <input type="email" id="modal_email" name="email"class="form-element"><br><br>
                                     <label for="contact">Contact:</label><br>
-                                    <input type="text" id="modal_contact" name="contact"><br><br>
+                                    <input type="text" id="modal_contact" name="contact"class="form-element"><br><br>
                                     <label for="time">Time:</label><br>
-                                    <input type="date" id="modal_time" name="time"><br><br>
+                                    <input type="date" id="modal_time" name="time"class="form-element"><br><br>
                                 </form>
                             </div>
                             <div class="modal-footer">
@@ -232,6 +240,7 @@ if (isset($pdo)) {
                         }
 
                         function openModal(data) {
+                            console.log(data);  // Check what data is received
                             document.getElementById("modal_id").value = data.id;
                             document.getElementById("modal_fullname").value = data.fullname;
                             document.getElementById("modal_package").value = data.package;
@@ -239,9 +248,16 @@ if (isset($pdo)) {
                             document.getElementById("modal_block").value = data.blocknumber;
                             document.getElementById("modal_email").value = data.email;
                             document.getElementById("modal_contact").value = data.contact;
-                            document.getElementById("modal_time").value = data.time.replace(" ", "T");
+
+                            // Ensure the date is correctly formatted and logged
+                            console.log("Original Time:", data.time);
+                            var formattedTime = data.time.replace(" ", "T");
+                            console.log("Formatted Time:", formattedTime);
+                            document.getElementById("modal_time").value = formattedTime;
+
                             updateModal.style.display = "block";
                         }
+
 
                         function closeModal() {
                             updateModal.style.display = "none";

@@ -1,0 +1,198 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+
+}
+
+body {
+  background-color: #e5e1e1;
+  margin: 0;
+  padding: 0;
+}
+
+/* For responsive design */
+.row::after {
+  content: "";
+  clear: both;
+  display: block;
+}
+
+[class*="col-"] {
+  float: left;
+  padding: 15px;
+}
+
+/* Column widths for desktop */
+.col-6 {
+  width: 50%;
+}
+
+@media only screen and (max-width: 768px) {
+  /* Full width on small screens */
+  [class*="col-"] {
+    width: 100%;
+  }
+}
+
+.row {
+  margin-top: 0; /* Remove the top margin to bring form to top */
+  padding-top:20px; /* Add some padding if needed */
+  display:relative;
+}
+
+.left {
+  height: 50vh;
+  text-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);
+}
+
+.left .header {
+  padding-top: 5rem;
+  font-size: 3rem;
+  color: forestgreen;
+}
+
+.left .header2 {
+  padding-left: 8rem;
+  color: forestgreen;
+}
+
+.right {
+  margin-bottom: 6rem;
+  height: 80vh;
+  padding-top:50px;
+}
+
+.form {
+  width: 70%;
+  background-color: white;
+  border: 3px solid forestgreen;
+  height: 70vh;
+  border-radius: 20px;
+  color: forestgreen;
+  box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);
+}
+
+.form img {
+  width: 200px;
+  height: 100px;
+}
+
+.form label {
+  padding-right: 250px;
+}
+
+.form input {
+  width: 70%;
+  padding: 5px;
+  border-radius: 10px;
+  border: 3px solid forestgreen;
+}
+
+/* Toggle password visibility */
+.form-group {
+  position: relative;
+  margin-bottom: 1.5rem;
+}
+
+.form-group input {
+  width: 70%;
+  padding: 10px;
+  padding-right: 40px; /* Space for the icon */
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  outline: none;
+}
+
+.form-group label {
+  position: absolute;
+  top: 50%;
+  left: 50px;
+  transform: translateY(-50%);
+  background: white;
+  color: #999;
+  padding: 0 5px;
+  transition: all 0.3s ease;
+  pointer-events: none;
+}
+
+.form-group input:focus + label,
+.form-group input:not(:placeholder-shown) + label {
+  top: 0;
+  left: 60px;
+  font-size: 0.75rem;
+  color: #333;
+  padding: 0 5px;
+  background: white;
+}
+
+.form-group .toggle-password {
+  position: absolute;
+  top: 54%;
+  left: 76%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  outline: none;
+}
+
+.form-group .toggle-password svg {
+  width: 24px;
+  height: 24px;
+}
+
+/* Login Button CSS */
+.button-29 {
+  align-items: center;
+  appearance: none;
+  background-image: radial-gradient(100% 100% at 100% 0, #5adaff 0, #5468ff 100%);
+  border: 0;
+  border-radius: 6px;
+  box-shadow: rgba(45, 35, 66, 0.4) 0 2px 4px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px, rgba(58, 65, 111, 0.5) 0 -3px 0 inset;
+  box-sizing: border-box;
+  color: #fff;
+  cursor: pointer;
+  display: inline-flex;
+  font-family: "JetBrains Mono", monospace;
+  height: 48px;
+  justify-content: center;
+  line-height: 1;
+  list-style: none;
+  overflow: hidden;
+  padding-left: 16px;
+  padding-right: 16px;
+  position: relative;
+  text-align: left;
+  text-decoration: none;
+  transition: box-shadow 0.15s, transform 0.15s;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  white-space: nowrap;
+  will-change: box-shadow, transform;
+  font-size: 18px;
+}
+
+.button-29:focus {
+  box-shadow: #3c4fe0 0 0 0 1.5px inset, rgba(45, 35, 66, 0.4) 0 2px 4px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #3c4fe0 0 -3px 0 inset;
+}
+
+.button-29:hover {
+  box-shadow: rgba(45, 35, 66, 0.4) 0 4px 8px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #3c4fe0 0 -3px 0 inset;
+  transform: translateY(-2px);
+}
+
+.button-29:active {
+  box-shadow: #3c4fe0 0 3px 7px inset;
+  transform: translateY(2px);
+}
+.loginbtnsignup {
+  text-decoration: none;
+ color:black;
+}
+
+.loginbtnsignup:hover{
+ text-decoration: underline;
+}

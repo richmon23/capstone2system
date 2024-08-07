@@ -26,7 +26,7 @@ $email = isset($_SESSION['email']) ? htmlspecialchars($_SESSION['email']) : '';
     <!-- <a href="logout.php">Logout</a> -->
 
         <div class="row">
-                <div class="left-content col-3">
+                <div class="left-content col-4">
                 <div class="memoriallogo"><img src="./images/bogomemoriallogo.png" alt="bogomemoriallogo"></div>
                    <div class="hamburgermenu"><img src="./images/hamburgermenu.png" alt="hamburgermenu"></div> 
                    <div class="adminprofile">
