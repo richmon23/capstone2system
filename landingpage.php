@@ -15,7 +15,7 @@
             <a href="#contact">Contact Us</a>
             <a href="#">Packages</a>
             <a href="#">Photos</a>
-            <a href="#">Maps</a>
+            <a href="#map">Maps</a>
             <a href="register.php"><button class="btnsignup">Sign Up</button></a>
         </nav>
     </header>
@@ -63,7 +63,7 @@
         <br>
         <br>
         <br>
-        <center><h1 class="memorialmaptext">Bogo Memorial Park Map</h1></center>
+        <center><h1 class="memorialmaptext" id="map">Bogo Memorial Park Map</h1></center>
         <section class="map-section">
             <div class="bogomap">
                 <iframe 
@@ -77,13 +77,15 @@
     <br>
     <br>
     <br>
+    <br>
+    <br>
     <footer class="footer" id="contact">
         <div class="divimg">
             <img src="./images/bogomemoriallogo.png" alt="bogomemoriallogo">
            <br>
-           <p class="footerqoute">The First and only Memorial Park  in
+           <!-- <p class="footerqoute">The First and only Memorial Park  in
 Bogo City,Cebu where Memories Live 
-Forever...</p>
+Forever...</p> -->
         </div>
         <div class="div1">
         <h1>Packages</h1>

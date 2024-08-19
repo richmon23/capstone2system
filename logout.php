@@ -3,6 +3,6 @@ session_start();
 session_unset();
 session_destroy();
 
-header("Location: userlogin.php");
+header("Location: landingpage.php");
 exit();
 ?>

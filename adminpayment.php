@@ -50,22 +50,58 @@ $email = isset($_SESSION['email']) ? htmlspecialchars($_SESSION['email']) : '';
                 <div class="main">
                 <div class="right-content1">
                    <div class="right-header col-9">
-                    <span><h1> Payment
-                    <!-- <br><?php if ($email): ?>
-                    <p>You are logged in as <?php echo $email; ?>.</p>
-                    <?php else: ?>
-                    <p>Email address not available.</p>
-                    <?php endif; ?></span> -->
+                    <br>
+                    <br>
+                    <span><h1 class="rightsidebar-content"> Payment </h1>
+                   <a href=""><img src="./images/file.png" alt="" class="paymenthistory"></a>
+                    <br>
+                    <h3 class="rightsidebar-content2" > Choose Payment Method:</h3>
+                    <div class="uppersidebar-content">
+                        <div class="banktransfer">
+                            <img src="./images/atm.png" alt="atmlogo">
+                          <a href=""> <p>BANK TRANSFER</p> </a>
+                        </div>
+                        <div class="cash">
+                            <img src="./images/cash.png" alt="cashlogo">
+                            <a href=""><p>CASH</p></a>
+                        </div>
+                        <div class="other">
+                            <!-- <img src="./images/file.png" alt="paymenthistorylogo"> -->
+                           <a href=""><p>OTHER</p></a> 
+                        </div>
+                    </div>
                    </div>
                 </div>
                 <div class="right-content2">
                    <div class="right-header col-9">
-                    <span><h1>Bogo Memorial Park <br>Admin Dashboard</h1>
-                    <br><?php if ($email): ?>
-                    <p>You are logged in as <?php echo $email; ?>.</p>
-                    <?php else: ?>
-                    <p>Email address not available.</p>
-                    <?php endif; ?></span>
+                    <h1 class="creditcardinfo-header">Credit Card Information</h1>
+                    <form action="">
+                        <label for="Card Holder Name">Card Holder Name</label>
+                        <br>
+                        <input type="text" class="input1" require>
+                        <br>
+                        <br>
+                        <label for="Cardnumber" >Cardnumber</label>
+                        <br>
+                        <input type="text" class="input1" require>
+                        <br>
+                        <br>
+                        <div class="Expiry">
+                           <div class="expiry1">
+                                <label for="Expiry Date">Expiry Date</label>
+                                <br>
+                            <input type="text" class="input2" require>
+                           </div>
+                            <div class="security">
+                                <label for="Security Code">Security Code</label>
+                                <br>
+                                <input type="text" class="input2"require>
+                            </div>
+                        </div>
+                        <br>
+                        <br>
+                        <button type="submit" class="confirmbtn">Confirm Payment</button>
+                    </form>
                    </div>
                 </div>
                 </div>

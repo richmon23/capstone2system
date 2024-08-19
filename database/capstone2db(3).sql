@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 19, 2024 at 05:25 AM
+-- Generation Time: Aug 19, 2024 at 12:56 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -44,7 +44,8 @@ CREATE TABLE `deceasedpersoninfo` (
 --
 
 INSERT INTO `deceasedpersoninfo` (`id`, `fullname`, `address`, `born`, `died`, `plot`, `block`, `funeralday`, `datecreated`) VALUES
-(2, 'John Wick', 'Bogo City', '2024-08-06', '2024-08-13', '1', '1', '2024-08-20', '2024-08-29');
+(2, 'John Wick', 'Bogo City', '2024-08-06', '2024-08-13', '1', '1', '2024-08-20', '2024-08-29'),
+(8, 'ddf', 'fdd', '2024-07-31', '2024-08-19', '2', '2', '2024-08-19', '2024-08-19');
 
 -- --------------------------------------------------------
 
@@ -89,9 +90,7 @@ CREATE TABLE `reservation` (
 --
 
 INSERT INTO `reservation` (`id`, `fullname`, `package`, `plotnumber`, `blocknumber`, `email`, `contact`, `time`) VALUES
-(6, 'Bill Jugan', 'lawn', 2, 3, 'bill@x.com', 123456789, '2024-08-19 16:00:00'),
-(7, 'mort', 'family_state', 3, 2, 'mort@x.com', 123456789, '2024-08-15 04:26:00'),
-(8, 'Vince', 'family_state', 1, 1, 'vince@x.com', 123456789, '2024-08-05 23:45:00');
+(17, 'Vladimir Putin', 'garden', 2, 2, 'putin@x.com', 123456789, '2024-08-19 10:20:00');
 
 -- --------------------------------------------------------
 
@@ -143,7 +142,8 @@ INSERT INTO `users` (`id`, `firstname`, `surname`, `email`, `password`, `birthda
 (13, 'mort', 'mort', 'mort1@x.com', '$2y$10$4z8ExAc3l2Is7ZlvYLKCmOnn8fmmkdnwEc6V39Ciq8rri3I5y4kcO', '2024-08-08', 'Male'),
 (15, 'akp', 'akp', 'akp@x.com', '$2y$10$6KbPTorXJtvGd9QW/C2xPuR3XH5/4sY7iLX4yO.9xeNaBh/zfryGq', '2024-08-16', 'Male'),
 (16, 'karl20', 'karl', 'karl2024@x.com', '$2y$10$82xGLnQMCPWL45ZeC0PqlOwrwF1KR785kdKiLj.1jUu1T16V8Dxhe', '2024-08-29', 'Male'),
-(17, 'Desiree', 'Desiree', 'des@x.com', '$2y$10$yECsQ/H17Mk5wbOdi0MdTOTlgCzFFOXbCirpXSMhXeR9anMSE8xnO', '2024-08-22', 'Female');
+(17, 'Desiree', 'Desiree', 'des@x.com', '$2y$10$yECsQ/H17Mk5wbOdi0MdTOTlgCzFFOXbCirpXSMhXeR9anMSE8xnO', '2024-08-22', 'Female'),
+(19, 'crisjay', 'cj', 'cj@x.com', '$2y$10$ygjM/VnuXsZNwqF3nFptOOjVP99nJI/002XKHuh5EHB/8vlb4hWq2', '2024-08-19', 'Male');
 
 --
 -- Indexes for dumped tables
@@ -188,7 +188,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `deceasedpersoninfo`
 --
 ALTER TABLE `deceasedpersoninfo`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `login`
@@ -200,7 +200,7 @@ ALTER TABLE `login`
 -- AUTO_INCREMENT for table `reservation`
 --
 ALTER TABLE `reservation`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `reviews`
@@ -212,7 +212,7 @@ ALTER TABLE `reviews`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

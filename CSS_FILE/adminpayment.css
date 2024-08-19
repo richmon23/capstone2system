@@ -2,9 +2,11 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: Arial, sans-serif;
 }
 body {
   background-color: #e5e1e1;
+  position: relative;
 }
 
 /* media queries breakpoints - responsive design*/
@@ -100,24 +102,131 @@ body {
   width: 100%;
   margin-top: 1rem;
   margin-left: 50px;
+ 
 }
 .right-content1 {
   margin-left: 20px;
   width: 90%;
-  height: 8rem;
+  height: 20rem;
   margin-top: 1rem;
   background-color: white;
   color: forestgreen;
   border-radius: 20px;
+  position: relative;
 }
+.paymenthistory {
+  padding-left: 50rem;
+  padding-top: 0rem; /* Set top padding to 0 */
+  padding-bottom: 0rem;
+}
+
 .right-content2 {
   margin-left: 20px;
   width: 90%;
-  height: 70vh;
+  height: 80%;
   margin-top: 4rem;
   background-color: white;
   color: forestgreen;
   border-radius: 20px;
+  padding: 10px;
+}
+
+.rightsidebar-content{
+  padding-left: 20px;
+  text-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);
+}
+.rightsidebar-content2{
+  padding-left: 20px;
+  color: black;
+}
+.uppersidebar-content{
+display: flex;
+gap: 40px;
+padding-top: 40px;
+
+}
+.uppersidebar-content>div{
+  width:250px;
+  height:100px;
+  background-color: #e5e1e1;
+  margin-left: 20px;
+  box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);
+  border-radius:10px;
+  font-size: .8rem;
+  color: black;
+}
+.uppersidebar-content a{
+  text-decoration: none;
+  color:black;
+}
+.banktransfer p{
+  padding-left: 25px;
+}
+.banktransfer img{
+  width:70px;
+  margin-left: 40px;
+}
+.cash p{
+  padding-left: 60px;
+}
+.cash img{
+  width:70px;
+  margin-left: 40px;
+}
+.other p{
+  padding-top: 70px;
+  padding-left: 60px;
+}
+
+.creditcardinfo-header{
+  padding-left: 20px;
+  padding-top: 20px;
+  text-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);
+  color:black;
+}
+
+.right-content2 form{
+  margin-left: 20px;
+  width: 100%;
+  height: 50vh;
+  margin-top: 2rem;
+  background-color: #e5e1e1;;
+  color: forestgreen;
+  border-radius: 20px;
+  padding: 10px;
+  padding-top: 3rem;
+  box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);
+}
+.Expiry{
+  display: flex;
+  gap:10px;
+  height: 2rem;
+}
+.expiry1{
+  height: 5rem;
+}
+.input1{
+  width:30rem;
+  height:2rem;
+  font-size: 1rem;
+}
+.input2{
+  width:5rem;
+  height:2rem;
+  font-size: 1rem;
+}
+.confirmbtn{
+  width:100%;
+  height: 3rem;
+  background-color: forestgreen;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+.confirmbtn:hover{
+  background-color: dodgerblue;
+  transform: scale();
 }
 
 /* .dashboard-main {

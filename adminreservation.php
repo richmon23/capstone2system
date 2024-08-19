@@ -91,6 +91,7 @@ if (isset($pdo)) {
             <div class="right-content1">
                 <div class="right-header col-10">
                     <br>
+                    <br>
                     <span><h1>Reservation</h1></span>
                     <!-- <button onclick="openAddModal()">Add Reservation</button> -->
                 </div>
@@ -217,7 +218,7 @@ if (isset($pdo)) {
                                     <input type="email" id="modal_email" name="email"class="form-element"><br><br>
                                     <label for="contact">Contact:</label><br>
                                     <input type="text" id="modal_contact" name="contact"class="form-element"><br><br>
-                                    <label for="time">Time:</label><br>
+                                    <label for="time">Date:</label><br>
                                     <input type="date" id="modal_time" name="time"class="form-element"><br><br>
                                 </form>
                             </div>
