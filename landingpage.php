@@ -13,7 +13,7 @@
         <nav class="nav" id="navMenu">
             <a href="#">Home</a>
             <a href="#contact">Contact Us</a>
-            <a href="#">Packages</a>
+            <a href="#packages">Packages</a>
             <a href="#">Photos</a>
             <a href="#map">Maps</a>
             <a href="register.php"><button class="btnsignup">Sign Up</button></a>
@@ -45,7 +45,7 @@
         <center><h1>PACKAGES OFFERED</h1></center>
         <br>
         <br>
-        <section class="packages">
+        <section class="packages" id="packages">
             <div class="package-detail"><h1>Lawn</h1>
                 <br>
                 <img src="./images/lawnpackage.jpg" alt="">

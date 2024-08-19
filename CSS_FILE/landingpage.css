@@ -9,6 +9,7 @@ body,
 html {
   font-family: Arial, sans-serif;
   scroll-behavior: smooth;
+  background-color: #e5e1e1;
 }
 
 
@@ -30,10 +31,10 @@ html {
   align-items: center;
   gap: 1rem;
 }
-.nav a:hover{
+/* .nav a:hover{
   transform: scale(1.1);
   background-color:rgb(93, 93, 235);
-}
+} */
 
 .nav a {
   color: white;
@@ -124,12 +125,9 @@ html {
   flex: 1 1 calc(33.333% - 2rem);
   text-align: center;
  /* From https://css.glass */
-background: rgba(179, 255, 200, 0.03);
-border-radius: 16px;
-box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-backdrop-filter: blur(6.1px);
--webkit-backdrop-filter: blur(6.1px);
-border: 1px solid rgba(26, 133, 56, 0.19);
+ background-color:white;
+ box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);
+
   
 }
 .package-detail img {

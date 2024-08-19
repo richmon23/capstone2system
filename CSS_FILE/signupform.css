@@ -5,7 +5,8 @@
     
   }
   body{
-      background-color: #e5e1e1;
+      /* background-color: #e5e1e1; */
+      background-color: white;
   }
   
   /* media queries breakpoints - responsive design*/
@@ -68,10 +69,14 @@
   }
   /* responsive design media queries breakpoints */
 .container{
-  background-color:forestgreen;
-  height:120vh;
-  width:50%;
+  background-color: #e5e1e1;
+  height:93vh;
+  width:45%;
   margin-left:20%;
+ padding-bottom: 20%;
+  box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);
+  border: 1px solid forestgreen;
+  border-radius:10px 10px;
 }
 
 
@@ -79,17 +84,17 @@ input[type="text"],
 input[type="password"],
 input[type="date"],
 input[type=""]{
-    width: 500px; /* or set a specific width like 300px */
-    padding: 15px; /* Optional: Adds some padding for a better look */
+    width: 500px;
+    height:2rem; /* or set a specific width like 300px */
+    padding: 3px; /* Optional: Adds some padding for a better look */
     box-sizing: border-box; /* Ensures padding doesn't affect the width */
-    margin-left: 49px;
-    padding-top:10px;
+    margin-left: 25px;
 }
 
 
 
 main{
-  margin-top: 50px;
+  margin-top:20px;
 }
 .agreement{
   display: flex;
@@ -113,6 +118,7 @@ main{
     line-height: 1;
     list-style: none;
     overflow: hidden;
+    margin-left: 200px;
     padding-left: 16px;
     padding-right: 16px;
     position: relative;
@@ -143,9 +149,11 @@ main{
 
 .signuplogin{
 text-decoration: none;
-color:white;
+color:black;
 }
-
+.account{
+    color:forestgreen;
+}
 .signuplogin:hover{
     text-decoration: underline;
 }
