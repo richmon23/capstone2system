@@ -13,23 +13,37 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $birthdate = $_POST['birthdate'] ?? '';
     $gender = $_POST['gender'] ?? '';
 
-    // Prepare and bind
-    $stmt = $conn->prepare("INSERT INTO users (firstname, surname, email, password, birthdate, gender) VALUES (?, ?, ?, ?, ?, ?)");
-    $stmt->bindParam(1, $firstname);
-    $stmt->bindParam(2, $surname);
-    $stmt->bindParam(3, $email);
-    $stmt->bindParam(4, $password);
-    $stmt->bindParam(5, $birthdate);
-    $stmt->bindParam(6, $gender);
+  
 
     // Execute the statement
-    if ($stmt->execute()) {
-        $_SESSION['message'] = "Registration successful! Please log in.";
-        header("Location: userlogin.php");
-        exit();
-    } else {
-        echo "Error: " . $errorInfo[2];
+   
+    $stmt = $pdo->prepare("SELECT COUNT(*) FROM users WHERE email = :email");
+    $stmt->execute(['email' => $email]);
+    $emailExists = $stmt->fetchColumn();
+
+    if ($emailExists) {
+        // Use JavaScript alert to inform the user that the email is already registered
+        echo "<br><br><script>alert('This email is already registered.');</script>";
+    }else {
+        $stmt = $conn->prepare("INSERT INTO users (firstname, surname, email, password, birthdate, gender) VALUES (?, ?, ?, ?, ?, ?)");
+        $stmt->bindParam(1, $firstname);
+        $stmt->bindParam(2, $surname);
+        $stmt->bindParam(3, $email);
+        $stmt->bindParam(4, $password);
+        $stmt->bindParam(5, $birthdate);
+        $stmt->bindParam(6, $gender);
+        
+        if ($stmt->execute()) {
+            echo "<br><br><script>
+                alert('Registration successful!');
+                window.location.href = 'userlogin.php';
+            </script>";
+        } else {
+            echo "<br><br><script>alert('There was an error during registration. Please try again.');</script>";
+        }
     }
+    
+
 
     // Close connections
     $stmt = null;
@@ -48,28 +62,52 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="stylesheet" href="CSS_FILE/signupform.css">
 </head>
 <body>
-    <main>
         <div class="row">
-             <div class="col-9 container">
+            <div class="col-6 left">
+                <center><h1 class="header"> TIMELESSCARE </h1>
+                    <br><h2 class="header2">BOGO MEMORIAL PARK</h2> 
+                </center>
+            </div>
+            <div class="col-6  right">
                 <form method="POST" action="register.php">
                     <h2>Sign Up</h2>
                     <div class="div1 col-6">
                     <!-- <label for="firstname">First Name:</label> -->
-                    <input type="text" id="firstname" name="firstname" maxlength="50" placeholder="Firstname" required>
+                    <div class="form-group">
+                        <input type="text" id="firstname" name="firstname" maxlength="50" placeholder="" required>
+                        <label for="firstname">Firstname</label>
+                    </div>
+                    <!-- <input type="text" id="firstname" name="firstname" maxlength="50" placeholder="Firstname" required>
                     <br>
-                    <br>
+                    <br> -->
+                    <div class="form-group">
+                    <input type="text"id="surname" name="surname" maxlength="50"  placeholder=""required>
+                        <label for="Surname">Surname</label>
+                    </div>
                     <!-- <label for="surname">Surname:</label> -->
-                    <input type="text"id="surname" name="surname" maxlength="50"  placeholder="Surname"required>
+                    <!-- <input type="text"id="surname" name="surname" maxlength="50"  placeholder="Surname"required>
                     <br>
+                    <br> -->
+                    <div class="form-group">
+                    <input type="password" id="password" name="password" placeholder="" required>
+                        <label for="Password">Password</label>
+                    </div>
+                    <!-- <input type="password" id="password" name="password" placeholder="New Password">
                     <br>
-                    <input type="password" id="password" name="password" placeholder="New Password">
+                    <br> -->
+                    <div class="form-group">
+                        <input type="email" id="email" name="email" maxlength="50"  placeholder=""required>
+                        <label for="Email">Email</label>
+                    </div>
+                    <!-- <input type="text" id="email" name="email" maxlength="50"  placeholder="Email"required>
                     <br>
-                    <br>
-                    <input type="text" id="email" name="email" maxlength="50"  placeholder="Email"required>
-                    <br>
-                    <br>
-                    <input type="date" id="birthdate" name="birthdate" placeholder="Birthdate"><br>
-                    <br>
+                    <br> -->
+                    <div class="form-group">
+                        <input type="Date"id="birthdate" name="birthdate" placeholder=""><br>
+                        <!-- <label for="Date">Birthdate</label> -->
+                    </div>
+                    <!-- <input type="date" id="birthdate" name="birthdate" placeholder="Birthdate"><br>
+                    <br> -->
                     <label>Gender:</label><br>
                     <input type="radio" id="male" name="gender" value="Male" required>
                     <label for="male">Male</label><br>
@@ -87,6 +125,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <br>
             </div>      
         </div>
-    </main>
 </body>
 </html>

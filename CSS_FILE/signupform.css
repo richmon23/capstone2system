@@ -6,7 +6,7 @@
   }
   body{
       /* background-color: #e5e1e1; */
-      background-color: white;
+      background-color: #e5e1e1;
   }
   
   /* media queries breakpoints - responsive design*/
@@ -68,34 +68,113 @@
   
   }
   /* responsive design media queries breakpoints */
-.container{
+
+  .left {
+    height: 50vh;
+    text-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);
+  }
+  .left .header {
+    padding-top: 5rem;
+    font-size: 3rem;
+    color: forestgreen;
+  }
+  
+  .left .header2 {
+    padding-left: 8rem;
+    color: forestgreen;
+  }
+
+  .right {
+    margin-bottom: 6rem;
+    height: 85vh;
+    margin-top:20px;
+    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);
+    border: 1px solid forestgreen;
+    border-radius:10px 10px;
+    background-color: white;
+    height:93vh;
+    width:45%;
+  }
+
+/* .container{
   background-color: #e5e1e1;
   height:93vh;
   width:45%;
-  margin-left:20%;
- padding-bottom: 20%;
+  margin-left:50%;
   box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);
   border: 1px solid forestgreen;
   border-radius:10px 10px;
+  margin-bottom: 6rem;
+} */
+.row{
+  display:relative;
+}
+
+.form label {
+  padding-right: 250px;
+}
+
+.form input {
+  width: 130%;
+  padding: 3px;
+  border-radius: 10px;
+  border: 3px solid forestgreen;
+}
+
+/* Toggle password visibility */
+.form-group {
+  position: relative;
+  margin-bottom: 1.5rem;
+}
+
+.form-group input {
+  width:200%;
+  padding: 5px;
+  padding-right: 40px; /* Space for the icon */
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  outline: none;
+}
+
+.form-group input[type="date"] {
+  padding: 3px;
+  padding-right: 10px; /* Space for the date icon */
+
 }
 
 
-input[type="text"],
-input[type="password"],
-input[type="date"],
-input[type=""]{
-    width: 500px;
-    height:2rem; /* or set a specific width like 300px */
-    padding: 3px; /* Optional: Adds some padding for a better look */
-    box-sizing: border-box; /* Ensures padding doesn't affect the width */
-    margin-left: 25px;
+
+.form-group input[type="date"]:invalid + label {
+  font-size: 1rem;
+  top: 50%;
+  left: 10px;
+  background: white;
+  color: #999;
+}
+.form-group label {
+  position: absolute;
+  top: 50%;
+  left:3px;
+  transform: translateY(-59%);
+  background: white;
+  color: #999;
+  padding: 0 5px;
+  transition: all 0.6s ease;
+  pointer-events: none;
+}
+
+.form-group input:focus + label,
+.form-group input:not(:placeholder-shown) + label {
+  top: 0;
+  left: 60px;
+  font-size: 0.75rem;
+  color: #333;
+  padding: 0 5px;
+  background: white;
 }
 
 
-
-main{
-  margin-top:20px;
-}
 .agreement{
   display: flex;
 
