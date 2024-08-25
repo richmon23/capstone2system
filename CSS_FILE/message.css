@@ -1,0 +1,246 @@
+*{
+    padding:0;
+    margin: 0;
+    box-sizing:border-box;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    background-color: #e5e1e1;
+}
+.messages{
+    padding-top: 1rem;
+    padding-left: 1rem;
+}
+
+/* media queries breakpoints - responsive design*/
+.row::after {
+    content: "";
+    clear: both;
+    display: block;
+  }
+  
+  [class*="col-"] {
+    float: left;
+    padding: 15px;
+  }
+  
+  /* For desktop: */
+  .col-1 {
+    width: 8.33%;
+  }
+  .col-2 {
+    width: 16.66%;
+  }
+  .col-3 {
+    width: 25%;
+  }
+  .col-4 {
+    width: 33.33%;
+  }
+  .col-5 {
+    width: 41.66%;
+  }
+  .col-6 {
+    width: 50%;
+  }
+  .col-7 {
+    width: 58.33%;
+  }
+  .col-8 {
+    width: 66.66%;
+  }
+  .col-9 {
+    width: 75%;
+  }
+  .col-10 {
+    width: 83.33%;
+  }
+  .col-11 {
+    width: 91.66%;
+  }
+  .col-12 {
+    width: 100%;
+  }
+  
+  @media only screen and (max-width: 711px) {
+    /* For mobile phones: */
+    [class*="col-"] {
+      width: 100%;
+    }
+ 
+  
+  }
+  /* responsive design media queries breakpoints */
+
+
+  /* Media Queries for Responsive Design */
+@media only screen and (max-width: 768px) {
+    .chat-input-container {
+        flex-direction: column;
+        margin: 10px 5%;
+    }
+
+    .send-button {
+        margin-left: 0;
+        margin-top: 10px;
+        width: 100%;
+        border-radius: 20px;
+    }
+
+    .chatmessage {
+        width: 100%;
+    }
+}
+
+
+  .aside-left{
+    height:85vh;
+  }
+  .nav{
+    display: flex;
+  }
+  .header{
+    width: 60%;
+    height: 3rem;
+    background-color: white;
+    padding: 15px;
+    text-align: center;
+    margin-left: 5rem;
+    border-radius: 20px;
+    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);
+  }
+
+  .header img{
+    background: transparent;
+  }
+  .nav a{
+    text-decoration: none;
+    padding-left: 70%;
+    padding-top: 1rem;
+    color: black;
+    text-align: center;
+
+   
+  }
+  .dashboard{
+    background-color: forestgreen;
+    width:10rem;
+    height:3rem;
+    border-radius:20px;
+    padding: 12px;
+    color:white;
+  }
+
+  .dashboard:hover{
+    background-color: dodgerblue;
+    color: white;
+  }
+  .chathistory{
+    width: 60%;
+    height: 60vh;
+    background-color: white;
+    padding: 15px;
+    overflow-y: scroll;
+    margin-left: 5rem;
+    border-radius: 20px;
+    margin-top: 1rem;
+    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);
+  }
+
+ 
+  .aside-right{
+    width: 40%;
+    margin-left: 2rem;
+    border-radius: 20px;
+    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);
+    padding: 15px;
+    text-align: center;
+  }
+  .header2{
+    width: 60%;
+    height: 3rem;
+    background-color: white;
+    padding: 15px;
+    text-align: center;
+    margin-left: 5rem;
+    border-radius: 20px;
+    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);
+  }
+
+
+  .chat-input-container {
+    display: flex;
+    justify-content: center;
+    padding: 15px;
+    background-color: #fff;
+    border-radius: 20px;
+    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);
+    margin:20px 5rem 0 5rem;
+    height: 70vh;
+}
+
+.input-wrapper {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    overflow: hidden;
+    padding-top:20rem;
+}
+
+.input-wrapper input {
+    width:90%;
+    font-size:.8rem;
+    padding: 10px;
+}
+
+.chatmessage {
+    /* flex: 1; */
+    padding: 10px;
+    border: 1px solid forestgreen;
+    outline: none;
+    border-radius: 20px 0 0 20px;
+    margin-left: 20px;
+    padding-left:20px;
+    overflow-y: scroll;
+  
+}
+
+.send-button {
+    background-color: forestgreen;
+    border: none;
+    color: forestgreen;
+    padding: 10px;
+    /* padding-left: 40%; */
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* border-left: 1px solid #ccc; */
+    border-radius: 0 20px 20px 0;
+    transition: background-color 0.3s ease-in-out;
+    width:80px;
+    margin: 10px
+}
+
+.send-button i {
+    font-size: 1.2rem;
+    color: white; /* Icon color */
+    background-color: transparent;
+}
+
+.send-button i:hover{
+    color: dodgerblue; /* Icon hover color */
+}
+
+
+/* Media Queries for Responsive Design */
+@media only screen and (max-width: 768px) {
+    .chat-input-container {
+        margin: 5px 5%;
+        
+    }
+
+    .input-wrapper {
+        width: 100%;
+    }
+}
