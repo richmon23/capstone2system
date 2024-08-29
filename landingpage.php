@@ -79,6 +79,7 @@
     <br>
     <br>
     <br>
+    <script defer src="https://app.fastbots.ai/embed.js" data-bot-id="cm0e07nix01t3n6bekk43upsx"></script>
     <footer class="footer" id="contact">
         <div class="divimg">
             <img src="./images/bogomemoriallogo.png" alt="bogomemoriallogo">
