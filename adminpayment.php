@@ -18,7 +18,7 @@ $email = isset($_SESSION['email']) ? htmlspecialchars($_SESSION['email']) : '';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title> Payment </title>
-    <link rel="stylesheet" href="./CSS_FILE/adminpayment.css">
+    <link rel="stylesheet" href="CSS_FILE/adminpayment.css">
 </head> 
 <body>
 
