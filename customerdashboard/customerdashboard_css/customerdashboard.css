@@ -76,18 +76,18 @@
       color: white;
       position: relative;
       border-radius: 25px;
-      height: 140vh;
+      height: 130vh;
       margin-top: 0.6rem;
       margin-left: 0.7rem;
     }
     
     .memoriallogo img {
-      width: 150px;
+      width: 100px;
       position: absolute;
       top: 2rem;
     }
     .hamburgermenu img {
-      width: 40px;
+      width: 30px;
       float: right;
       margin-top: 2rem;
     }
@@ -114,7 +114,7 @@
   .right-content2 {
     margin-left: 20px;
     width: 90%;
-    height: 100vh;
+    height: 97vh;
     margin-top: 4rem;
     background-color: white;
     color: forestgreen;
@@ -153,18 +153,18 @@
       display: block;
       margin: 15px 10px;
       padding: 15px;
-      padding-left: 23%; /* Adjust spacing between items */
+      padding-left: 12%; /* Adjust spacing between items */
     }
     
     .adminlinks span {
       display: flex;
       align-items: center;
-      margin: 40px 0; /* Adjust spacing between links */
+      margin: 30px 0; /* Adjust spacing between links */
     }
     
     .adminlinks img {
       display: block;
-      margin-right: 15px; /* Adjust spacing between image and text */
+      margin-right: 12px; /* Adjust spacing between image and text */
     }
     
   table {

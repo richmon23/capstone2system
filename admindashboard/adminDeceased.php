@@ -1,3 +1,4 @@
+
 <?php
 session_start();
 
@@ -10,7 +11,7 @@ $firstname = isset($_SESSION['firstname']) ? htmlspecialchars($_SESSION['firstna
 $email = isset($_SESSION['email']) ? htmlspecialchars($_SESSION['email']) : '';
 
 // Include the database connection
-require_once 'connection.php';
+require_once '../connection/connection.php'; // Include your database connection file
 
 // Ensure $pdo is available before using it
 if (isset($pdo)) {
@@ -60,7 +61,7 @@ if (isset($pdo)) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Deceased Person Information</title>
-    <link rel="stylesheet" href="CSS_FILE/admindeceasedinfo.css">
+    <link rel="stylesheet" href="./admindashboardcss/admindeceasedinfo.css">
 </head> 
 <body>
 
@@ -68,24 +69,24 @@ if (isset($pdo)) {
 
     <div class="row">
         <div class="left-content col-4">
-            <div class="memoriallogo"><img src="./images/bogomemoriallogo.png" alt="bogomemoriallogo"></div>
-            <div class="hamburgermenu"><img src="./images/hamburgermenu.png" alt="hamburgermenu"></div> 
+            <div class="memoriallogo"><img src="../images/bogomemoriallogo.png" alt="bogomemoriallogo"></div>
+            <div class="hamburgermenu"><img src="../images/hamburgermenu.png" alt="hamburgermenu"></div> 
             <div class="adminprofile">
-                <center><img src="./images/female.png" alt="adminicon">
+                <center><img src="../images/female.png" alt="adminicon">
                 <h2><?php echo $firstname; ?></h2></center>
             </div>
             <center>
                 <br>
                 <div class="adminlinks">
-                    <span><img src="./images/dashboard.png" alt="">&nbsp;&nbsp;<a href="adminDashboard.php">Dashboard</a></span> 
-                    <span><img src="./images/deceased.png" alt="">&nbsp;&nbsp;&nbsp;&nbsp;<a href="adminDeceased.php">Deceased</a></span>
-                    <span><img src="./images/reservation.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminreservation.php">Reservation</a></span>
-                    <span><img src="./images/review.png" alt="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="adminreviews.php">Reviews</a></span>
-                    <span><img src="./images/settings.png" alt="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="adminsettings.php">Settings</a></span>
-                    <span><img src="./images/payment.png" alt="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="adminpayment.php">Payments</a></span>
-                    <br>
-                    <span><img src="./images/logout.png" alt="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="logout.php">Logout</a></span>
-                </div>
+                            <span><img src="../images/dashboard.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminDashboard.php">Dashboard</a></span> 
+                            <span><img src="../images/deceased.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminDeceased.php">Deceased</a></span>
+                            <span><img src="../images/reservation.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminreservation.php">Reservation</a></span>
+                            <span><img src="../images/review.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminreviews.php">Reviews</a></span>
+                            <span><img src="../images/settings.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminsettings.php">Settings</a></span>
+                            <span><img src="../images/payment.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminpayment.php">Payments</a></span>
+                            <br>
+                            <span><img src="../images/logout.png" alt="">&nbsp;&nbsp;&nbsp;<a href="../logout.php">Logout</a></span>
+                        </div>
                 <br>
             </center>
         </div>
@@ -99,7 +100,7 @@ if (isset($pdo)) {
             </div>
             <div class="right-content2">
                 <br>
-                <button class="btnadd" onclick="openAddModal()"><img src="./images/add-user.png" alt=""></button>
+                <button class="btnadd" onclick="openAddModal()"><img src="../images/add-user.png" alt=""></button>
                 <table id="myTable">
                     <thead>
                         <tr>

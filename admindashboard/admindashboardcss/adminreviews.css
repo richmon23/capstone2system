@@ -71,107 +71,108 @@ body {
   height: 100vh;
   display: flex;
 }
+
 .left-content {
-  background-color: forestgreen;
+  background-color: rgb(20, 100, 20);
   color: white;
-  position: relative;
   border-radius: 25px;
-  height: 140vh;
+  height: 95vh;
   margin-top: 0.6rem;
   margin-left: 0.7rem;
+  width: 250px; /* Fixed width for desktop */
+  position: relative;
+  padding: 1rem; /* Add padding inside the sidebar */
 }
 
+
 .memoriallogo img {
-  width: 150px;
+  width: 95px;
   position: absolute;
-  top: 2rem;
+  top: 0.6rem;
+  filter: drop-shadow (0px, 0px, 20px,black);
 }
+
 .hamburgermenu img {
-  width: 40px;
+  width: 20px;
   float: right;
-  margin-top: 2rem;
+  margin-top: 0.6rem;
 }
 
 .adminprofile img {
-  width: 10rem;
-  margin-top: 6rem;
+  width: 100px;
+  margin-top: 3rem;
   padding-left: 30px;
+
+
 }
 .main {
   width: 100%;
   margin-top: 1rem;
   margin-left: 50px;
 }
+
 .right-content1 {
   margin-left: 20px;
   width: 90%;
-  height: 8rem;
-  margin-top: 1rem;
+  height: 6.5rem;
   background-color: white;
   color: forestgreen;
   border-radius: 20px;
+
 }
+
 .right-content2 {
-  margin-left: 20px;
+  margin-left: 25px;
   width: 90%;
   height: 70vh;
-  margin-top: 4rem;
+  margin-top: 2.8rem;
   background-color: white;
-  color: forestgreen;
+  color: rgb(0, 0, 0);
   border-radius: 20px;
+
 }
 
-/* .dashboard-main {
-    margin-left: 50px;
-    width: 90%;
-    height: 30vh;
-    margin-top: 5rem;
-    background-color: white;
-    color: forestgreen;
-    border-radius: 20px;
-  } */
 
-/* .adminlinks{
-    display:flex;
+  .adminlinks {
+    display: flex;
     flex-direction: column;
-    gap:2rem;
+    gap: 1.5rem; /* Spacing between each link */
+    align-items: flex-start; /* Aligns all links to the left */
     margin-left: 10px;
-    margin-top: 5rem;
-  } */
-
-.adminlinks a {
-  text-decoration: none;
-  color: white;
-  font-size: 1rem;
-}
-.adminlinks img {
-  width: 25px;
-}
-
-.adminlinks {
-  display: block;
-  margin: 15px 10px;
-  padding: 15px;
-  padding-left: 23%; /* Adjust spacing between items */
-}
-
-.adminlinks span {
-  display: flex;
-  align-items: center;
-  margin: 40px 0; /* Adjust spacing between links */
-}
-
-.adminlinks img {
-  display: block;
-  margin-right: 15px; /* Adjust spacing between image and text */
-}
-
+  }
+  
+  .adminlinks span {
+    display: flex;
+    align-items: center; /* Align icons and text vertically */
+    width: 100%; /* Ensure the full span takes up the width */
+  }
+  
+  .adminlinks img {
+    width: 25px;
+    margin-right: 5px; /* Space between icon and text */
+  }
+  
+  .adminlinks a {
+    text-decoration: none;
+    color: white;
+    font-size: 1rem; /* Adjust font size for better readability */
+    display: inline-block;
+  }
+  
+  .adminlinks .logout-link {
+    width: 100%;
+    padding: 10px 0; /* Add padding to align with other links */
+  }
+  
+  .adminlinks span:last-child {
+    margin-top: 0.3rem; /* Adjust margin to move the logout button up */
+  }
 
 table {
-  width: 800px;
+  width: 128%;
   border-collapse: collapse;
   margin: 20px 0;
-  font-size: 15px;
+  font-size: 25px;
   text-align: left;
   color:black;
   margin-left:20px;
@@ -180,7 +181,7 @@ th,
 td {
   padding:13px;
   border-bottom: 1px solid #ddd;
-  font-size: 10px;
+  font-size: 15px;
 
 }
 th {

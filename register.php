@@ -1,7 +1,7 @@
 <?php
 session_start();
-require 'connection.php';
-
+require_once './connection/connection.php';
+    
 
 // Check if the form was submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -115,11 +115,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <label for="female">Female</label><br>
                     <br>
                    <p>
-                    By clicking Sign Up, <br> you agree to our Terms,Privacy Policy and Cookies Policy.You may receive SMS Notifications from us and can opt out anytime.</p>
+                    By clicking Sign Up, <br> you agree to our Terms,Privacy Policy and Cookies Policy.</p>
                     <center><button type= "submit" class="button-29">Sign Up</button> </center> 
                     <br>
                     <span class="account">have an account?<a href="userlogin.php" class="signuplogin" > login</a>
                     <!-- <center>Don't have an account?<a href="register.php" class="loginbtnsignup"> Sign Up</a></center> -->
+
+                    <!-- You may receive SMS Notifications from us and can opt out anytime. -->
                    </span>
                 </form>
                 <br>

@@ -73,31 +73,59 @@ body {
   display: flex;
 }
 .left-content {
-  background-color: forestgreen;
+  background-color: rgb(20, 100, 20);
   color: white;
-  position: relative;
   border-radius: 25px;
-  height: 140vh;
+  height: 95vh;
   margin-top: 0.6rem;
   margin-left: 0.7rem;
+  width: 250px; /* Fixed width for desktop */
+  position: relative;
+  padding: 1rem; /* Add padding inside the sidebar */
 }
 
+
 .memoriallogo img {
-  width: 150px;
+  width: 95px;
   position: absolute;
-  top: 2rem;
+  top: 0.6rem;
+  filter: drop-shadow (0px, 0px, 20px,black);
 }
+
 .hamburgermenu img {
-  width: 40px;
+  width: 20px;
   float: right;
-  margin-top: 2rem;
+  margin-top: 0.6rem;
 }
 
 .adminprofile img {
-  width: 10rem;
-  margin-top: 6rem;
+  width: 100px;
+  margin-top: 3rem;
   padding-left: 30px;
+
+
 }
+
+.memoriallogo img {
+    width: 95px;
+    position: absolute;
+    top: 0.6rem;
+    filter: drop-shadow (0px, 0px, 20px,black);
+  }
+  
+  .hamburgermenu img {
+    width: 20px;
+    float: right;
+    margin-top: 0.6rem;
+  }
+  
+  .adminprofile img {
+    width: 100px;
+    margin-top: 3rem;
+    padding-left: 30px;
+  
+  
+  }
 .main {
   width: 100%;
   margin-top: 1rem;
@@ -107,15 +135,14 @@ body {
 .right-content1 {
   margin-left: 20px;
   width: 90%;
-  height: 20rem;
-  margin-top: 1rem;
+  height: 6.5rem;
   background-color: white;
   color: forestgreen;
   border-radius: 20px;
   position: relative;
 }
 .paymenthistory {
-  padding-left: 50rem;
+  padding-left: 58rem;
   padding-top: 0rem; /* Set top padding to 0 */
   padding-bottom: 0rem;
 }
@@ -123,15 +150,15 @@ body {
 .right-content2 {
   margin-left: 20px;
   width: 90%;
-  height: 80%;
-  margin-top: 4rem;
+  height: 70vh;
+  margin-top: 2.8rem;
   background-color: white;
   color: forestgreen;
   border-radius: 20px;
   padding: 10px;
 }
 
-.rightsidebar-content{
+.rightsidebar-content h1{
   padding-left: 20px;
   text-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);
 }
@@ -142,12 +169,12 @@ body {
 .uppersidebar-content{
 display: flex;
 gap: 40px;
-padding-top: 40px;
+padding-top: 50px;
 
 }
 .uppersidebar-content>div{
   width:250px;
-  height:100px;
+  height:60px;
   background-color: #e5e1e1;
   margin-left: 20px;
   box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);
@@ -160,22 +187,26 @@ padding-top: 40px;
   color:black;
 }
 .banktransfer p{
-  padding-left: 25px;
+  padding-left: 40px;
 }
 .banktransfer img{
-  width:70px;
-  margin-left: 40px;
+  width:40px;
+  margin-left: 70px;
 }
 .cash p{
-  padding-left: 60px;
+  padding-left: 70px;
 }
 .cash img{
-  width:70px;
-  margin-left: 40px;
+  width:40px;
+  margin-left: 70px;
+}
+.other img{
+  width:25px;
+  margin-left: 80px;
+  padding-top: 15px;
 }
 .other p{
-  padding-top: 70px;
-  padding-left: 60px;
+  padding-left: 50px;
 }
 
 .creditcardinfo-header{
@@ -183,20 +214,24 @@ padding-top: 40px;
   padding-top: 20px;
   text-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);
   color:black;
+  font-size: 20px;
 }
 
 .right-content2 form{
   margin-left: 20px;
   width: 100%;
   height: 50vh;
-  margin-top: 2rem;
   background-color: #e5e1e1;;
   color: forestgreen;
   border-radius: 20px;
   padding: 10px;
-  padding-top: 3rem;
   box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);
   
+}
+
+.right-content2 form p{
+  font-size: 20px;
+  color:black;
 }
 .Expiry{
   display: flex;
@@ -230,47 +265,38 @@ padding-top: 40px;
   transform: scale();
 }
 
-/* .dashboard-main {
-    margin-left: 50px;
-    width: 90%;
-    height: 30vh;
-    margin-top: 5rem;
-    background-color: white;
-    color: forestgreen;
-    border-radius: 20px;
-  } */
 
-/* .adminlinks{
-    display:flex;
+  .adminlinks {
+    display: flex;
     flex-direction: column;
-    gap:2rem;
+    gap: 1.5rem; /* Spacing between each link */
+    align-items: flex-start; /* Aligns all links to the left */
     margin-left: 10px;
-    margin-top: 5rem;
-  } */
-
-.adminlinks a {
-  text-decoration: none;
-  color: white;
-  font-size: 1rem;
-}
-.adminlinks img {
-  width: 25px;
-}
-
-.adminlinks {
-  display: block;
-  margin: 15px 10px;
-  padding: 15px;
-  padding-left: 23%; /* Adjust spacing between items */
-}
-
-.adminlinks span {
-  display: flex;
-  align-items: center;
-  margin: 40px 0; /* Adjust spacing between links */
-}
-
-.adminlinks img {
-  display: block;
-  margin-right: 15px; /* Adjust spacing between image and text */
-}
+  }
+  
+  .adminlinks span {
+    display: flex;
+    align-items: center; /* Align icons and text vertically */
+    width: 100%; /* Ensure the full span takes up the width */
+  }
+  
+  .adminlinks img {
+    width: 25px;
+    margin-right: 5px; /* Space between icon and text */
+  }
+  
+  .adminlinks a {
+    text-decoration: none;
+    color: white;
+    font-size: 1rem; /* Adjust font size for better readability */
+    display: inline-block;
+  }
+  
+  .adminlinks .logout-link {
+    width: 100%;
+    padding: 10px 0; /* Add padding to align with other links */
+  }
+  
+  .adminlinks span:last-child {
+    margin-top: 0.3rem; /* Adjust margin to move the logout button up */
+  }

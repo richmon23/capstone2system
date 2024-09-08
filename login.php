@@ -1,6 +1,7 @@
 <?php
 session_start();
-require_once 'connection.php'; // Include your database connection file
+
+require_once './connection/connection.php'; // Include your database connection file
 
 // Check if form data is submitted
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -30,9 +31,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $_SESSION['email'] = $user['email'];
 
         // Redirect to a protected page, e.g., welcome.php
-        header("Location:admindashboard.php");
+        header("Location:admindashboard/adminDashboard.php");
         exit();
-    } else {
+    } else {    
         // Invalid credentials, show error message
         // echo "<script>alert('Invalid email or password. Please try again.');</script>";
         // echo  <script> window.location = 'userlogin.php'</script>;
