@@ -63,6 +63,7 @@ if (isset($pdo)) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>  Dashboard </title>
     <link rel="stylesheet" href="./admindashboardcss/admindashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <!-- <a href="logout.php">Logout</a> -->
@@ -71,10 +72,19 @@ if (isset($pdo)) {
                     <div class="memoriallogo"><img src="../images/bogomemoriallogo.png" alt="bogomemoriallogo"></div>
                     <div class="hamburgermenu"><img src="../images/hamburgermenu.png" alt="hamburgermenu"></div> 
                     <div class="adminprofile">
-                    <center><img src="../images/female.png" alt="adminicon">
-                        <h2><?php echo $firstname; ?></h2></center>
-                    </div>
-                    <center>
+                            <center>
+                                <img src="../images/female.png" alt="adminicon">
+                                <div class="dropdown">
+                                    <button class="dropdown-btn">
+                                        <?php echo "<h4> $firstname</h4>" ?> <i class="fas fa-caret-down dropdown-icon"></i>
+                                    </button>
+                                    <div class="dropdown-content">
+                                        <button onclick="openModal('changePasswordModal')">Change Password</button>
+                                        <button onclick="openModal('termsModal')">Terms and Conditions</button>
+                                    </div>
+                                </div>
+                            </center>
+                        </div>
                         <br>
                         <div class="adminlinks">
                             <span><img src="../images/dashboard.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminDashboard.php">Dashboard</a></span> 
@@ -83,7 +93,6 @@ if (isset($pdo)) {
                             <span><img src="../images/review.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminreviews.php">Reviews</a></span>
                             <span><img src="../images/settings.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminsettings.php">Settings</a></span>
                             <span><img src="../images/payment.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminpayment.php">Payments</a></span>
-                            <br>
                             <span><img src="../images/logout.png" alt="">&nbsp;&nbsp;&nbsp;<a href="../logout.php">Logout</a></span>
                         </div>
                         <br>
@@ -113,7 +122,66 @@ if (isset($pdo)) {
                             </div>
                         </div>
                     </div>
-              
         </div>
+        <!-- Change Password Modal -->
+<div id="changePasswordModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5>Change Password</h5>
+            <button class="close-btn" onclick="closeModal('changePasswordModal')">&times;</button>
+        </div>
+        <form action="change_password.php" method="POST">
+            <div class="form-group">
+                <label for="currentPassword">Current Password</label>
+                <input type="password" id="currentPassword" name="current_password" required>
+            </div>
+            <div class="form-group">
+                <label for="newPassword">New Password</label>
+                <input type="password" id="newPassword" name="new_password" required>
+            </div>
+            <div class="form-group">
+                <label for="confirmPassword">Confirm New Password</label>
+                <input type="password" id="confirmPassword" name="confirm_password" required>
+            </div>
+            <button type="submit" class="btn-primary">Change Password</button>
+        </form>
+    </div>
+</div>
+
+<!-- Terms and Conditions Modal -->
+<div id="termsModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5>Terms and Conditions</h5>
+            <button class="close-btn" onclick="closeModal('termsModal')">&times;</button>
+        </div>
+        <div class="modal-body">
+            <p>
+                <!-- Terms and conditions content goes here -->
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla porttitor accumsan tincidunt.
+                Curabitur arcu erat, accumsan id imperdiet et, porttitor at sem. Proin eget tortor risus.
+            </p>
+        </div>
+    </div>
+</div>
+
 </body>
+<script>
+    // Function to open a modal
+    function openModal(modalId) {
+        document.getElementById(modalId).style.display = 'block';
+    }
+
+    // Function to close a modal
+    function closeModal(modalId) {
+        document.getElementById(modalId).style.display = 'none';
+    }
+
+    // Close modal if clicked outside of modal content
+    window.onclick = function(event) {
+        if (event.target.classList.contains('modal')) {
+            event.target.style.display = 'none';
+        }
+    }
+</script>
 </html>

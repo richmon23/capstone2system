@@ -101,7 +101,8 @@ if (isset($pdo)) {
             <div class="right-content2">
                 <br>
                 <button class="btnadd" onclick="openAddModal()"><img src="../images/add-user.png" alt=""></button>
-                <table id="myTable">
+                <div class="table-wrapper">
+                    <table id="myTable">
                     <thead>
                         <tr>
                             <th>Full Name</th>
@@ -141,7 +142,8 @@ if (isset($pdo)) {
                             <tr><td colspan="9">No reservations found.</td></tr>
                         <?php endif; ?>
                     </tbody>
-                </table>
+                    </table>
+                </div>   
                 <!-- Modal for Adding a New Reservation -->
                 <div id="addModal" class="modal">
                     <div class="modal-content">

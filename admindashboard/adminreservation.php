@@ -106,6 +106,7 @@ if (isset($pdo)) {
                 <div class="right-header col-9">
                     <br>
                     <button class="btnadd "onclick="openAddModal()"><img src="../images/add-user.png" alt=""></button>
+                    <div class="table-wrapper">
                     <table id="myTable">
                         <thead>
                             <tr>
@@ -145,7 +146,7 @@ if (isset($pdo)) {
                             <?php endif; ?>
                         </tbody>
                     </table>
-
+                    </div>
                     <!-- Modal for Adding a New Reservation -->
                     <div id="addModal" class="modal">
                         <div class="modal-content">
