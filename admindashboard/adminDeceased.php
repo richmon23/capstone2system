@@ -86,7 +86,7 @@ if (isset($pdo)) {
                             <span><img src="../images/payment.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminpayment.php">Payments</a></span>
                             <br>
                             <span><img src="../images/logout.png" alt="">&nbsp;&nbsp;&nbsp;<a href="../logout.php">Logout</a></span>
-                        </div>
+                 </div>
                 <br>
             </center>
         </div>

@@ -32,18 +32,18 @@ require_once '../connection/connection.php';
                 <!-- <h2><?php echo $firstname; ?></h2></center> -->
             </div>
             <center>
-                <br>
-                <div class="adminlinks">
-                    <span><img src="../images/dashboard.png" alt="">&nbsp;&nbsp;<a href="customerdashboard.php">Dashboard</a></span> 
-                    <span><img src="../images/deceased.png" alt="">&nbsp;&nbsp;&nbsp;&nbsp;<a href="customerdeceased.php">Deceased</a></span>
-                    <span><img src="../images/reservation.png" alt="">&nbsp;&nbsp;&nbsp;<a href="customerreservation.php">Reservation</a></span>
-                    <span><img src="../images/review.png" alt="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="customerreviews.php">Reviews</a></span>
-                    <span><img src="../images/payment.png" alt="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="customerpayment.php">Payments History</a></span>
-                    <span><img src="../images/settings.png" alt="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="customersettings.php">Settings</a></span>
-                    <br>
-                    <span><img src="../images/logout.png" alt="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="../logout.php">Logout</a></span>
-                </div>
-                <br>
+            <br>
+            <div class="adminlinks">
+                <span><img src="../images/dashboard.png" alt="">&nbsp;&nbsp;&nbsp;<a href="/customerdashboard/customerdashboard.php">Dashboard</a></span> 
+                <span><img src="../images/deceased.png" alt="">&nbsp;&nbsp;&nbsp;<a href="/customerdashboard/customerdeceased.php">Deceased</a></span>
+                <span><img src="../images/reservation.png" alt="">&nbsp;&nbsp;&nbsp;<a href="/customerdashboard/customerreservation.php">Reservation</a></span>
+                <span><img src="../images/review.png" alt="">&nbsp;&nbsp;&nbsp;<a href="/customerdashboard/customerreviews.php">Reviews</a></span>
+                <span><img src="../images/settings.png" alt="">&nbsp;&nbsp;&nbsp;<a href="/customerdashboard/customersettings.php">Settings</a></span>
+                <span><img src="../images/payment.png" alt="">&nbsp;&nbsp;&nbsp;<a href="/customerdashboard/customerpayment.php">Payments</a></span>
+                <span><img src="../images/logout.png" alt="">&nbsp;&nbsp;&nbsp;<a href="../logout.php">Logout</a></span>
+            <br> 
+            </div>
+            <br>
             </center>
         </div>
         <div class="main">

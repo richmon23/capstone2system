@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 15, 2024 at 05:23 AM
+-- Generation Time: Aug 19, 2024 at 05:25 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -44,13 +44,28 @@ CREATE TABLE `deceasedpersoninfo` (
 --
 
 INSERT INTO `deceasedpersoninfo` (`id`, `fullname`, `address`, `born`, `died`, `plot`, `block`, `funeralday`, `datecreated`) VALUES
-(2, 'John Wick1', 'Bogo City', '2024-08-06', '2024-08-13', '1', '1', '2024-08-20', '2024-08-29'),
-(4, 'w', 'w', '2024-09-14', '2024-09-14', '2', '2', '2024-10-11', '2024-09-14'),
-(5, 'r', 'r', '2024-09-14', '2024-09-14', '3', '5', '2024-09-14', '2024-09-14'),
-(6, 'wee', 'ewe', '2024-09-14', '2024-09-14', 'w', '7', '2024-09-14', '2024-09-14'),
-(7, 'wee', 'ewe', '2024-09-14', '2024-09-14', 'w', '7', '2024-09-14', '2024-09-14'),
-(8, 'wee', 'ewe', '2024-09-14', '2024-09-14', 'w', '7', '2024-09-14', '2024-09-14'),
-(9, 'wee', 'ewe', '2024-09-14', '2024-09-14', 'w', '7', '2024-09-14', '2024-09-14');
+(2, 'John Wick', 'Bogo City', '2024-08-06', '2024-08-13', '1', '1', '2024-08-20', '2024-08-29');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `login`
+--
+
+CREATE TABLE `login` (
+  `id` int(11) NOT NULL,
+  `username` varchar(100) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `password` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `login`
+--
+
+INSERT INTO `login` (`id`, `username`, `email`, `password`) VALUES
+(2, 'mort', 'morttest@gmail.com', '$2y$10$z/l2lGbV3Azkov6/LP0uCuCncZ/3BddSHHTVzrmfuPeeK7oWTnG46'),
+(3, 'mark', 'test@x.com', '$2y$10$5t7Iwinu5CjxZYFRhzJcNuZoyVkjvX6TDnxOGt7n1KPhvo0Wu.TXG');
 
 -- --------------------------------------------------------
 
@@ -76,9 +91,7 @@ CREATE TABLE `reservation` (
 INSERT INTO `reservation` (`id`, `fullname`, `package`, `plotnumber`, `blocknumber`, `email`, `contact`, `time`) VALUES
 (6, 'Bill Jugan', 'lawn', 2, 3, 'bill@x.com', 123456789, '2024-08-19 16:00:00'),
 (7, 'mort', 'family_state', 3, 2, 'mort@x.com', 123456789, '2024-08-15 04:26:00'),
-(65, 'w', 'garden', 2, 2, 'kohaco2217@fuzitea.com', 8787431, '2024-09-13 16:00:00'),
-(66, 'w', 'garden', 2, 2, 'kohaco2217@fuzitea.com', 8787431, '2024-09-13 16:00:00'),
-(68, 'q', 'family_state', 1, 1, 'kohaco2217@fuzitea.com', 4656487, '2024-09-13 16:05:00');
+(8, 'Vince', 'family_state', 1, 1, 'vince@x.com', 123456789, '2024-08-05 23:45:00');
 
 -- --------------------------------------------------------
 
@@ -115,25 +128,22 @@ CREATE TABLE `users` (
   `email` varchar(100) NOT NULL,
   `password` varchar(255) NOT NULL,
   `birthdate` date NOT NULL,
-  `gender` enum('Male','Female','Other') NOT NULL,
-  `role` enum('admin','customer') DEFAULT 'customer',
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+  `gender` enum('Male','Female','Other') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `firstname`, `surname`, `email`, `password`, `birthdate`, `gender`, `role`, `created_at`) VALUES
-(1, 'richmon', 'retiza', 'mort@x.com', '$2y$10$rgGX1IJKaoApi5arTQ.8vOZbF.0kLCzOvbTR9b0MKCiJI4XlTXA0m', '2024-08-07', 'Male', 'customer', '2024-09-15 01:53:48'),
-(2, 'mort', 'mort', 'mark@x.com', '$2y$10$rXARfGr2I5wcZTUejYjOJOQbBKr4RmogdBJIdMCtFDJ48ZeKB0d3m', '2024-08-16', 'Male', 'customer', '2024-09-15 01:53:48'),
-(3, 'crisjay', 'crisjay', 'crisjay@x.com', '$2y$10$wJ4Oai5U/w063UyZKEs95O3kjB/aIUQ.6rv/feV/Dt1ZvXvIykyJO', '2024-08-08', 'Male', 'admin', '2024-09-15 01:53:48'),
-(4, 'bill', 'bill', 'bill@x.com', '$2y$10$1zdZ2kuGtECnq5S/jiBuQuWnI45mAScRk9hFWxeSeL9a7D8EfkQR6', '2024-07-31', 'Male', 'customer', '2024-09-15 01:53:48'),
-(13, 'mort', 'mort', 'mort1@x.com', '$2y$10$4z8ExAc3l2Is7ZlvYLKCmOnn8fmmkdnwEc6V39Ciq8rri3I5y4kcO', '2024-08-08', 'Male', 'admin', '2024-09-15 01:53:48'),
-(15, 'akp', 'akp', 'akp@x.com', '$2y$10$6KbPTorXJtvGd9QW/C2xPuR3XH5/4sY7iLX4yO.9xeNaBh/zfryGq', '2024-08-16', 'Male', 'customer', '2024-09-15 01:53:48'),
-(16, 'karl20', 'karl', 'karl2024@x.com', '$2y$10$82xGLnQMCPWL45ZeC0PqlOwrwF1KR785kdKiLj.1jUu1T16V8Dxhe', '2024-08-29', 'Male', 'customer', '2024-09-15 01:53:48'),
-(17, 'Desiree', 'Desiree', 'des@x.com', '$2y$10$yECsQ/H17Mk5wbOdi0MdTOTlgCzFFOXbCirpXSMhXeR9anMSE8xnO', '2024-08-22', 'Female', 'admin', '2024-09-15 01:53:48'),
-(19, 'bill', 'gates', 'gates@x.com', '$2y$10$XUiusfIQjcEalJxOX.tqQeLf5kQ1WH/hgkt8HQvelsNLCHF.3KhKC', '2024-09-06', 'Male', 'customer', '2024-09-15 02:01:33');
+INSERT INTO `users` (`id`, `firstname`, `surname`, `email`, `password`, `birthdate`, `gender`) VALUES
+(1, 'richmon', 'retiza', 'mort@x.com', '$2y$10$rgGX1IJKaoApi5arTQ.8vOZbF.0kLCzOvbTR9b0MKCiJI4XlTXA0m', '2024-08-07', 'Male'),
+(2, 'mort', 'mort', 'mark@x.com', '$2y$10$rXARfGr2I5wcZTUejYjOJOQbBKr4RmogdBJIdMCtFDJ48ZeKB0d3m', '2024-08-16', 'Male'),
+(3, 'crisjay', 'crisjay', 'crisjay@x.com', '$2y$10$wJ4Oai5U/w063UyZKEs95O3kjB/aIUQ.6rv/feV/Dt1ZvXvIykyJO', '2024-08-08', 'Male'),
+(4, 'bill', 'bill', 'bill@x.com', '$2y$10$1zdZ2kuGtECnq5S/jiBuQuWnI45mAScRk9hFWxeSeL9a7D8EfkQR6', '2024-07-31', 'Male'),
+(13, 'mort', 'mort', 'mort1@x.com', '$2y$10$4z8ExAc3l2Is7ZlvYLKCmOnn8fmmkdnwEc6V39Ciq8rri3I5y4kcO', '2024-08-08', 'Male'),
+(15, 'akp', 'akp', 'akp@x.com', '$2y$10$6KbPTorXJtvGd9QW/C2xPuR3XH5/4sY7iLX4yO.9xeNaBh/zfryGq', '2024-08-16', 'Male'),
+(16, 'karl20', 'karl', 'karl2024@x.com', '$2y$10$82xGLnQMCPWL45ZeC0PqlOwrwF1KR785kdKiLj.1jUu1T16V8Dxhe', '2024-08-29', 'Male'),
+(17, 'Desiree', 'Desiree', 'des@x.com', '$2y$10$yECsQ/H17Mk5wbOdi0MdTOTlgCzFFOXbCirpXSMhXeR9anMSE8xnO', '2024-08-22', 'Female');
 
 --
 -- Indexes for dumped tables
@@ -143,6 +153,12 @@ INSERT INTO `users` (`id`, `firstname`, `surname`, `email`, `password`, `birthda
 -- Indexes for table `deceasedpersoninfo`
 --
 ALTER TABLE `deceasedpersoninfo`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `login`
+--
+ALTER TABLE `login`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -172,13 +188,19 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `deceasedpersoninfo`
 --
 ALTER TABLE `deceasedpersoninfo`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `login`
+--
+ALTER TABLE `login`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `reservation`
 --
 ALTER TABLE `reservation`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `reviews`
@@ -190,7 +212,7 @@ ALTER TABLE `reviews`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

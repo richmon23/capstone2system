@@ -61,7 +61,7 @@ if (isset($pdo)) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>  Dashboard </title>
+    <title>  Admin Dashboard </title>
     <link rel="stylesheet" href="./admindashboardcss/admindashboard.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
@@ -124,46 +124,46 @@ if (isset($pdo)) {
                     </div>
         </div>
         <!-- Change Password Modal -->
-<div id="changePasswordModal" class="modal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h5>Change Password</h5>
-            <button class="close-btn" onclick="closeModal('changePasswordModal')">&times;</button>
+        <div id="changePasswordModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5>Change Password</h5>
+                    <button class="close-btn" onclick="closeModal('changePasswordModal')">&times;</button>
+                </div>
+                <form action="change_password.php" method="POST">
+                    <div class="form-group">
+                        <label for="currentPassword">Current Password</label>
+                        <input type="password" id="currentPassword" name="current_password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="newPassword">New Password</label>
+                        <input type="password" id="newPassword" name="new_password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirmPassword">Confirm New Password</label>
+                        <input type="password" id="confirmPassword" name="confirm_password" required>
+                    </div>
+                    <button type="submit" class="btn-primary">Change Password</button>
+                </form>
+            </div>
         </div>
-        <form action="change_password.php" method="POST">
-            <div class="form-group">
-                <label for="currentPassword">Current Password</label>
-                <input type="password" id="currentPassword" name="current_password" required>
-            </div>
-            <div class="form-group">
-                <label for="newPassword">New Password</label>
-                <input type="password" id="newPassword" name="new_password" required>
-            </div>
-            <div class="form-group">
-                <label for="confirmPassword">Confirm New Password</label>
-                <input type="password" id="confirmPassword" name="confirm_password" required>
-            </div>
-            <button type="submit" class="btn-primary">Change Password</button>
-        </form>
-    </div>
-</div>
 
-<!-- Terms and Conditions Modal -->
-<div id="termsModal" class="modal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h5>Terms and Conditions</h5>
-            <button class="close-btn" onclick="closeModal('termsModal')">&times;</button>
+        <!-- Terms and Conditions Modal -->
+        <div id="termsModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5>Terms and Conditions</h5>
+                    <button class="close-btn" onclick="closeModal('termsModal')">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        <!-- Terms and conditions content goes here -->
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla porttitor accumsan tincidunt.
+                        Curabitur arcu erat, accumsan id imperdiet et, porttitor at sem. Proin eget tortor risus.
+                    </p>
+                </div>
+            </div>
         </div>
-        <div class="modal-body">
-            <p>
-                <!-- Terms and conditions content goes here -->
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla porttitor accumsan tincidunt.
-                Curabitur arcu erat, accumsan id imperdiet et, porttitor at sem. Proin eget tortor risus.
-            </p>
-        </div>
-    </div>
-</div>
 
 </body>
 <script>

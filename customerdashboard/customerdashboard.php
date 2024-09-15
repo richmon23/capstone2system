@@ -1,14 +1,22 @@
-<?php
+<?php // Start the session
+
+session_start();
+
+
+
+if (!isset($_SESSION['user_id'])) {
+    header("Location: userlogin.php");
+    exit();
+}
+
+$firstname = isset($_SESSION['firstname']) ? htmlspecialchars($_SESSION['firstname']) : 'Guest';
+$email = isset($_SESSION['email']) ? htmlspecialchars($_SESSION['email']) : '';
 
 // Include the database connection
-require_once '../connection/connection.php';
-
-
+require_once '../connection/connection.php'; // Include your database connection file
 
 
 ?>
-
-
 
 
 <!DOCTYPE html>
@@ -18,33 +26,41 @@ require_once '../connection/connection.php';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Customer Dashboard </title>
     <link rel="stylesheet" href="./customerdashboard_css/customerdashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head> 
 <body>
 
     <!-- <a href="logout.php">Logout</a> -->
 
     <div class="row">
-        <div class="left-content col-4">
-            <div class="memoriallogo"><img src="../images/bogomemoriallogo.png" alt="bogomemoriallogo"></div>
-            <div class="hamburgermenu"><img src="../images/hamburgermenu.png" alt="hamburgermenu"></div> 
-            <div class="adminprofile">
-                <center><img src="../images/female.png" alt="adminicon">
-                <!-- <h2><?php echo $firstname; ?></h2></center> -->
+    <div class="left-content col-3">
+                <div class="memoriallogo"><img src="../images/bogomemoriallogo.png" alt="bogomemoriallogo"></div>
+                <div class="hamburgermenu"><img src="../images/hamburgermenu.png" alt="hamburgermenu"></div> 
+                <div class="adminprofile">
+                <center>
+                    <img src="../images/female.png" alt="adminicon">
+                    <div class="dropdown">
+                        <button class="dropdown-btn">
+                            <?php echo "<h4> $firstname</h4>" ?> <i class="fas fa-caret-down dropdown-icon"></i>
+                        </button>
+                        <div class="dropdown-content">
+                             <button onclick="openModal('changePasswordModal')">Change Password</button>
+                             <button onclick="openModal('termsModal')">Terms and Conditions</button>
+                        </div>
+                    </div>
+                </center>
             </div>
-            <center>
-                <br>
-                <div class="adminlinks">
-                    <span><img src="../images/dashboard.png" alt="">&nbsp;&nbsp;<a href="customerdashboard.php">Dashboard</a></span> 
-                    <span><img src="../images/deceased.png" alt="">&nbsp;&nbsp;&nbsp;&nbsp;<a href="customerdeceased.php">Deceased</a></span>
-                    <span><img src="../images/reservation.png" alt="">&nbsp;&nbsp;&nbsp;<a href="customerreservation.php">Reservation</a></span>
-                    <span><img src="../images/review.png" alt="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="customerreviews.php">Reviews</a></span>
-                    <span><img src="../images/payment.png" alt="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="customerpayment.php">Payments History</a></span>
-                    <span><img src="../images/settings.png" alt="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="customersettings.php">Settings</a></span>
-                    <br>
-                    <span><img src="../images/logout.png" alt="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="../logout.php">Logout</a></span>
-                </div>
-                <br>
-            </center>
+             <br>
+             <div class="adminlinks">
+                <span><img src="../images/dashboard.png" alt="">&nbsp;&nbsp;&nbsp;<a href="/customerdashboard/customerdashboard.php">Dashboard</a></span> 
+                <span><img src="../images/deceased.png" alt="">&nbsp;&nbsp;&nbsp;<a href="/customerdashboard/customerdeceased.php">Deceased</a></span>
+                <span><img src="../images/reservation.png" alt="">&nbsp;&nbsp;&nbsp;<a href="/customerdashboard/customerreservation.php">Reservation</a></span>
+                <span><img src="../images/review.png" alt="">&nbsp;&nbsp;&nbsp;<a href="/customerdashboard/customerreviews.php">Reviews</a></span>
+                <span><img src="../images/settings.png" alt="">&nbsp;&nbsp;&nbsp;<a href="/customerdashboard/customersettings.php">Settings</a></span>
+                <span><img src="../images/payment.png" alt="">&nbsp;&nbsp;&nbsp;<a href="/customerdashboard/customerpayment.php">Payments</a></span>
+                <span><img src="../images/logout.png" alt="">&nbsp;&nbsp;&nbsp;<a href="../logout.php">Logout</a></span>
+             </div>
+            <br>
         </div>
         <div class="main">
             <div class="right-content1">
@@ -55,51 +71,9 @@ require_once '../connection/connection.php';
                 </div>
             </div>
             <div class="right-content2">
-                <br>
-                <!-- <button class="btnadd" onclick="openAddModal()"><img src="./images/add-user.png" alt=""></button> -->
-                <!-- <table id="myTable">
-                    <thead>
-                        <tr>
-                            <th>Full Name</th>
-                            <th>Address</th>
-                            <th>Born</th>
-                            <th>Died</th>
-                            <th>Plot#</th>
-                            <th>Block#</th>
-                            <th>Funeral Day</th>
-                            <th>Date Created</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php if (isset($reservations) && !empty($reservations)): ?>
-                            <?php foreach ($reservations as $reservation): ?>
-                                <tr>
-                                    <td><?php echo htmlspecialchars($reservation['fullname']); ?></td>
-                                    <td><?php echo htmlspecialchars($reservation['address']); ?></td>
-                                    <td><?php echo htmlspecialchars($reservation['born']); ?></td>
-                                    <td><?php echo htmlspecialchars($reservation['died']); ?></td>
-                                    <td><?php echo htmlspecialchars($reservation['plot']); ?></td>
-                                    <td><?php echo htmlspecialchars($reservation['block']); ?></td>
-                                    <td><?php echo htmlspecialchars($reservation['funeralday']); ?></td>
-                                    <td><?php echo htmlspecialchars($reservation['datecreated']); ?></td>
-                                    <td class="actions">
-                                        <button class="button update" onclick="openModal(<?php echo htmlspecialchars(json_encode($reservation)); ?>)">Update</button>
-                                        <form method="post" style="display:inline-block;">
-                                            <input type="hidden" name="id" value="<?php echo $reservation['id']; ?>">
-                                            <input type="hidden" name="action" value="delete">
-                                            <button type="submit" class="button delete">Delete</button>
-                                        </form>
-                                    </td>
-                                </tr>
-                            <?php endforeach; ?>
-                        <?php else: ?>
-                            <tr><td colspan="9">No reservations found.</td></tr>
-                        <?php endif; ?>
-                    </tbody>
-                </table> -->
+               
                 <!-- Modal for Adding a New Reservation -->
-                <div id="addModal" class="modal">
+                <!-- <div id="addModal" class="modal">
                     <div class="modal-content">
                         <span class="close" onclick="closeAddModal()">&times;</span>
                         <div class="modal-header">
@@ -130,10 +104,10 @@ require_once '../connection/connection.php';
                             <button class="button save button-save-modal" onclick="document.getElementById('addForm').submit()">Save</button>
                         </div>
                     </div>
-                </div>
+                </div> -->
 
                 <!-- Modal for Update -->
-                <div id="updateModal" class="modal">
+                <!-- <div id="updateModal" class="modal">
                     <div class="modal-content">
                         <span class="close" onclick="closeModal()">&times;</span>
                         <div class="modal-header">
@@ -165,44 +139,65 @@ require_once '../connection/connection.php';
                             <button class="button update" onclick="document.getElementById('updateForm').submit()">Save</button>
                         </div>
                     </div>
+                </div> -->
+
+                <!-- Change Password Modal -->
+        <div id="changePasswordModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5>Change Password</h5>
+                    <button class="close-btn" onclick="closeModal('changePasswordModal')">&times;</button>
                 </div>
+                <form action="change_password.php" method="POST">
+                    <div class="form-group">
+                        <label for="currentPassword">Current Password</label>
+                        <input type="password" id="currentPassword" name="current_password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="newPassword">New Password</label>
+                        <input type="password" id="newPassword" name="new_password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirmPassword">Confirm New Password</label>
+                        <input type="password" id="confirmPassword" name="confirm_password" required>
+                    </div>
+                    <button type="submit" class="btn-primary">Change Password</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Terms and Conditions Modal -->
+        <div id="termsModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5>Terms and Conditions</h5>
+                    <button class="close-btn" onclick="closeModal('termsModal')">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        <!-- Terms and conditions content goes here -->
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla porttitor accumsan tincidunt.
+                        Curabitur arcu erat, accumsan id imperdiet et, porttitor at sem. Proin eget tortor risus.
+                    </p>
+                </div>
+            </div>
+        </div>
 
                 <script>
-                    var addModal = document.getElementById("addModal");
-                    var updateModal = document.getElementById("updateModal");
-
-                    function openAddModal() {
-                        addModal.style.display = "block";
+                    // Function to open a modal
+                    function openModal(modalId) {
+                        document.getElementById(modalId).style.display = 'block';
                     }
 
-                    function closeAddModal() {
-                        addModal.style.display = "none";
+                    // Function to close a modal
+                    function closeModal(modalId) {
+                        document.getElementById(modalId).style.display = 'none';
                     }
 
-                    function openModal(data) {
-                        document.getElementById("modal_id").value = data.id;
-                        document.getElementById("modal_fullname").value = data.fullname;
-                        document.getElementById("modal_address").value = data.address;
-                        document.getElementById("modal_born").value = data.born;
-                        document.getElementById("modal_died").value = data.died;
-                        document.getElementById("modal_plot").value = data.plot;
-                        document.getElementById("modal_block").value = data.block;
-                        document.getElementById("modal_funeralday").value = data.funeralday;
-                        document.getElementById("modal_datecreated").value = data.datecreated;
-
-                        updateModal.style.display = "block";
-                    }
-
-                    function closeModal() {
-                        updateModal.style.display = "none";
-                    }
-
+                    // Close modal if clicked outside of modal content
                     window.onclick = function(event) {
-                        if (event.target == addModal) {
-                            closeAddModal();
-                        }
-                        if (event.target == updateModal) {
-                            closeModal();
+                        if (event.target.classList.contains('modal')) {
+                            event.target.style.display = 'none';
                         }
                     }
                 </script>
