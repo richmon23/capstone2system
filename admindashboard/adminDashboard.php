@@ -80,7 +80,7 @@ if (isset($pdo)) {
                                     </button>
                                     <div class="dropdown-content">
                                         <button onclick="openModal('changePasswordModal')">Change Password</button>
-                                        <button onclick="openModal('termsModal')">Terms and Conditions</button>
+                                        <!-- <button onclick="openModal('termsModal')">Terms and Conditions</button> -->
                                     </div>
                                 </div>
                             </center>
@@ -99,14 +99,16 @@ if (isset($pdo)) {
                 </div>
                     <div class="main">
                         <div class="right-content1">
-                            <div class="right-header col-11">
-                                <span><h3>Bogo Memorial Park <br>Admin Dashboard</h3>
-                                <br><?php if ($email): ?>
-                                <!-- <p>You are logged in as <?php echo $email; ?>.</p>
-                                <?php else: ?>
-                                <p>Email address not available.</p>
-                                <?php endif; ?></span> -->
-                            </div>
+                        <div class="right-header col-9">
+                        <span>
+                            <h1>Bogo Memorial Park</h1>
+                            <h1>Admin Dashboard</h1>
+                        </span>
+                        <div class="search-box">
+                            <i class="fas fa-search search-icon"></i>
+                            <input type="text" class="search-input" placeholder="Search">
+                        </div>
+                </div>
                         </div>
                         <div class="right-content2">
                             <br>
@@ -149,21 +151,21 @@ if (isset($pdo)) {
         </div>
 
         <!-- Terms and Conditions Modal -->
-        <div id="termsModal" class="modal">
+        <!-- <div id="termsModal" class="modal">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5>Terms and Conditions</h5>
                     <button class="close-btn" onclick="closeModal('termsModal')">&times;</button>
                 </div>
                 <div class="modal-body">
-                    <p>
+                    <p> -->
                         <!-- Terms and conditions content goes here -->
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla porttitor accumsan tincidunt.
+                        <!-- Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla porttitor accumsan tincidunt.
                         Curabitur arcu erat, accumsan id imperdiet et, porttitor at sem. Proin eget tortor risus.
                     </p>
                 </div>
             </div>
-        </div>
+        </div> -->
 
 </body>
 <script>

@@ -2,8 +2,6 @@
 
 session_start();
 
-
-
 if (!isset($_SESSION['user_id'])) {
     header("Location: userlogin.php");
     exit();
@@ -53,25 +51,41 @@ require_once '../connection/connection.php'; // Include your database connection
              <br>
              <div class="adminlinks">
                 <span><img src="../images/dashboard.png" alt="">&nbsp;&nbsp;&nbsp;<a href="/customerdashboard/customerdashboard.php">Dashboard</a></span> 
-                <span><img src="../images/deceased.png" alt="">&nbsp;&nbsp;&nbsp;<a href="/customerdashboard/customerdeceased.php">Deceased</a></span>
+                <!-- <span><img src="../images/deceased.png" alt="">&nbsp;&nbsp;&nbsp;<a href="/customerdashboard/customerdeceased.php">Deceased</a></span> -->
                 <span><img src="../images/reservation.png" alt="">&nbsp;&nbsp;&nbsp;<a href="/customerdashboard/customerreservation.php">Reservation</a></span>
-                <span><img src="../images/review.png" alt="">&nbsp;&nbsp;&nbsp;<a href="/customerdashboard/customerreviews.php">Reviews</a></span>
-                <span><img src="../images/settings.png" alt="">&nbsp;&nbsp;&nbsp;<a href="/customerdashboard/customersettings.php">Settings</a></span>
                 <span><img src="../images/payment.png" alt="">&nbsp;&nbsp;&nbsp;<a href="/customerdashboard/customerpayment.php">Payments</a></span>
+                <span><img src="../images/review.png" alt="">&nbsp;&nbsp;&nbsp;<a href="/customerdashboard/customerreviews.php">Reviews</a></span>
+                <!-- <span><img src="../images/settings.png" alt="">&nbsp;&nbsp;&nbsp;<a href="/customerdashboard/customersettings.php">Settings</a></span> -->
                 <span><img src="../images/logout.png" alt="">&nbsp;&nbsp;&nbsp;<a href="../logout.php">Logout</a></span>
              </div>
             <br>
         </div>
         <div class="main">
             <div class="right-content1">
-                <br>
-                <br>
                 <div class="right-header col-9">
-                    <span><h1>Customer Dasboard</h1></span>
+                        <span>
+                            <h1>Bogo Memorial Park</h1>
+                            <h1>Customer Dashboard</h1>
+                        </span>
+                        <div class="search-box">
+                            <i class="fas fa-search search-icon"></i>
+                            <input type="text" class="search-input" placeholder="Search">
+                        </div>
                 </div>
-            </div>
+            </div>   
             <div class="right-content2">
-               
+                <br>
+                <h2 class="todaydata">Today's  Data </h2>
+                <br>
+                <br>
+                <div class="rightsidebar-content">
+                    <div class="div">Weekly Reserved</div>
+                    <div class="div">Monthly Reseved</div>
+                    <div class="div">Messages</div>
+                    <div class="div">Available Plots</div>
+                    <div class="div">Payment History</div>
+                 </div>
+            </div>
                 <!-- Modal for Adding a New Reservation -->
                 <!-- <div id="addModal" class="modal">
                     <div class="modal-content">

@@ -36,14 +36,6 @@ try {
     <link rel="stylesheet" href="./admindashboardcss/adminreviews.css">
     <!-- Include Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-        .fas.fa-star {
-            color: gold;
-        }
-        .far.fa-star {
-            color: lightgray;
-        }
-    </style>
 </head> 
 <body>
     <div class="row">
@@ -86,6 +78,7 @@ try {
             </div>
             <div class="right-content2">
                 <div class="right-header col-9">
+                    <div class="table-container">
                     <table id="myTable">
                         <thead>
                             <tr>
@@ -130,6 +123,9 @@ try {
                         ?>
                         </tbody>
                     </table>   
+                    </div>
+
+                   
                 </div>
             </div>
         </div>

@@ -1,27 +1,75 @@
 <?php
+// Start the session and ensure the user is logged in
+session_start();
+
+if (!isset($_SESSION['user_id'])) {
+    header("Location: userlogin.php");
+    exit();
+}
 
 // Include the database connection
 require_once '../connection/connection.php';
 
+// Check if form was submitted
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $review = isset($_POST['review']) ? $_POST['review'] : null;
+    $rating = isset($_POST['rating']) ? $_POST['rating'] : null;
+    $userId = $_SESSION['user_id'];
 
+    // Fetch the user's first name from the database
+    try {
+        $sql = "SELECT firstname FROM users WHERE id = :user_id";
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(':user_id', $userId, PDO::PARAM_INT);
+        $stmt->execute();
 
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+        $firstname = $user ? $user['firstname'] : null;
+
+    } catch (PDOException $e) {
+        echo "Database error: " . $e->getMessage();
+        exit; // Stop execution if there's a database error
+    }
+
+    // Validate inputs
+    if (empty($review) || empty($rating) || empty($firstname)) {
+        echo "Please fill in all fields and make sure you are logged in.";
+    } else {
+        // Insert review into the database
+        try {
+            $sql = "INSERT INTO reviews (user_id, fullname, userfeedback, rating, time) 
+                    VALUES (:user_id, :fullname, :userfeedback, :rating, NOW())";
+            $stmt = $pdo->prepare($sql);
+            $stmt->bindParam(':user_id', $userId, PDO::PARAM_INT);
+            $stmt->bindParam(':fullname', $firstname, PDO::PARAM_STR);
+            $stmt->bindParam(':userfeedback', $review, PDO::PARAM_STR);
+            $stmt->bindParam(':rating', $rating, PDO::PARAM_INT);
+
+            if ($stmt->execute()) {
+                echo "Review saved successfully.";
+                header("Location: customerreviews.php");
+                exit();
+            } else {
+                echo "Failed to save the review. Please try again.";
+            }
+        } catch (PDOException $e) {
+            echo "Database error: " . $e->getMessage();
+        }
+    }
+}
 
 ?>
-
-
-
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Customer Dashboard </title>
-    <link rel="stylesheet" href="./customerdashboard_css/customerdashboard.css">
-</head> 
+    <title>Customer Dashboard</title>
+    <link rel="stylesheet" href="./customerdashboard_css/customerreview.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
 <body>
-
-    <!-- <a href="logout.php">Logout</a> -->
 
     <div class="row">
         <div class="left-content col-4">
@@ -29,184 +77,100 @@ require_once '../connection/connection.php';
             <div class="hamburgermenu"><img src="../images/hamburgermenu.png" alt="hamburgermenu"></div> 
             <div class="adminprofile">
                 <center><img src="../images/female.png" alt="adminicon">
-                <!-- <h2><?php echo $firstname; ?></h2></center> -->
+                </center>
             </div>
             <center>
             <br>
             <div class="adminlinks">
                 <span><img src="../images/dashboard.png" alt="">&nbsp;&nbsp;&nbsp;<a href="/customerdashboard/customerdashboard.php">Dashboard</a></span> 
-                <span><img src="../images/deceased.png" alt="">&nbsp;&nbsp;&nbsp;<a href="/customerdashboard/customerdeceased.php">Deceased</a></span>
                 <span><img src="../images/reservation.png" alt="">&nbsp;&nbsp;&nbsp;<a href="/customerdashboard/customerreservation.php">Reservation</a></span>
-                <span><img src="../images/review.png" alt="">&nbsp;&nbsp;&nbsp;<a href="/customerdashboard/customerreviews.php">Reviews</a></span>
-                <span><img src="../images/settings.png" alt="">&nbsp;&nbsp;&nbsp;<a href="/customerdashboard/customersettings.php">Settings</a></span>
                 <span><img src="../images/payment.png" alt="">&nbsp;&nbsp;&nbsp;<a href="/customerdashboard/customerpayment.php">Payments</a></span>
+                <span><img src="../images/review.png" alt="">&nbsp;&nbsp;&nbsp;<a href="/customerdashboard/customerreviews.php">Reviews</a></span>
                 <span><img src="../images/logout.png" alt="">&nbsp;&nbsp;&nbsp;<a href="../logout.php">Logout</a></span>
-            <br> 
-            </div>
+             </div>
             <br>
             </center>
         </div>
+
         <div class="main">
             <div class="right-content1">
                 <br>
                 <br>
-                <div class="right-header col-9">
-                    <span><h1>Customer Reviews</h1></span>
-                </div>
-            </div>
-            <div class="right-content2">
+                <span class="header">&nbsp;&nbsp;Write your Review </span>
                 <br>
-                <!-- <button class="btnadd" onclick="openAddModal()"><img src="./images/add-user.png" alt=""></button> -->
-                <!-- <table id="myTable">
-                    <thead>
-                        <tr>
-                            <th>Full Name</th>
-                            <th>Address</th>
-                            <th>Born</th>
-                            <th>Died</th>
-                            <th>Plot#</th>
-                            <th>Block#</th>
-                            <th>Funeral Day</th>
-                            <th>Date Created</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php if (isset($reservations) && !empty($reservations)): ?>
-                            <?php foreach ($reservations as $reservation): ?>
-                                <tr>
-                                    <td><?php echo htmlspecialchars($reservation['fullname']); ?></td>
-                                    <td><?php echo htmlspecialchars($reservation['address']); ?></td>
-                                    <td><?php echo htmlspecialchars($reservation['born']); ?></td>
-                                    <td><?php echo htmlspecialchars($reservation['died']); ?></td>
-                                    <td><?php echo htmlspecialchars($reservation['plot']); ?></td>
-                                    <td><?php echo htmlspecialchars($reservation['block']); ?></td>
-                                    <td><?php echo htmlspecialchars($reservation['funeralday']); ?></td>
-                                    <td><?php echo htmlspecialchars($reservation['datecreated']); ?></td>
-                                    <td class="actions">
-                                        <button class="button update" onclick="openModal(<?php echo htmlspecialchars(json_encode($reservation)); ?>)">Update</button>
-                                        <form method="post" style="display:inline-block;">
-                                            <input type="hidden" name="id" value="<?php echo $reservation['id']; ?>">
-                                            <input type="hidden" name="action" value="delete">
-                                            <button type="submit" class="button delete">Delete</button>
-                                        </form>
-                                    </td>
-                                </tr>
-                            <?php endforeach; ?>
-                        <?php else: ?>
-                            <tr><td colspan="9">No reservations found.</td></tr>
-                        <?php endif; ?>
-                    </tbody>
-                </table> -->
-                <!-- Modal for Adding a New Reservation -->
-                <div id="addModal" class="modal">
-                    <div class="modal-content">
-                        <span class="close" onclick="closeAddModal()">&times;</span>
-                        <div class="modal-header">
-                            <h2>Add New Data </h2>
+                <div class="right-header col-9">
+                    <form id="myForm" action="" method="post">
+                        <textarea rows="4" name="review" cols="50"></textarea>
+                        <div class="rating">
+                            <input type="radio" id="star5" name="rating" value="5">
+                            <label for="star5">★</label>
+                            <input type="radio" id="star4" name="rating" value="4">
+                            <label for="star4">★</label>
+                            <input type="radio" id="star3" name="rating" value="3">
+                            <label for="star3">★</label>
+                            <input type="radio" id="star2" name="rating" value="2">
+                            <label for="star2">★</label>
+                            <input type="radio" id="star1" name="rating" value="1">
+                            <label for="star1">★</label>
                         </div>
-                        <div class="modal-body">
-                            <form id="addForm" method="post">
-                                <input type="hidden" name="action" value="create">
-                                <label for="fullname">Full Name:</label><br>
-                                <input type="text" id="add_fullname" name="fullname" required class="form-element"><br><br>
-                                <label for="address">Address:</label><br>
-                                <input type="text" id="add_address" name="address" required class="form-element"><br><br>
-                                <label for="born">Born:</label><br>
-                                <input type="date" id="add_born" name="born" required class="form-element"><br><br>
-                                <label for="died">Died:</label><br>
-                                <input type="date" id="add_died" name="died" required class="form-element"><br><br>
-                                <label for="plot">Plot #:</label><br>
-                                <input type="text" id="add_plot" name="plot" required class="form-element"><br><br>
-                                <label for="block">Block #:</label><br>
-                                <input type="text" id="add_block" name="block" required class="form-element"><br><br>
-                                <label for="funeralday">Funeral Day:</label><br>
-                                <input type="date" id="add_funeralday" name="funeralday" required class="form-element"><br><br>
-                                <label for="datecreated">Date Created:</label><br>
-                                <input type="date" id="add_datecreated" name="datecreated" required class="form-element"><br><br>
-                            </form>
-                        </div>
-                        <div class="modal-footer">
-                            <button class="button save button-save-modal" onclick="document.getElementById('addForm').submit()">Save</button>
-                        </div>
+                    </form>
+                    <div class="form-buttons">
+                        <button type="submit" class="submit" form="myForm">Submit</button>
+                        <button type="button"class="cancel" onclick="window.location.href='/'">Cancel</button>
                     </div>
-                </div>
-
-                <!-- Modal for Update -->
-                <div id="updateModal" class="modal">
-                    <div class="modal-content">
-                        <span class="close" onclick="closeModal()">&times;</span>
-                        <div class="modal-header">
-                            <h2>Update Details</h2>
-                        </div>
-                        <div class="modal-body">
-                            <form id="updateForm" method="post">
-                                <input type="hidden" name="id" id="modal_id">
-                                <input type="hidden" name="action" value="update" class="form-element">
-                                <label for="fullname">Full Name:</label><br>
-                                <input type="text" id="modal_fullname" name="fullname" class="form-element" ><br><br>
-                                <label for="address">Address:</label><br>
-                                <input type="text" id="modal_address" name="address" class="form-element"><br><br>
-                                <label for="born">Born:</label><br>
-                                <input type="date" id="modal_born" name="born" class="form-element"><br><br>
-                                <label for="died">Died:</label><br>
-                                <input type="date" id="modal_died" name="died"class="form-element"><br><br>
-                                <label for="plot">Plot #:</label><br>
-                                <input type="text" id="modal_plot" name="plot"class="form-element"><br><br>
-                                <label for="block">Block #:</label><br>
-                                <input type="text" id="modal_block" name="block"class="form-element"><br><br>
-                                <label for="funeralday">Funeral Day:</label><br>
-                                <input type="date" id="modal_funeralday" name="funeralday"class="form-element"><br><br>
-                                <label for="datecreated">Date Created:</label><br>
-                                <input type="date" id="modal_datecreated" name="datecreated"class="form-element"><br><br>
-                            </form>
-                        </div>
-                        <div class="modal-footer">
-                            <button class="button update" onclick="document.getElementById('updateForm').submit()">Save</button>
-                        </div>
-                    </div>
-                </div>
-
-                <script>
-                    var addModal = document.getElementById("addModal");
-                    var updateModal = document.getElementById("updateModal");
-
-                    function openAddModal() {
-                        addModal.style.display = "block";
-                    }
-
-                    function closeAddModal() {
-                        addModal.style.display = "none";
-                    }
-
-                    function openModal(data) {
-                        document.getElementById("modal_id").value = data.id;
-                        document.getElementById("modal_fullname").value = data.fullname;
-                        document.getElementById("modal_address").value = data.address;
-                        document.getElementById("modal_born").value = data.born;
-                        document.getElementById("modal_died").value = data.died;
-                        document.getElementById("modal_plot").value = data.plot;
-                        document.getElementById("modal_block").value = data.block;
-                        document.getElementById("modal_funeralday").value = data.funeralday;
-                        document.getElementById("modal_datecreated").value = data.datecreated;
-
-                        updateModal.style.display = "block";
-                    }
-
-                    function closeModal() {
-                        updateModal.style.display = "none";
-                    }
-
-                    window.onclick = function(event) {
-                        if (event.target == addModal) {
-                            closeAddModal();
-                        }
-                        if (event.target == updateModal) {
-                            closeModal();
-                        }
-                    }
-                </script>
+                </div> 
             </div>
+
+            <!-- TODO: Reviews -->
+            <div class="right-content-reviews">
+                <div class="table-container">
+                    <table id="myTable">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>FULL NAME</th>
+                                <th>USER FEEDBACK</th>
+                                <th>RATING</th>
+                                <th>TIME</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                                $sql = "SELECT id, fullname, userfeedback, rating, time FROM reviews ORDER BY time DESC LIMIT 1000";  
+                                $stmt = $pdo->prepare($sql);
+                                $stmt->execute();
+
+                                if ($stmt->rowCount() > 0) {
+                                    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                                        echo "<tr>
+                                                <td>" . htmlspecialchars($row["id"]). "</td>
+                                                <td>" . htmlspecialchars($row["fullname"]). "</td>
+                                                <td>" . htmlspecialchars($row["userfeedback"]). "</td>
+                                                <td>";
+                                                
+                                        // Display stars based on the rating
+                                        $rating = (int)$row['rating'];
+                                        for ($i = 1; $i <= 5; $i++) {
+                                            if ($i <= $rating) {
+                                                echo "<i class='fas fa-star'></i>"; // Filled star
+                                            } else {
+                                                echo "<i class='far fa-star'></i>"; // Empty star
+                                            }
+                                        }
+
+                                        echo "</td>
+                                                <td>" . htmlspecialchars($row["time"]). "</td>
+                                            </tr>";
+                                    }
+                                } else {
+                                    echo "<tr><td colspan='5'>No reviews available</td></tr>";
+                                }
+                            ?>
+                        </tbody>
+                    </table>   
+                </div>            
+                <?php $pdo = null; // Closing the PDO connection ?>         
+            </div>   
         </div>
     </div> 
 </body>

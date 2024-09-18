@@ -168,24 +168,49 @@ body {
     margin-top: 0.3rem; /* Adjust margin to move the logout button up */
   }
 
+  
+  .table-container {
+    
+    margin-top: 5px;
+    height: 60vh; /* set the height of the container */
+    overflow-y: auto; /* add vertical scrollbar */
+    margin-left: 20px;
+    width: 130%;
+    background-color: white;
+    color: rgb(0, 0, 0);
+    border-radius: 20px;
+    overflow-x: hidden;
+  }
+  
 table {
-  width: 128%;
-  border-collapse: collapse;
-  margin: 20px 0;
-  font-size: 25px;
-  text-align: left;
-  color:black;
-  margin-left:20px;
-}
-th,
-td {
-  padding:13px;
-  border-bottom: 1px solid #ddd;
-  font-size: 15px;
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 20px;
+    text-align: left;
+    color:rgba(0, 0, 0, 0.863);
+    margin-left:20px;
+    padding: 10px;
+  }
+  th,
+  td {
+    padding:13px;
+    border-bottom: 1px solid #ddd;
+    font-size: 15px;
+  
+  }
+  th {
+    background-color: #4a6fd6;
+  }
+  tr:hover {
+    background-color: #f5f5f5;
+  }
 
+  .fas.fa-star {
+    color: gold;
 }
-th {
-  background-color: #4a6fd6;
+.far.fa-star {
+    color: lightgray;
 }
 tr:hover {
   background-color: #f5f5f5;

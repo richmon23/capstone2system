@@ -1,0 +1,314 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+  }
+  body {
+    background-color: #e5e1e1;
+    position: relative;
+  }
+  
+  /* media queries breakpoints - responsive design*/
+  .row::after {
+    content: "";
+    clear: both;
+    display: block;
+  }
+  
+  [class*="col-"] {
+    float: left;
+    padding: 15px;
+  }
+  
+  /* For desktop: */
+  .col-1 {
+    width: 8.33%;
+  }
+  .col-2 {
+    width: 16.66%;
+  }
+  .col-3 {
+    width: 25%;
+  }
+  .col-4 {
+    width: 33.33%;
+  }
+  .col-5 {
+    width: 41.66%;
+  }
+  .col-6 {
+    width: 50%;
+  }
+  .col-7 {
+    width: 58.33%;
+  }
+  .col-8 {
+    width: 66.66%;
+  }
+  .col-9 {
+    width: 75%;
+  }
+  .col-10 {
+    width: 83.33%;
+  }
+  .col-11 {
+    width: 91.66%;
+  }
+  .col-12 {
+    width: 100%;
+  }
+  
+  @media only screen and (max-width: 768px) {
+    /* For mobile phones: */
+    [class*="col-"] {
+      width: 100%;
+    }
+  }
+  /* responsive design media queries breakpoints */
+  
+  .row {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+  }
+  .left-content {
+    background-color: rgb(20, 100, 20);
+    color: white;
+    border-radius: 25px;
+    height: 95vh;
+    margin-top: 0.6rem;
+    margin-left: 0.7rem;
+    width: 250px; /* Fixed width for desktop */
+    position: relative;
+    padding: 1rem; /* Add padding inside the sidebar */
+  }
+  
+  
+  .memoriallogo img {
+    width: 95px;
+    position: absolute;
+    top: 0.6rem;
+    filter: drop-shadow (0px, 0px, 20px,black);
+  }
+  
+  .hamburgermenu img {
+    width: 20px;
+    float: right;
+    margin-top: 0.6rem;
+  }
+  
+  .adminprofile img {
+    width: 100px;
+    margin-top: 3rem;
+    padding-left: 30px;
+  
+  
+  }
+  
+  .memoriallogo img {
+      width: 95px;
+      position: absolute;
+      top: 0.6rem;
+      filter: drop-shadow (0px, 0px, 20px,black);
+    }
+    
+    .hamburgermenu img {
+      width: 20px;
+      float: right;
+      margin-top: 0.6rem;
+    }
+    
+    .adminprofile img {
+      width: 100px;
+      margin-top: 3rem;
+      padding-left: 30px;
+    
+    
+    }
+  .main {
+    width: 100%;
+    margin-top: 1rem;
+    margin-left: 50px;
+   
+  }
+  .right-content1 {
+    margin-left: 20px;
+    width: 90%;
+    height: 6.5rem;
+    background-color: white;
+    color: forestgreen;
+    border-radius: 20px;
+    position: relative;
+  }
+  .paymenthistory {
+    padding-left: 58rem;
+    padding-top: 0rem; /* Set top padding to 0 */
+    padding-bottom: 0rem;
+  }
+  
+  .right-content2 {
+    margin-left: 20px;
+    width: 90%;
+    height: 70vh;
+    margin-top: 2.8rem;
+    background-color: white;
+    color: forestgreen;
+    border-radius: 20px;
+    padding: 10px;
+  }
+  
+  .rightsidebar-content h1{
+    padding-left: 20px;
+    text-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);
+  }
+  .rightsidebar-content2{
+    padding-left: 20px;
+    color: black;
+  }
+  .uppersidebar-content{
+  display: flex;
+  gap: 40px;
+  padding-top: 50px;
+  
+  }
+  .uppersidebar-content>div{
+    width:250px;
+    height:70px;
+    background-color: #e5e1e1;
+    margin-left: 20px;
+    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);
+    border-radius:10px;
+    font-size: .8rem;
+    color: black;
+  }
+  .uppersidebar-content a{
+    text-decoration: none;
+    color:black;
+  }
+  .banktransfer p{
+    padding-left: 40px;
+  }
+  .banktransfer img{
+    width:40px;
+    margin-left: 70px;
+  }
+  .cash p{
+    padding-left: 70px;
+  }
+  .cash img{
+    width:40px;
+    margin-left: 70px;
+  }
+  .other img{
+    width:25px;
+    margin-left: 80px;
+    padding-top: 15px;
+  }
+  .other p{
+    padding-left: 40px;
+  }
+  
+  .creditcardinfo-header{
+    padding-left: 20px;
+    padding-top: 20px;
+    text-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);
+    color:black;
+    font-size: 20px;
+  }
+  
+  .right-content2 form{
+    margin-left: 10px;
+    width: 100%;
+    height: auto;
+    background-color: #e5e1e1;;
+    color: forestgreen;
+    border-radius: 20px;
+    padding: 10px;
+    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);
+    
+  }
+  
+  
+  
+  .content {
+    display: none;
+    padding: 10px;
+  }
+  .active {
+    display: block;
+  }
+  
+  
+  .right-content2 form p{
+    font-size: 20px;
+    color:black;
+  }
+  .Expiry{
+    display: flex;
+    gap:10px;
+    height: 2rem;
+  }
+  .expiry1{
+    height: 5rem;
+  }
+  
+  .cashexpiry2{
+    height: 5rem;
+  }
+  .input1{
+    width:30rem;
+    height:2rem;
+    font-size: 1rem;
+  }
+  .input2{
+    width:5rem;
+    height:2rem;
+    font-size: 1rem;
+  }
+  .confirmbtn{
+    width:100%;
+    height: 3rem;
+    background-color: forestgreen;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+  
+  
+  
+    .adminlinks {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem; /* Spacing between each link */
+      align-items: flex-start; /* Aligns all links to the left */
+      margin-left: 10px;
+    }
+    
+    .adminlinks span {
+      display: flex;
+      align-items: center; /* Align icons and text vertically */
+      width: 100%; /* Ensure the full span takes up the width */
+    }
+    
+    .adminlinks img {
+      width: 25px;
+      margin-right: 5px; /* Space between icon and text */
+    }
+    
+    .adminlinks a {
+      text-decoration: none;
+      color: white;
+      font-size: 1rem; /* Adjust font size for better readability */
+      display: inline-block;
+    }
+    
+    .adminlinks .logout-link {
+      width: 100%;
+      padding: 10px 0; /* Add padding to align with other links */
+    }
+    
+    .adminlinks span:last-child {
+      margin-top: 0.3rem; /* Adjust margin to move the logout button up */
+    }
