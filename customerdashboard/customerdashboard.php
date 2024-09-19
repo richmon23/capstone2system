@@ -155,7 +155,10 @@ require_once '../connection/connection.php'; // Include your database connection
                     </div>
                 </div> -->
 
-                <!-- Change Password Modal -->
+        <!-- TODO: Alert message  -->
+        <div id="alertMessage"></div>
+
+         <!-- TODO: Change Password Modal  -->
         <div id="changePasswordModal" class="modal">
             <div class="modal-content">
                 <div class="modal-header">
@@ -165,15 +168,15 @@ require_once '../connection/connection.php'; // Include your database connection
                 <form action="change_password.php" method="POST">
                     <div class="form-group">
                         <label for="currentPassword">Current Password</label>
-                        <input type="password" id="currentPassword" name="current_password" required>
+                        <input type="password" id="currentPassword" name="currentPassword" required>
                     </div>
                     <div class="form-group">
                         <label for="newPassword">New Password</label>
-                        <input type="password" id="newPassword" name="new_password" required>
+                        <input type="password" id="newPassword" name="newPassword" required>
                     </div>
                     <div class="form-group">
                         <label for="confirmPassword">Confirm New Password</label>
-                        <input type="password" id="confirmPassword" name="confirm_password" required>
+                        <input type="password" id="confirmPassword" name="confirmPassword" required>
                     </div>
                     <button type="submit" class="btn-primary">Change Password</button>
                 </form>
@@ -214,6 +217,30 @@ require_once '../connection/connection.php'; // Include your database connection
                             event.target.style.display = 'none';
                         }
                     }
+
+                     // TODO: alert button functionality
+                    // Function to show an alert
+                    function showAlert(message, type) {
+                            const alertBox = document.getElementById('alertMessage');
+                            alertBox.innerText = message;
+                            alertBox.className = type; // Add type class to style differently
+                            alertBox.style.display = 'block';
+                            setTimeout(() => {
+                                alertBox.style.display = 'none';
+                            }, 5000); // Hide the alert after 5 seconds
+                        }
+
+                        // Check URL parameters for messages
+                        const urlParams = new URLSearchParams(window.location.search);
+                        const successMessage = urlParams.get('success');
+                        const errorMessage = urlParams.get('error');
+
+                        if (successMessage) {
+                            showAlert(successMessage, 'success');
+                        } else if (errorMessage) {
+                            showAlert(errorMessage, 'error');
+                        }
+
                 </script>
             </div>
         </div>

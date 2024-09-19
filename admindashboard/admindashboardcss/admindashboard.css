@@ -355,3 +355,21 @@ background-color: black;
   content: '\f002'; /* Font Awesome search icon */
 }
 
+/* TODO:CHANGEPASSWORD MODAL SUCCESS */
+
+/* Basic styling for the alert */
+#alertMessage {
+  display: none;
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background-color: #f44336; /* Red background */
+  color: white; /* White text color */
+  padding: 15px;
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  z-index: 1000; /* Ensure the alert is on top */
+}
+#alertMessage.success {
+  background-color: #4CAF50; /* Green background */
+}

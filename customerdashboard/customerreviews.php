@@ -128,7 +128,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>FULL NAME</th>
+                                <th>NAME</th>
                                 <th>USER FEEDBACK</th>
                                 <th>RATING</th>
                                 <th>TIME</th>
