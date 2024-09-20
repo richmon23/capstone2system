@@ -57,8 +57,8 @@ require_once '../connection/connection.php';
             </div>
             <div class="right-content2">
                 <br>
-                <!-- <button class="btnadd" onclick="openAddModal()"><img src="./images/add-user.png" alt=""></button> -->
-                <!-- <table id="myTable">
+                <button class="btnadd" onclick="openAddModal()"><img src="./images/add-user.png" alt=""></button>
+              <table id="myTable">
                     <thead>
                         <tr>
                             <th>Full Name</th>
@@ -98,7 +98,7 @@ require_once '../connection/connection.php';
                             <tr><td colspan="9">No reservations found.</td></tr>
                         <?php endif; ?>
                     </tbody>
-                </table> -->
+                </table> 
                 <!-- Modal for Adding a New Reservation -->
                 <div id="addModal" class="modal">
                     <div class="modal-content">

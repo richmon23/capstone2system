@@ -162,9 +162,10 @@ require_once '../connection/connection.php'; // Include your database connection
         <div id="changePasswordModal" class="modal">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5>Change Password</h5>
+                    <h1>Change Password</h1>
                     <button class="close-btn" onclick="closeModal('changePasswordModal')">&times;</button>
                 </div>
+                <br>
                 <form action="change_password.php" method="POST">
                     <div class="form-group">
                         <label for="currentPassword">Current Password</label>

@@ -136,6 +136,7 @@ if (isset($pdo)) {
                     <h1>Change Password</h1>
                     <button class="close-btn" onclick="closeModal('changePasswordModal')">&times;</button>
                 </div>
+                <br>
                 <form action="change_password.php" method="POST">
                     <div class="form-group">
                         <label for="currentPassword">Current Password</label>

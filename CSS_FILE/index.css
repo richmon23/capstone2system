@@ -54,6 +54,7 @@ body, html {
 
 .menu-bar nav ul li {
     margin-left: 20px;
+    padding-right: 10px;
 }
 
 .menu-bar nav ul li a {

@@ -223,33 +223,36 @@ tr:hover {
   overflow-x: hidden; /* Remove horizontal scroll */
 }
 
+.actions {
+  display: flex;        /* Align buttons horizontally */
+  gap: 10px;            /* Space between the buttons */
+  justify-content: flex-start; /* Align buttons to the left */
+  align-items: center;  /* Vertically align the buttons */
+}
 
+.button {
+  padding: 10px 20px;    /* Adjust padding for button size */
+  border: none;          /* Remove borders */
+  cursor: pointer;       /* Change cursor to pointer on hover */
+  border-radius: 20px;   /* Rounded corners */
+  color: white;          /* Text color */
+  text-align: center;    /* Horizontally center text */
+  font-size: 14px;       /* Adjust font size */
+  transition: transform 0.3s ease-in-out; /* Transition effect */
+}
 
-  .actions {
-    display: flex;
-    gap: 10px;
-  }
-  .button {
-    padding: 18px 30px;      /* Padding for button size */
-    border: none;            /* Remove borders */
-    cursor: pointer;         /* Change cursor to pointer on hover */
-    border-radius: 20px;     /* Rounded corners */
-    color: white;            /* Text color */
-    background-color: blue;  /* Button background color */
-    text-align: center;      /* Horizontally center text */
-    margin-top: 5%;          /* Add margin at the top */
-    font-size: 12px;         /* Adjust text size */
-  }
-  .update {
-    background-color: #4caf50;
-  }
-  .delete {
-    background-color: #f44336;
-  }
-  .button:hover{
-    transform: scale(1.1);
-  }
-  
+.update {
+  background-color: #4caf50; /* Green background for update button */
+}
+
+.delete {
+  background-color: #f44336; /* Red background for delete button */
+}
+
+.button:hover {
+  transform: scale(1.1); /* Hover effect */
+}
+
   /* Modal styles */
   .modal {
     display: none; /* Hidden by default */
@@ -305,6 +308,7 @@ tr:hover {
     cursor: pointer;
     border-radius: 10px;
     margin-left: 5px;
+    transition: transform 0.3s ease-in-out; /* Transition effect */
   }
   
   .btnadd img {

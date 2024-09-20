@@ -112,8 +112,8 @@ if (isset($pdo)) {
                             <tr>
                                 <th>Full Name</th>
                                 <th>Package</th>
-                                <th>Plot #</th>
-                                <th>Block #</th>
+                                <th>Plot</th>
+                                <th>Block</th>
                                 <th>Email</th>
                                 <th>Contact</th>
                                 <th>Time</th>
@@ -133,11 +133,11 @@ if (isset($pdo)) {
                                         <td><?php echo htmlspecialchars($reservation['time']); ?></td>
                                         <td class="actions">
                                             <button class="button update" onclick="openModal(<?php echo htmlspecialchars(json_encode($reservation)); ?>)">Update</button>
-                                            <form method="post" style="display:inline-block;">
-                                                <input type="hidden" name="id" value="<?php echo $reservation['id']; ?>">
-                                                <input type="hidden" name="action" value="delete">
-                                                <button type="submit" class="button delete">Delete</button>
-                                            </form>
+                                            <form method="post" style="display:inline-block;" onsubmit="return confirmDelete()">
+                                            <input type="hidden" name="id" value="<?php echo $reservation['id']; ?>">
+                                            <input type="hidden" name="action" value="delete">
+                                            <button type="submit" class="button delete">Delete</button>
+                                        </form>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>
@@ -273,6 +273,16 @@ if (isset($pdo)) {
                                 closeModal();
                             }
                         }
+
+                         // TODO: CONFIRM TO DELETE BUTTON
+                        function confirmDelete() {
+                            if (confirm("Are you sure you want to delete this reservation?")) {
+                                return true;
+                            } else {
+                                return false;
+                            }
+                        }
+
                     </script>
                 </div>
             </div>
