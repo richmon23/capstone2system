@@ -16,8 +16,8 @@ require_once '../connection/connection.php';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Customer Reservation </title>
-    <link rel="stylesheet" href="./customerdashboard_css/customerreservation.css">
+    <title>Map Navigation</title>
+    <link rel="stylesheet" href="./customerdashboard_css/customernavigation.css">
 </head> 
 <body>
 
@@ -39,7 +39,7 @@ require_once '../connection/connection.php';
                     <span><img src="../images/reservation.png" alt="">&nbsp;&nbsp;&nbsp;<a href="/customerdashboard/customerreservation.php">Reservation</a></span>
                     <span><img src="../images/payment.png" alt="">&nbsp;&nbsp;&nbsp;<a href="/customerdashboard/customerpayment.php">Payments</a></span>
                     <span><img src="../images/review.png" alt="">&nbsp;&nbsp;&nbsp;<a href="/customerdashboard/customerreviews.php">Reviews</a></span>
-                    <span><img src="../images/map.png" alt="">&nbsp;&nbsp;&nbsp;<a href="/customerdashboard/mapnavigation.php">Map Navigation</a></span>
+                    <span><img src="../images/map.png" alt="">&nbsp;&nbsp;&nbsp;<a href="/customerdashboard/customerreviews.php">Map Navigation</a></span>
                     <!-- <span><img src="../images/settings.png" alt="">&nbsp;&nbsp;&nbsp;<a href="/customerdashboard/customersettings.php">Settings</a></span> -->
                     <span><img src="../images/logout.png" alt="">&nbsp;&nbsp;&nbsp;<a href="../logout.php">Logout</a></span>
                 </div>
@@ -48,14 +48,15 @@ require_once '../connection/connection.php';
         </div>
         <div class="main">
             <div class="right-content1">
-                <div class="right-header col-9"> 
+                <br>
+                <br>
+                <div class="right-header col-9">
                     <br>
-                    <span class="header"><h1>Customer Reservation</h1></span>
+                    <span><h1>Map Navigation</h1></span>
+        
                 </div>
             </div>
             <div class="right-content2">
-             <div class="left-aside">left content</div>
-             <div class="right-aside"><img src="../images/bogomemoriallogo.png" alt="bogomemorialparklogo"></div>
                
             </div>
         </div>

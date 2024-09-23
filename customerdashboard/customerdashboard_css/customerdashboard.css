@@ -50,7 +50,7 @@ body {
 }
 
 .left-content {
-  background-color: rgb(20, 100, 20);
+  background-color: white;
   color: white;
   border-radius: 25px;
   height: 95vh;
@@ -177,9 +177,13 @@ body {
 
 .adminlinks a {
   text-decoration: none;
-  color: white;
+  color:forestgreen;
   font-size: 1rem; /* Adjust font size for better readability */
   display: inline-block;
+}
+
+.adminlinks a:hover{
+  border-radius: solid black 2px;
 }
 
 .adminlinks .logout-link {
@@ -215,7 +219,7 @@ body {
 
 .dropdown-btn {
   background-color: transparent;
-  color: white;
+  color:forestgreen;
   padding: 10px 20px;
   border: none;
   cursor: pointer;

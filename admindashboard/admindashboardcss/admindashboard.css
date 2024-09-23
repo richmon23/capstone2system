@@ -373,3 +373,13 @@ background-color: black;
 #alertMessage.success {
   background-color: #4CAF50; /* Green background */
 }
+
+
+/* TODO: admindashboard-number-counter */
+.dashboard-counter-number{
+  font-size: 30px;
+  text-align: center;
+  padding-top: 17px;
+  color: forestgreen;
+  font-weight: 400;
+}

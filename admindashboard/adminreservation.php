@@ -43,6 +43,40 @@ if (isset($pdo)) {
                 }
             }
         }
+
+        
+        // TODO:update reservations table with updated data
+
+        // if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action']) && $_POST['action'] == 'update') {
+        //     if (!empty($_POST['id']) && !empty($_POST['fullname']) && !empty($_POST['package']) && !empty($_POST['plotnumber']) && !empty($_POST['blocknumber']) && !empty($_POST['email']) && !empty($_POST['contact']) && !empty($_POST['time'])) {
+        //         // Prepare the SQL statement
+        //         $stmt = $pdo->prepare("UPDATE reservation SET fullname = ?, package = ?, plotnumber = ?, blocknumber = ?, email = ?, contact = ?, time = ? WHERE id = ?");
+                
+        //         // Execute the update query
+        //         if ($stmt->execute([$_POST['fullname'], $_POST['package'], $_POST['plotnumber'], $_POST['blocknumber'], $_POST['email'], $_POST['contact'], $_POST['time'], $_POST['id']])) {
+        //             echo "<script>
+        //                     document.getElementById('alert-box').innerHTML = 'Record updated successfully!';
+        //                     document.getElementById('alert-box').className = 'alert success';
+        //                     setTimeout(function() {
+        //                         document.getElementById('alert-box').style.display = 'none';
+        //                     }, 5000); // Auto-dismiss after 5 seconds
+        //                   </script>";
+        //         } else {
+        //             echo "<script>
+        //                     document.getElementById('alert-box').innerHTML = 'Error updating record.';
+        //                     document.getElementById('alert-box').className = 'alert error';
+        //                   </script>";
+        //         }
+        //     } else {
+        //         echo "<script>
+        //                 document.getElementById('alert-box').innerHTML = 'All fields are required.';
+        //                 document.getElementById('alert-box').className = 'alert error';
+        //               </script>";
+        //     }
+        // }
+        
+        
+        
     }
 
     // Fetch data from the database
@@ -62,6 +96,8 @@ if (isset($pdo)) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Reservation</title>
     <link rel="stylesheet" href="./admindashboardcss/adminreserved.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
     <div class="row">
@@ -79,7 +115,7 @@ if (isset($pdo)) {
                             <span><img src="../images/deceased.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminDeceased.php">Deceased</a></span>
                             <span><img src="../images/reservation.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminreservation.php">Reservation</a></span>
                             <span><img src="../images/review.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminreviews.php">Reviews</a></span>
-                            <span><img src="../images/settings.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminsettings.php">Settings</a></span>
+                            <!-- <span><img src="../images/settings.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminsettings.php">Settings</a></span> -->
                             <span><img src="../images/payment.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminpayment.php">Payments</a></span>
                             <br>
                             <span><img src="../images/logout.png" alt="">&nbsp;&nbsp;&nbsp;<a href="../logout.php">Logout</a></span>
@@ -91,8 +127,12 @@ if (isset($pdo)) {
             <div class="right-content1">
                 <div class="right-header col-10">
                     <br>
-                    <br>
                     <span><h1>Reservation</h1></span>
+                    <div class="search-box">
+                        <i class="fas fa-search search-icon"></i>
+                        <!-- <input type="text" class="search-input" placeholder="Search"> -->
+                        <input type="text" id="search" class="search-input" placeholder="Search reservations...">
+                    </div>
                     <!-- <button onclick="openAddModal()">Add Reservation</button> -->
                 </div>
             </div>
@@ -120,30 +160,8 @@ if (isset($pdo)) {
                                 <th>Action</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <?php if (isset($reservations) && !empty($reservations)): ?>
-                                <?php foreach ($reservations as $reservation): ?>
-                                    <tr>
-                                        <td><?php echo htmlspecialchars($reservation['fullname']); ?></td>
-                                        <td><?php echo htmlspecialchars($reservation['package']); ?></td>
-                                        <td><?php echo htmlspecialchars($reservation['plotnumber']); ?></td>
-                                        <td><?php echo htmlspecialchars($reservation['blocknumber']); ?></td>
-                                        <td><?php echo htmlspecialchars($reservation['email']); ?></td>
-                                        <td><?php echo htmlspecialchars($reservation['contact']); ?></td>
-                                        <td><?php echo htmlspecialchars($reservation['time']); ?></td>
-                                        <td class="actions">
-                                            <button class="button update" onclick="openModal(<?php echo htmlspecialchars(json_encode($reservation)); ?>)">Update</button>
-                                            <form method="post" style="display:inline-block;" onsubmit="return confirmDelete()">
-                                            <input type="hidden" name="id" value="<?php echo $reservation['id']; ?>">
-                                            <input type="hidden" name="action" value="delete">
-                                            <button type="submit" class="button delete">Delete</button>
-                                        </form>
-                                        </td>
-                                    </tr>
-                                <?php endforeach; ?>
-                            <?php else: ?>
-                                <tr><td colspan="8">No reservations found.</td></tr>
-                            <?php endif; ?>
+                        <tbody id="result">
+                            <tr><td colspan="8">No reservations found.</td></tr>
                         </tbody>
                     </table>
                     </div>
@@ -242,7 +260,6 @@ if (isset($pdo)) {
                         }
 
                         function openModal(data) {
-                            console.log(data);  // Check what data is received
                             document.getElementById("modal_id").value = data.id;
                             document.getElementById("modal_fullname").value = data.fullname;
                             document.getElementById("modal_package").value = data.package;
@@ -251,11 +268,11 @@ if (isset($pdo)) {
                             document.getElementById("modal_email").value = data.email;
                             document.getElementById("modal_contact").value = data.contact;
 
-                            // Ensure the date is correctly formatted and logged
-                            console.log("Original Time:", data.time);
-                            var formattedTime = data.time.replace(" ", "T");
-                            console.log("Formatted Time:", formattedTime);
-                            document.getElementById("modal_time").value = formattedTime;
+                            // Ensure the time is correctly formatted
+                            if (data.time) {
+                                var formattedTime = data.time.replace(" ", "T");
+                                document.getElementById("modal_time").value = formattedTime;
+                            }
 
                             updateModal.style.display = "block";
                         }
@@ -282,6 +299,30 @@ if (isset($pdo)) {
                                 return false;
                             }
                         }
+
+
+                        // TODO: search function jquery
+                            $(document).ready(function() {
+                            // Fetch all reservations initially
+                            fetchReservations('');
+
+                            // Search functionality
+                            $('#search').on('keyup', function() {
+                                var query = $(this).val();
+                                fetchReservations(query);
+                            });
+
+                            function fetchReservations(query) {
+                                $.ajax({
+                                    url: "search.php",
+                                    method: "POST",
+                                    data: {query: query},
+                                    success: function(data) {
+                                        $('#result').html(data);
+                                    }
+                                });
+                            }
+                        });
 
                     </script>
                 </div>

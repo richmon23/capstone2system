@@ -319,6 +319,39 @@ body {
     padding-left:5px;
   }
   
-
-
+  
+    /* TODO: search bar dashboard  */
+.right-header {
+  position: relative;
+  }
+  
+  .search-box {
+    position: absolute;
+    margin-top: 10px;
+    left: 45%;
+    display: flex;
+    align-items: center;
+    position: absolute;
+    top: 20px;
+    left:650px;
+  }
+  
+  .search-input {
+    padding: 8px 8px 8px 30px; /* Add padding-left to make room for the icon */
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 250px;
+  }
+  
+  .search-icon {
+    position: absolute;
+    left: 10px; /* Position the icon inside the left corner */
+    font-size: 16px;
+    color: #666;
+  }
+  
+  .search-icon::before {
+    content: '\f002'; /* Font Awesome search icon */
+  }
   

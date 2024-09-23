@@ -55,6 +55,7 @@ require_once '../connection/connection.php'; // Include your database connection
                 <span><img src="../images/reservation.png" alt="">&nbsp;&nbsp;&nbsp;<a href="/customerdashboard/customerreservation.php">Reservation</a></span>
                 <span><img src="../images/payment.png" alt="">&nbsp;&nbsp;&nbsp;<a href="/customerdashboard/customerpayment.php">Payments</a></span>
                 <span><img src="../images/review.png" alt="">&nbsp;&nbsp;&nbsp;<a href="/customerdashboard/customerreviews.php">Reviews</a></span>
+                <span><img src="../images/map.png" alt="">&nbsp;&nbsp;&nbsp;<a href="/customerdashboard/mapnavigation.php">Map Navigation</a></span>
                 <!-- <span><img src="../images/settings.png" alt="">&nbsp;&nbsp;&nbsp;<a href="/customerdashboard/customersettings.php">Settings</a></span> -->
                 <span><img src="../images/logout.png" alt="">&nbsp;&nbsp;&nbsp;<a href="../logout.php">Logout</a></span>
              </div>
@@ -79,11 +80,11 @@ require_once '../connection/connection.php'; // Include your database connection
                 <br>
                 <br>
                 <div class="rightsidebar-content">
-                    <div class="div">Weekly Reserved</div>
-                    <div class="div">Monthly Reseved</div>
-                    <div class="div">Messages</div>
+                    <div class="div">Reservation Status</div>
+                    <!-- <div class="div">Monthly Reseved</div> -->
+                    <!-- <div class="div">Messages</div> -->
                     <div class="div">Available Plots</div>
-                    <div class="div">Payment History</div>
+                    <!-- <div class="div">Payment History</div> -->
                  </div>
             </div>
                 <!-- Modal for Adding a New Reservation -->

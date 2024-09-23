@@ -8,6 +8,13 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
+// Initialize variables
+$total_weekly_reservations = 0;
+$total_monthly_reservations = 0;
+$total_yearly_reservations = 0;
+
+
+
 $firstname = isset($_SESSION['firstname']) ? htmlspecialchars($_SESSION['firstname']) : 'Guest';
 $email = isset($_SESSION['email']) ? htmlspecialchars($_SESSION['email']) : '';
 
@@ -54,6 +61,76 @@ if (isset($pdo)) {
 } else {
     echo 'Database connection failed. Please try again later.';
     exit();
+
+    if (isset($pdo)) {
+    try {
+        // Fetch number of reservations for the current week
+        $weekly_sql = "
+            SELECT COUNT(*) AS total_reservations
+            FROM reservation
+            WHERE YEARWEEK(time, 1) = YEARWEEK(CURDATE(), 1)";
+        $weekly_stmt = $pdo->query($weekly_sql);
+        $weekly_result = $weekly_stmt->fetch(PDO::FETCH_ASSOC);
+        $total_weekly_reservations = $weekly_result['total_reservations'];
+
+        // Fetch number of reservations for the current month
+        $monthly_sql = "
+            SELECT COUNT(*) AS total_reservations
+            FROM reservation
+            WHERE YEAR(time) = YEAR(CURDATE()) AND MONTH(time) = MONTH(CURDATE())";
+        $monthly_stmt = $pdo->query($monthly_sql);
+        $monthly_result = $monthly_stmt->fetch(PDO::FETCH_ASSOC);
+        $total_monthly_reservations = $monthly_result['total_reservations'];
+        
+    } catch (PDOException $e) {
+        // Display error if there is a connection problem
+        echo "Error: " . $e->getMessage();
+    }
+} else {
+    echo 'Database connection failed. Please try again later.';
+    exit();
+}
+
+}
+
+if (isset($pdo)) {
+    try {
+        // Fetch number of reservations for the current week
+        $weekly_sql = "
+            SELECT COUNT(*) AS total_reservations
+            FROM reservation
+            WHERE YEARWEEK(time, 1) = YEARWEEK(CURDATE(), 1)";
+        $weekly_stmt = $pdo->query($weekly_sql);
+        $weekly_result = $weekly_stmt->fetch(PDO::FETCH_ASSOC);
+        $total_weekly_reservations = $weekly_result['total_reservations'];
+
+        // Fetch number of reservations for the current month
+        $monthly_sql = "
+            SELECT COUNT(*) AS total_reservations
+            FROM reservation
+            WHERE YEAR(time) = YEAR(CURDATE()) AND MONTH(time) = MONTH(CURDATE())";
+        $monthly_stmt = $pdo->query($monthly_sql);
+        $monthly_result = $monthly_stmt->fetch(PDO::FETCH_ASSOC);
+        $total_monthly_reservations = $monthly_result['total_reservations'];
+
+
+        // Fetch number of reservations for the current year
+        $yearly_sql = "
+            SELECT COUNT(*) AS total_reservations
+            FROM reservation
+            WHERE YEAR(time) = YEAR(CURDATE())";
+        $yearly_stmt = $pdo->query($yearly_sql);
+        $yearly_result = $yearly_stmt->fetch(PDO::FETCH_ASSOC);
+        $total_yearly_reservations = $yearly_result['total_reservations'];
+
+        
+    } catch (PDOException $e) {
+        // Display error if there is a connection problem
+        echo "Error: " . $e->getMessage();
+    }
+} else {
+    echo 'Database connection failed. Please try again later.';
+    exit();
 }
 ?>
 <!DOCTYPE html>
@@ -91,24 +168,24 @@ if (isset($pdo)) {
                             <span><img src="../images/deceased.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminDeceased.php">Deceased</a></span>
                             <span><img src="../images/reservation.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminreservation.php">Reservation</a></span>
                             <span><img src="../images/review.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminreviews.php">Reviews</a></span>
-                            <span><img src="../images/settings.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminsettings.php">Settings</a></span>
+                            <!-- <span><img src="../images/settings.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminsettings.php">Settings</a></span> -->
                             <span><img src="../images/payment.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminpayment.php">Payments</a></span>
                             <span><img src="../images/logout.png" alt="">&nbsp;&nbsp;&nbsp;<a href="../logout.php">Logout</a></span>
                         </div>
                         <br>
                 </div>
-                    <div class="main">
+                <div class="main">
                         <div class="right-content1">
-                        <div class="right-header col-9">
-                        <span>
-                            <h1>Bogo Memorial Park</h1>
-                            <h1>Admin Dashboard</h1>
-                        </span>
-                        <div class="search-box">
-                            <i class="fas fa-search search-icon"></i>
-                            <input type="text" class="search-input" placeholder="Search">
-                        </div>
-                </div>
+                            <div class="right-header col-9">
+                                <span>
+                                    <h1>Bogo Memorial Park</h1>
+                                    <h1>Admin Dashboard</h1>
+                                </span>
+                                <div class="search-box">
+                                    <i class="fas fa-search search-icon"></i>
+                                    <input type="text" class="search-input" placeholder="Search">
+                                </div>
+                            </div>
                         </div>
                         <div class="right-content2">
                             <br>
@@ -116,12 +193,27 @@ if (isset($pdo)) {
                             <br>
                             <br>
                             <div class="rightsidebar-content">
-                                <div class="div">Weekly Reserved</div>
-                                <div class="div">Monthly Reseved</div>
-                                <div class="div">Messages</div>
-                                <div class="div">Available Plots</div>
-                                <div class="div">Payment History</div>
+                            <div class="div">
+                                <h3>Weekly Reservations</h3>
+                                <p class="dashboard-counter-number"> <?php echo $total_weekly_reservations; ?></p>
                             </div>
+                            <div class="div">
+                                <h3>Monthly Reservations</h3>
+                                <p class="dashboard-counter-number"> <?php echo $total_monthly_reservations; ?></p>
+                            </div>
+		                    <div class="div">
+                                <h3>Yearly Reservations</h3>
+                                <p class="dashboard-counter-number"> <?php echo $total_yearly_reservations; ?></p>
+                            </div>
+                            <!-- <div class="div"> -->
+                                <!-- <h3>Messages</h3> -->
+                                <!-- <p class="dashboard-counter-number"> <?php echo $total_reservations; ?></p> -->
+                            <!-- </div> -->
+                            <div class="div">
+                                <h3>Available Plots</h3>
+                            </div>
+                            <!-- <div class="div">Payment History</div> -->
+                        </div>
                         </div>
                     </div>
         </div>

@@ -73,8 +73,8 @@
     display: flex;
   }
   .left-content {
-    background-color: rgb(20, 100, 20);
-    color: white;
+    background-color: white;
+    color: forestgreen;
     border-radius: 25px;
     height: 95vh;
     margin-top: 0.6rem;
@@ -299,7 +299,7 @@
     
     .adminlinks a {
       text-decoration: none;
-      color: white;
+      color: forestgreen;
       font-size: 1rem; /* Adjust font size for better readability */
       display: inline-block;
     }

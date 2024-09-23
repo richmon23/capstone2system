@@ -62,6 +62,8 @@ if (isset($pdo)) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Deceased Person Information</title>
     <link rel="stylesheet" href="./admindashboardcss/admindeceasedinfo.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head> 
 <body>
 
@@ -82,7 +84,7 @@ if (isset($pdo)) {
                             <span><img src="../images/deceased.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminDeceased.php">Deceased</a></span>
                             <span><img src="../images/reservation.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminreservation.php">Reservation</a></span>
                             <span><img src="../images/review.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminreviews.php">Reviews</a></span>
-                            <span><img src="../images/settings.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminsettings.php">Settings</a></span>
+                            <!-- <span><img src="../images/settings.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminsettings.php">Settings</a></span> -->
                             <span><img src="../images/payment.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminpayment.php">Payments</a></span>
                             <br>
                             <span><img src="../images/logout.png" alt="">&nbsp;&nbsp;&nbsp;<a href="../logout.php">Logout</a></span>
@@ -92,56 +94,40 @@ if (isset($pdo)) {
         </div>
         <div class="main">
             <div class="right-content1">
-                <br>
-                <br>
-                <div class="right-header col-9">
+                <div class="right-header col-10">
+                    <br>
                     <span><h1>Deceased Person Information</h1></span>
+                    <div class="search-box">
+                        <i class="fas fa-search search-icon"></i>
+                        <!-- <input type="text" class="search-input" placeholder="Search"> -->
+                        <input type="text" id="search" class="search-input" placeholder="Search reservations...">
+                    </div>
+                    <!-- <button onclick="openAddModal()">Add Reservation</button> -->
                 </div>
             </div>
             <div class="right-content2">
                 <br>
                 <button class="btnadd" onclick="openAddModal()"><img src="../images/add-user.png" alt=""></button>
                 <div class="table-wrapper">
-                    <table id="myTable">
-                    <thead>
-                        <tr>
-                            <th>Full Name</th>
-                            <th>Address</th>
-                            <th>Born</th>
-                            <th>Departed</th>
-                            <th>Plot</th>
-                            <th>Block</th>
-                            <th>Funeral</th>
-                            <th>Date Created</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php if (isset($reservations) && !empty($reservations)): ?>
-                            <?php foreach ($reservations as $reservation): ?>
-                                <tr>
-                                    <td><?php echo htmlspecialchars($reservation['fullname']); ?></td>
-                                    <td><?php echo htmlspecialchars($reservation['address']); ?></td>
-                                    <td><?php echo htmlspecialchars($reservation['born']); ?></td>
-                                    <td><?php echo htmlspecialchars($reservation['died']); ?></td>
-                                    <td><?php echo htmlspecialchars($reservation['plot']); ?></td>
-                                    <td><?php echo htmlspecialchars($reservation['block']); ?></td>
-                                    <td><?php echo htmlspecialchars($reservation['funeralday']); ?></td>
-                                    <td><?php echo htmlspecialchars($reservation['datecreated']); ?></td>
-                                    <td class="actions">
-                                        <button class="button update" onclick="openModal(<?php echo htmlspecialchars(json_encode($reservation)); ?>)">Update</button>
-                                        <form method="post" style="display:inline-block;" onsubmit="return confirmDelete()">
-                                            <input type="hidden" name="id" value="<?php echo $reservation['id']; ?>">
-                                            <input type="hidden" name="action" value="delete">
-                                            <button type="submit" class="button delete">Delete</button>
-                                        </form>
-                                    </td>
-                                </tr>
-                            <?php endforeach; ?>
-                        <?php else: ?>
-                            <tr><td colspan="9">No reservations found.</td></tr>
-                        <?php endif; ?>
-                    </tbody>
+                <table id="myTable">
+                        <thead>
+                            <tr>
+                                <th>Full Name</th>
+                                <th>Address</th>
+                                <th>Born</th>
+                                <th>Deprated</th>
+                                <th>Plot</th>
+                                <th>Block</th>
+                                <th>Funeral Day</th>
+                                <th>Date Created</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+
+                        <!-- TODO: display the data in table -->
+                        <tbody id="result">
+                            <tr><td colspan="8">No reservations found.</td></tr>
+                        </tbody>
                     </table>
                 </div>   
                 <!-- Modal for Adding a New Reservation -->
@@ -265,6 +251,32 @@ if (isset($pdo)) {
                             return false;
                         }
                     }
+
+
+
+                     // TODO: search function jquery
+                     $(document).ready(function() {
+                            // Fetch all reservations initially
+                            fetchReservations('');
+
+                            // Search functionality
+                            $('#search').on('keyup', function() {
+                                var query = $(this).val();
+                                fetchReservations(query);
+                            });
+
+                            function fetchReservations(query) {
+                                $.ajax({
+                                    url: "searchdeceasedperson.php",
+                                    method: "POST",
+                                    data: {query: query},
+                                    success: function(data) {
+                                        $('#result').html(data);
+                                    }
+                                });
+                            }
+                        });
+
                 </script>
             </div>
         </div>

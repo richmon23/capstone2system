@@ -43,6 +43,7 @@ require_once '../connection/connection.php'; // Include your database connection
                         <span><img src="../images/reservation.png" alt="">&nbsp;&nbsp;&nbsp;<a href="/customerdashboard/customerreservation.php">Reservation</a></span>
                         <span><img src="../images/payment.png" alt="">&nbsp;&nbsp;&nbsp;<a href="/customerdashboard/customerpayment.php">Payments</a></span>
                         <span><img src="../images/review.png" alt="">&nbsp;&nbsp;&nbsp;<a href="/customerdashboard/customerreviews.php">Reviews</a></span>
+                        <span><img src="../images/map.png" alt="">&nbsp;&nbsp;&nbsp;<a href="/customerdashboard/mapnavigation.php">Map Navigation</a></span>
                         <!-- <span><img src="../images/settings.png" alt="">&nbsp;&nbsp;&nbsp;<a href="/customerdashboard/customersettings.php">Settings</a></span> -->
                         <span><img src="../images/logout.png" alt="">&nbsp;&nbsp;&nbsp;<a href="../logout.php">Logout</a></span>
                     </div>
@@ -51,9 +52,9 @@ require_once '../connection/connection.php'; // Include your database connection
                 <div class="right-content1">
                    <div class="right-header col-9">
                     <br>
-                    <br>
                     <span><h1 class="rightsidebar-content"> Payment </h1>
                    <!-- <a href=""><img src="../images/file.png" alt="" class="paymenthistory"></a> -->
+                    <br>
                     <br>
                     <!-- <h3 class="rightsidebar-content2" > Choose Payment Method:</h3> -->
                     <div class="uppersidebar-content">
