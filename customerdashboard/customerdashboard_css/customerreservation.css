@@ -7,6 +7,7 @@
   
   body {
     background-color: #e7e3e3;
+    position: relative;
   }
   
   /* Responsive Design */
@@ -109,6 +110,7 @@
     width: 100%;
     margin-top: 1rem;
     margin-left: 50px;
+    position: relative;
   }
   
   .right-content1 {
@@ -132,17 +134,91 @@
     border-radius: 20px;
     box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);
     display: flex;
+    position: relative;
   }
+
+  /* TODO: main content */
 
   .left-aside{
     width: 50%;
-    background: black;
+    position: relative;
+    
   }
+
+  .form{
+    display:flex;
+    flex-direction: column;
+  }
+
+  .input{
+    width:100%;
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    outline: none;
+    font-size: 14px;
+    margin-left: 50px;
+    margin-top: 30px;
+  }
+
+  .form-left-content{
+    display: flex;
+  }
+
+
+  
+  .form-left-btn{
+    width:50%;
+    padding-top:50px;
+    padding-left:70px;
+    display: flex;
+    gap:20px;
+    position: relative;
+  }
+
+  .add{
+    width:70px;
+    background-color: green;
+    height: 70px;
+    color: white;
+    border-radius:50%;
+    position: absolute;
+    right:450px;
+    bottom:400px;
+  }
+
+
+  .form-left-btn .submit{
+    width:100px;
+    background-color:dodgerblue;
+    height: 50px;
+    border-radius: 10px;
+    color: white;
+  }
+
+  .form-left-btn .cancel{
+    width:100px;
+    background-color: orange;
+    border-radius: 10px;
+    color:white;
+  }
+  
+
+
 
   .right-aside{
     width:50%;
-    background-color: dodgerblue;
+    position: relative;
   }
+
+  .right-aside img{
+    padding-left: 50px;
+    padding-top:70px;
+    width:70vmin;
+  }
+
+
+
   .rightsidebar-content {
     display: flex;
     flex-wrap: wrap;

@@ -82,6 +82,7 @@
     width: 250px; /* Fixed width for desktop */
     position: relative;
     padding: 1rem; /* Add padding inside the sidebar */
+    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);
   }
   
   
@@ -118,6 +119,7 @@
     background-color: white;
     color: forestgreen;
     border-radius: 20px;
+    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);
   
   }
 
@@ -130,6 +132,7 @@
     background-color: white;
     color: rgb(0, 0, 0);
     border-radius: 20px;
+    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);
   }
   
   
@@ -276,12 +279,12 @@
     margin-top: 5px;
     height: 40vh; /* set the height of the container */
     overflow-y: auto; /* add vertical scrollbar */
-    margin-left: 20px;
-    width: 90%;
+    width: 98%;
     background-color: white;
     color: rgb(0, 0, 0);
     border-radius: 20px;
     overflow-x: hidden;
+    margin-top: 5px;
   }
   
 table {

@@ -50,11 +50,33 @@ require_once '../connection/connection.php';
             <div class="right-content1">
                 <div class="right-header col-9"> 
                     <br>
-                    <span class="header"><h1>Customer Reservation</h1></span>
+                    <span class="header"><h1>Reservation</h1></span>
                 </div>
             </div>
             <div class="right-content2">
-             <div class="left-aside">left content</div>
+             <div class="left-aside">
+                <div class="form">
+                    <form action="">
+                            <button class="add">Add</button>
+                            <input type="text" id="name" name="name" class="input" required>
+                            <input type="text" id="name" name="name" class="input" required>
+                            <input type="text" id="name" name="name" class="input" required>
+                        <div class="form-left-content">
+                            <input type="text" id="name" name="name" class="input" required>
+                            <input type="text" id="name" name="name" class="input" required>
+                        </div>
+                        <div class="form-left-content">
+                            <input type="text" id="name" name="name" class="input" required>
+                            <input type="text" id="name" name="name" class="input" required>
+                        </div>
+                        <div class="form-left-btn">
+                            
+                            <button class="submit">Submit</button>
+                            <button class="cancel">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+             </div>
              <div class="right-aside"><img src="../images/bogomemoriallogo.png" alt="bogomemorialparklogo"></div>
                
             </div>

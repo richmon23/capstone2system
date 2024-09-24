@@ -68,10 +68,10 @@ require_once '../connection/connection.php'; // Include your database connection
                             <h1>Bogo Memorial Park</h1>
                             <h1>Customer Dashboard</h1>
                         </span>
-                        <div class="search-box">
+                        <!-- <div class="search-box">
                             <i class="fas fa-search search-icon"></i>
                             <input type="text" class="search-input" placeholder="Search">
-                        </div>
+                        </div> -->
                 </div>
             </div>   
             <div class="right-content2">
