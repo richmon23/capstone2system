@@ -5,7 +5,7 @@
     "width": 2000,
     "height": 2000,
     "scrollTop": 0,
-    "scrollLeft": -609.7768,
+    "scrollLeft": -167.1998,
     "zoomLevel": 1,
     "show": 431,
     "database": 4,
@@ -213,25 +213,6 @@
         "meta": {
           "updateAt": 1726066975848,
           "createAt": 1726060154378
-        }
-      },
-      "epoMuX_zrvr2JyQujTU51": {
-        "id": "epoMuX_zrvr2JyQujTU51",
-        "name": "reviews",
-        "comment": "",
-        "columnIds": [],
-        "seqColumnIds": [],
-        "ui": {
-          "x": 873,
-          "y": 651,
-          "zIndex": 34,
-          "widthName": 60,
-          "widthComment": 60,
-          "color": ""
-        },
-        "meta": {
-          "updateAt": 1726066151962,
-          "createAt": 1726060167877
         }
       }
     },
@@ -961,14 +942,6 @@
       -1,
       {
         "name": 1726060157731
-      }
-    ],
-    "epoMuX_zrvr2JyQujTU51": [
-      "tableEntities",
-      1726060167872,
-      1726066937448,
-      {
-        "name": 1726060170074
       }
     ],
     "mtpcj13JvWhMNX40vMbn5": [

@@ -118,6 +118,7 @@ body {
   background-color: white;
   color: forestgreen;
   border-radius: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2)
 
 }
 
@@ -129,6 +130,7 @@ body {
   background-color: white;
   color: rgb(0, 0, 0);
   border-radius: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2)
 
 }
 
@@ -159,6 +161,47 @@ body {
     display: inline-block;
   }
   
+  .memoriallogo img {
+    width: 95px;
+    position: absolute;
+    top: 0.6rem;
+    filter: drop-shadow (0px, 0px, 20px,black);
+  }
+  
+  .hamburgermenu img {
+    width: 20px;
+    float: right;
+    margin-top: 0.6rem;
+  }
+  
+  .adminprofile img {
+    width: 100px;
+    margin-top: 3rem;
+    padding-left: 30px;
+  
+  
+  }
+  
+  .memoriallogo img {
+      width: 95px;
+      position: absolute;
+      top: 0.6rem;
+      filter: drop-shadow (0px, 0px, 20px,black);
+    }
+    
+    .hamburgermenu img {
+      width: 20px;
+      float: right;
+      margin-top: 0.6rem;
+    }
+    
+    .adminprofile img {
+      padding-top: 20px;
+      border-radius: 50%;
+      width: 150px;
+    
+    }
+  
   .adminlinks .logout-link {
     width: 100%;
     padding: 10px 0; /* Add padding to align with other links */
@@ -170,68 +213,88 @@ body {
 
   
   .table-container {
-    
     margin-top: 5px;
-    height: 60vh; /* set the height of the container */
-    overflow-y: auto; /* add vertical scrollbar */
+    height: 60vh; /* Set the height of the container */
+    overflow-y: auto; /* Add vertical scrollbar */
     margin-left: 20px;
     width: 130%;
     background-color: white;
     color: rgb(0, 0, 0);
     border-radius: 20px;
     overflow-x: hidden;
-  }
-  
+}
+
+/* Custom Scrollbar for Table Container */
+.table-container::-webkit-scrollbar {
+    width: 12px; /* Width of the scrollbar */
+}
+
+.table-container::-webkit-scrollbar-thumb {
+    background-color: forestgreen; /* Color of the scrollbar thumb */
+    border-radius: 10px; /* Rounded corners for the scrollbar */
+}
+
+.table-container::-webkit-scrollbar-track {
+    background-color: #f1f1f1; /* Background color of the scrollbar track */
+}
+
+/* Table styling */
 table {
     width: 100%;
     border-collapse: collapse;
     margin: 20px 0;
     font-size: 20px;
     text-align: left;
-    color:rgba(0, 0, 0, 0.863);
-    margin-left:20px;
+    color: rgba(0, 0, 0, 0.863);
+    margin-left: 20px;
     padding: 10px;
-  }
-  th,
-  td {
-    padding:13px;
+}
+
+th, td {
+    padding: 13px;
     border-bottom: 1px solid #ddd;
     font-size: 15px;
-  
-  }
-  th {
-    background-color: #4a6fd6;
-  }
-  tr:hover {
-    background-color: #f5f5f5;
-  }
+}
 
-  .fas.fa-star {
+th {
+    background-color: forestgreen;
+    color:white;
+}
+
+tr:hover {
+    background-color: #f5f5f5;
+}
+
+/* Star Rating Icons */
+.fas.fa-star {
     color: gold;
 }
+
 .far.fa-star {
     color: lightgray;
 }
-tr:hover {
-  background-color: #f5f5f5;
-}
+
 .actions {
-  display: flex;
-  gap: 10px;
+    display: flex;
+    gap: 10px;
 }
+
 .button {
-  padding: 19px 10px;
-  border: none;
-  cursor: pointer;
-  border-radius: 4px;
-  color: white;
+    padding: 19px 10px;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    color: white;
 }
+
 .update {
-  background-color: #4caf50;
+    background-color: #4caf50;
 }
+
 .delete {
-  background-color: #f44336;
+    background-color: #f44336;
 }
-.button:hover{
-  transform: scale(1.1);
+
+.button:hover {
+    transform: scale(1.1);
 }

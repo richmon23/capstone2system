@@ -1,545 +1,417 @@
-/* Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Baskervville+SC&display=swap');
-
-
-*{
-    margin:0;
-    padding:0;
-    box-sizing: border-box;
-    font-family: Arial, sans-serif; 
-
+/* Global Styling */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
 }
 
-body, html {
-    height: 100%;
-    scroll-behavior: smooth;
-    overflow-x:hidden;
-
-  }
-
-/* Menu bar styles */
-.menu-bar {
-    background-color: rgba(0, 0, 0, 0.2); /* Semi-transparent background */
-    padding: 10px 20px;
-    color: forestgreen;
+/* Header */
+.header {
+    background-color: #0a5c36;
+    padding: 0.5rem 1rem;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-between; /* Maintain space between logo, nav, and login */
     align-items: center;
-    position: absolute;
-    top: 0;
-    width: 100%;
-    z-index: 1000;
 }
 
-.menu-bar .logo  img{
-    width:20vmin;
-    height:10vh;
+.logo img {
+    width: 150px;
 }
 
-.menu-bar .menu-icon {
-    cursor: pointer;
-    font-size: 24px;
-    display: none;
-    padding-left: 10%;
-    padding-bottom: 15px;
+.nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: center; /* Centers the nav links */
+    gap: 3rem; /* Space between links */
+    margin: 0;
+    padding-right: 70px;
  
 }
 
-.menu-bar nav ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
+.nav ul li {
+    display: inline;
 }
 
-.menu-bar nav ul li {
-    margin-left: 20px;
-    padding-right: 10px;
-}
-
-.menu-bar nav ul li a {
+.nav ul li a {
     color: white;
     text-decoration: none;
-    font-size: 16px;
+    font-weight:lighter;
 }
 
-.menu-bar nav ul li a:hover {
-    text-decoration: underline;
-    color: rgb(5, 5, 5);
+/* Style for the Login Logo */
+.login-logo {
+    display: inline-block; /* Keep it inline like a button */
+    text-decoration: none; /* Remove underline */
 }
 
-
-.btnsignup a{
-    background-color: forestgreen;
+.login-logo img {
+    width: 50px; /* Adjust the width of the logo */
+    height: auto; /* Maintain the aspect ratio */
+    transition: transform 0.3s ease, opacity 0.3s ease; /* Add hover effects */
 }
 
-/* Responsive styles for the hamburger menu */
-@media (max-width: 768px) {
-    .menu-bar .menu-icon {
-        display: block;
-        margin-left: 60%;
-        width: 100%;
-    }
-
-
-    .menu-bar nav ul {
-        display: none;
-        flex-direction: column;
-        position: absolute;
-        top: 50px;
-        left: 0;
-        width: 100%;
-        background-color: rgba(0, 0, 0, 0.9);
-        padding: 20px 0;
-        transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
-    }
-
-    .menu-bar nav ul.show {
-        display: flex;
-        margin-top:38px;
-        background-color: rgba(137, 238, 221, 0.2);
-        
-    }
-
-    .menu-bar nav ul li {
-        margin-left: 0;
-        text-align: center;
-        margin-bottom: 10px;
-    }
+.login-logo img:hover {
+    transform: scale(1.1); /* Zoom effect on hover */
+    opacity: 0.8; /* Slight opacity change on hover */
 }
 
 
-
-header{
-    width:100vw;
-    height:100vh;
-    background-image:url('../images/pic2.jpg');
-    background-position:top;
-    background-size: cover;
+/* Hero Section */
+.hero {
+    background-image: url('../images/cemetery.jpg'); /* Path to your background image */
+    background-size: cover; /* Ensures the image covers the entire section */
+    background-position: center; /* Centers the background image */
+    background-repeat: no-repeat; /* Prevents the image from repeating */
+    height: 100vh; /* Full viewport height */
     display: flex;
-    align-items: flex-end;
+    flex-direction: column;
     justify-content: center;
-    color:rgb(3, 0, 0);
-    clip-path: polygon(0 0, 100% 0,100% 90%,0 100%);
-    backface-visibility: hidden;
-    
-}
-
-
-header h1{
-    font-size: 10vmin;
-    font-weight: bold;
-    /* text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); */
-    filter: drop-shadow(5px 5px 10px #000000);
-    display: block;
-    /* font-size: 1.8rem; */
-    font-weight: 600;
-    /* letter-spacing: 31px; */
-
-
-    /*calling the animation name */
-    animation-name:moveInLeft;
-    animation-duration:7s;
-    animation-timing-function:ease-out;
-}
-@keyframes moveInLeft {
-    0%{
-        opacity:0;
-        transform: translateX(-100px);
-    }
-    80%{
-        transform: translateX(10px);
-    }
-    100%{
-        opacity:1;
-        transform: translate(0);
-    }
-}
-
-
-
-
-header h2{
-    font-size:6vmin;
-    display: block;
-    /* font-size: 1rem; */
-    font-weight: 600;
-    /* letter-spacing: 15px; */
-    color: white;
-
-     /*calling the animation name */
-     animation-name:moveInRight;
-     animation-duration:5s;
-     animation-timing-function:ease-out;
-
-}
-
-
-@keyframes moveInRight {
-    0%{
-        opacity:0;
-        transform: translateX(100px);
-    }
-    80%{
-        transform: translateX(-10px);
-    }
-    100%{
-        opacity:1;
-        transform: translate(0);
-    }
-}
-
-
-
-header a{
-    color: rgb(255, 0, 76);
-    text-decoration: none;
-    font-size: 30px;
-}
-.header-content{
-    margin-bottom: 100px;
-    color: whitesmoke;
+    align-items: center;
     text-align: center;
-
-}
-.line{
-    width:60%;
-    height:4px;
-    background-color: dodgerblue;
-    margin-left: 21%;
-}
-
-.btn{
-    text-align: center;
-    background-color:dodgerblue;
     color: whitesmoke;
-    width:100px;
-    height: 40px;
-    padding: 10px 20px;
-   border-radius: 20px;
-   font-size: 20px;
-   cursor: pointer;
-   /* filter: drop-shadow(5px 5px 10px #000000); */
-
-
-   display: block;
-    /* font-size:3vmin;
-    /* font-weight: 400; */
-    
-    /* background-color:whitesmoke; */
-  
-
-     /*calling the animation name */
-     animation-name:moveInRight;
-     animation-duration:5s;
-     animation-timing-function:ease-out;
-     border-radius: 20px;
-     cursor: pointer;
+    padding: 0 2rem;
 }
-/* @keyframes moveInTop {
-    0%{
-        opacity:0;
-        transform: translateY(-100px);
-    }
-    80%{
-        transform: translateY(10px);
-    }
-    100%{
-        opacity:1;
-        transform: translate(0);
-    }
-} */
 
+.hero h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Adds a shadow for better readability */
+}
 
-
-.btn:hover{
-    background-color: forestgreen;
-   
+.hero p {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
 }
 
 
-
-/* MAIN */
-
-main{
-    background-color:whitesmoke;
-}
-.section-1{
-    margin-top:20px;
-}
-
-
-/* PARALLAX */
-
-  .parallax1 {
-    /* The image used */
-    background-image: url("../images/flower3.jpg");
-    /* Set a specific height */
-    min-height: 300px; 
-    padding: 20px;
-    /* Create the parallax scrolling effect */
-    background-attachment: fixed;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-  }
-  .parallax1-detail{
-    height:40vh;
-    background-color:rgb(229, 202, 147);
-    padding: 40px;
-
-  }
-
-
-  .parallax2 {
-    /* The image used */
-    background-image: url("../images/flower2.jpg");
-    /* Set a specific height */
-    min-height: 300px; 
-    padding: 20px;
-    /* Create the parallax scrolling effect */
-    background-attachment: fixed;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-  }
-
-  .parallax2-detail{
-    height:40vh;
-    background-color:rgb(229, 202, 147);
-    padding: 40px;
-
-  }
-
-  
-
-.parallax3 {
-    /* The image used */
-    background-image: url("../images/flower3.jpg");
-    /* Set a specific height */
-    min-height: 300px; 
-    padding: 20px;
-    /* Create the parallax scrolling effect */
-    background-attachment: fixed;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-  }
-
-  .parallax3-detail{
-    height:40vh;
-    background-color:rgb(229, 202, 147);
-    padding: 40px;
-
-  }
-  .packages-header{
-    margin-top: 50px;
-  }
-  .packages-header:hover{
-    text-decoration: underline;
-  }
-
-  .packages {
-    width: 80%;
-    height: auto;
-    display: flex;
-    flex-wrap: wrap;
-    margin-top: 40px;
-    margin-left: auto;
-    margin-right: auto;
-    padding: 80px;
-    background: rgb(240, 231, 231);
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-}
-
-
-.box{
-    padding: 10px;
-   
-}
-.box img:hover{
-    width: 80%; /* Width on hover */
-}
-
-.packages .box > div {
-    width: 200px;
-    height: 200px;
-    margin: 10px;
-    padding: 20px;
-}
-
-.box img {
-    width: 50%;
-    height: auto;
-    transition: width 0.3s ease; /* Smooth transition for width change */
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-}
-
-.Packages-btn{
-  margin-top: 50px;
-  width: 100px;
-  height: 100px;
-  background-color: dodgerblue;
-  color: white;
-}
-
-@media (max-width: 1200px) {
-    .packages .box > div {
-        width: calc(33.33% - 20px);
-    }
-}
-
-@media (max-width: 900px) {
-    .packages .box > div {
-        width: calc(50% - 20px);
-    }
-}
-
-@media (max-width: 600px) {
-    .packages .box > div {
-        width: 100%;
-    }
-}
-
-
-/* TODO: Photos  */
-
-* {box-sizing: border-box;}
-.mySlides {display: none;}
-/* img {vertical-align: middle;} */
-
-/* Slideshow container */
-.slideshow-container {
- max-width: 80%;
+/* CSS */
+.button-71 {
+  background-color: #30aa44;
+  box-shadow: #333;
+  border: 0;
+  border-radius: 56px;
+  color: #fff;
+  cursor: pointer;
+  display: inline-block;
+  font-family: system-ui,-apple-system,system-ui,"Segoe UI",Roboto,Ubuntu,"Helvetica Neue",sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  outline: 0;
+  padding: 16px 21px;
   position: relative;
-  margin: auto;
-  margin-top: 40px;
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-}
-.mySlides img{
-width:40vmin;
-}
-
-/* Caption text */
-.text {
-  color: #f2f2f2;
-  font-size: 15px;
-  padding: 8px 12px;
-  position: absolute;
-  bottom: 8px;
-  width: 100%;
   text-align: center;
+  text-decoration: none;
+  transition: all .3s;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
 }
 
-/* Number text (1/3 etc) */
-.numbertext {
-  color: #f2f2f2;
-  font-size: 12px;
-  padding: 8px 12px;
+.button-71:before {
+  background-color: initial;
+  background-image: linear-gradient(#fff 0, rgba(255, 255, 255, 0) 100%);
+  border-radius: 125px;
+  content: "";
+  height: 50%;
+  left: 4%;
+  opacity: .5;
   position: absolute;
   top: 0;
+  transition: all .3s;
+  width: 92%;
 }
 
-/* The dots/bullets/indicators */
-.dot {
-  height: 15px;
-  width: 15px;
-  margin: 0 2px;
-  background-color: #bbb;
-  border-radius: 50%;
-  display: inline-block;
-  transition: background-color 0.6s ease;
+.button-71:hover {
+  box-shadow: rgba(255, 255, 255, .2) 0 3px 15px inset, rgba(0, 0, 0, .1) 0 3px 5px, rgba(0, 0, 0, .1) 0 10px 13px;
+  transform: scale(1.05);
 }
 
-.active {
-  background-color: #717171;
+@media (min-width: 768px) {
+  .button-71 {
+    padding: 16px 48px;
+  }
 }
 
-/* Fading animation */
-.fade {
-  animation-name: fade;
-  animation-duration: 1.5s;
-}
-
-@keyframes fade {
-  from {opacity: .4} 
-  to {opacity: 1}
-}
-
-/* On smaller screens, decrease text size */
-@media only screen and (max-width: 300px) {
-  .text {font-size: 11px}
-}  
-
-/* TODO:MAP SECTION */
-
-.map{
-    width:80%;
-    height:70vh;
-    margin-top: 8px;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-    margin-left: 10%;
-}
-    
-
-/* TODO:footer section */
-.footer{
-    width:100%;
-    background-color:rgb(229, 202, 147);
+/* Packages Section */
+#packages {
+    padding: 4rem 2rem;
     text-align: center;
-    padding: 2rem;
-    display:flex;
-    flex-direction: row;
-    justify-content: space-between;
-    margin-top: 90px;
-
-}
-.social-media img{
- width:30px;
- height: 30px;
 }
 
-.divimg{
-    font-size:.8rem;
-  }
-  .div1{
-    font-size:.8rem;
-    padding-top: 40px;
-  }
-  .div2{
-  font-size:.8rem;
-  padding-top: 40px;
-  }
-  .div3{
-    font-size:.8rem;
-    padding-top: 40px;
-  }
-  .social-media img{
-    width:50px;
-  }
-  
-  .social-media img:hover{
-    transform: scale(1.1);
-  }
-  
-/* .social-media{
+#packages h2 {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    color: #0a5c36; /* Optional: matches your site's palette */
+}
+
+/* Package Container */
+.package-container {
     display: flex;
-    align-items: center;
-    margin-top: 20px;
-    color: white;
+    justify-content: space-around;
+    gap: 2rem; /* Space between each package */
+    flex-wrap: wrap; /* Ensure responsiveness by wrapping items on smaller screens */
 }
-.social-media img{
-    width: 60px;
-    height: 60px;
-} */
 
+/* Individual Package */
+.package {
+    background-color: rgb(255, 255, 255);
+    padding: 1.5rem;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    width: 25%; /* Adjust size of the package card */
+    text-align: center;
+    cursor: pointer;
+}
 
+/* Image Resizing */
+.package img {
+    width: 100%; /* Make image take up full width of the package card */
+    height: 250px; /* Fixed height for consistency */
+    object-fit: cover; /* Ensure the image fits nicely */
+    border-radius: 10px; /* Rounded corners */
+    transition: transform 0.3s ease;
+}
+
+/* Zoom on Hover */
+.package:hover img {
+    transform: scale(1.05); /* Slight zoom on hover */
+}
+
+/* Package Hover Effect */
+.package:hover {
+    transform: translateY(-10px); /* Slight lift on hover */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.package h3 {
+    font-size: 1.4rem;
+    margin-top: 1rem;
+    color: #000000; /* Match your site's palette */
+}
+
+.package p {
+    font-size: 1rem;
+    color: #555;
+    margin-top: 0.5rem;
+}
+
+/* Responsive Design */
 @media (max-width: 768px) {
+    .package-container {
+        flex-direction: column;
+        align-items: center;
+    }
 
-    .footer{
-        display:flex;
-        flex-direction: column; 
-     }
+    .package {
+        width: 80%; /* Adjust width for smaller screens */
+        margin-bottom: 2rem;
+    }
+}
+
+/* Section Styling */
+main section {
+    padding: 4rem 2rem;
+    text-align: center;
+}
+
+.package-container {
+    display: flex;
+    justify-content: space-around;
+    gap: 2rem;
+}
+
+/* Image Zoom Effect */
+.zoom {
+    transition: transform 0.3s ease; /* Smooth zoom transition */
+}
+
+.zoom:hover {
+    transform: scale(1.1); /* Zoom effect on hover */
+}
+
+.package img {
+    width: 100%;
+    border-radius: 10px;
+}
+
+/* Footer */
+/* Footer Styling */
+footer {
+    background-color: #0a5c36;
+    color: white;
+    padding: 1rem;
+    text-align: center;
+    position: relative; /* Allows positioning of the back-to-top icon */
+}
+
+/* Back to Top Button Styles */
+.back-to-top {
+    bottom: 2rem;    /* Positioning from the bottom */
+    right: 2rem;     /* Positioning from the right */
+    z-index: 100;    /* Make sure it stays on top of other elements */
+}
+
+.back-to-top a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 3rem;
+    height: 3rem;
+    background-color: #2d6a4f;
+    border-radius: 50%;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.back-to-top a:hover {
+    background-color: #0a5c36; /* Color change on hover */
+}
+
+.back-to-top a svg {
+    width: 2rem;
+    height: 2rem;
+    fill: white; /* Icon color */
+    transition: fill 0.3s ease;
+}
+
+.back-to-top a:hover svg {
+    fill: #fff; /* Optional: Change icon color on hover */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .nav ul {
+        flex-direction: column;
+        display: none;
+    }
+
+    .menu-icon {
+        display: block;
+        color: white;
+        cursor: pointer;
+    }
+
+    .nav.active ul {
+        display: flex;
+    }
+
+    .package-container {
+        flex-direction: column;
+    }
+
+    /* Style for the gallery section */
+    .gallery {
+        text-align: center;
+        padding: 20px;
+    }
+
+    .gallery h2 {
+        font-size: 2rem;
+        margin-bottom: 20px;
+    }
+
+    /* Container for horizontal gallery */
+    .horizontal-gallery-container {
+        display: flex;
+        flex-direction: row; /* Stack the images horizontally (left to right) */
+        justify-content: center; /* Center the images horizontally */
+        gap: 20px; /* Space between the images */
+    }
+
+    /* Style for each image in the gallery */
+    .mySlides img {
+        width: 100%; /* Adjust width of the images */
+        max-width: 300px; /* Optional: limit the maximum width of each image */
+        height: auto;
+        border-radius: 8px; /* Optional styling for image */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Optional shadow effect */
+    }
+}
+
+/* Jiggling Animation */
+@keyframes jiggle {
+    0%, 100% {
+        transform: translateX(0);
+    }
+    25% {
+        transform: translateX(-5px);
+    }
+    50% {
+        transform: translateX(5px);
+    }
+    75% {
+        transform: translateX(-2px);
+    }
+}
+
+.nav ul li a {
+    display: inline-block;
+    transition: transform 0.3s ease;
+}
+
+.nav ul li a:hover {
+    animation: jiggle 1s ease; /* Apply jiggling animation on hover */
+}
+
+/* Bounce Animation */
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+/* Review Section */
+#reviews {
+    padding: 2rem 1rem;
+    text-align: center;
+}
+
+.review-container {
+    display: flex;
+    justify-content: space-around;
+    gap: 2rem; /* Space between each review card */
+    flex-wrap: wrap; /* Ensure responsiveness */
+}
+
+.review-card {
+    background-color: white;
+    padding: 1.5rem;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    width: 25%; /* Adjust size of the review card */
+    cursor: pointer;
+}
+
+/* Zoom on Hover */
+.review-card:hover {
+    transform: scale(5.05); /* Slight zoom on hover */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.review-card blockquote {
+    font-style: italic;
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+}
+
+.review-card p {
+    font-size: 1rem;
+    color: #555;
+}
 
 
+/* Responsive Design for Reviews Section */
+@media (max-width: 768px) {
+    .review-card {
+        max-width: 100%; /* Full width on smaller screens */
+        margin: 10px 0;
+    }
+    
 }

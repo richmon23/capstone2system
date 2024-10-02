@@ -107,6 +107,27 @@ body {
 }
 
 .memoriallogo img {
+  width: 95px;
+  position: absolute;
+  top: 0.6rem;
+  filter: drop-shadow (0px, 0px, 20px,black);
+}
+
+.hamburgermenu img {
+  width: 20px;
+  float: right;
+  margin-top: 0.6rem;
+}
+
+.adminprofile img {
+  width: 100px;
+  margin-top: 3rem;
+  padding-left: 30px;
+
+
+}
+
+.memoriallogo img {
     width: 95px;
     position: absolute;
     top: 0.6rem;
@@ -120,12 +141,12 @@ body {
   }
   
   .adminprofile img {
-    width: 100px;
-    margin-top: 3rem;
-    padding-left: 30px;
-  
+    padding-top: 20px;
+    border-radius: 50%;
+    width: 150px;
   
   }
+
 .main {
   width: 100%;
   margin-top: 1rem;
@@ -140,6 +161,7 @@ body {
   color: forestgreen;
   border-radius: 20px;
   position: relative;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2)
 }
 .paymenthistory {
   padding-left: 58rem;
@@ -156,6 +178,7 @@ body {
   color: forestgreen;
   border-radius: 20px;
   padding: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2)
 }
 
 .rightsidebar-content h1{
@@ -177,7 +200,7 @@ padding-top: 50px;
   height:70px;
   background-color: #e5e1e1;
   margin-left: 20px;
-  box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   border-radius:10px;
   font-size: .8rem;
   color: black;
@@ -225,7 +248,7 @@ padding-top: 50px;
   color: forestgreen;
   border-radius: 20px;
   padding: 10px;
-  box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2)
   
 }
 

@@ -120,7 +120,7 @@
     background-color: white;
     color: forestgreen;
     border-radius: 20px;
-    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     display:flex;
   }
   
@@ -132,7 +132,7 @@
     background-color: white;
     color: rgb(0, 0, 0);
     border-radius: 20px;
-    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     display: flex;
     position: relative;
   }
@@ -145,7 +145,7 @@
     
   }
 
-  .form{
+  .addbtn{
     display:flex;
     flex-direction: column;
   }
@@ -168,7 +168,7 @@
 
   
   .form-left-btn{
-    width:50%;
+    width:100%;
     padding-top:50px;
     padding-left:70px;
     display: flex;
@@ -178,69 +178,45 @@
 
   .add{
     width:70px;
-    background-color: green;
     height: 70px;
-    color: white;
     border-radius:50%;
     position: absolute;
-    right:450px;
+    right:440px;
     bottom:400px;
+    
   }
 
+  /* General button styles */
+button.add {
+  background-color: white; /* Green background */
+  color: black; /* White text */
+  border: none; /* Remove border */
+  padding: 10px 20px; /* Padding around the button */
+  font-size: 16px; /* Font size for text */
+  cursor: pointer; /* Pointer on hover */
+  display: inline-flex; /* To align the icon and text */
+  align-items: center; /* Align vertically */
+  gap: 8px; /* Space between icon and text */
+  border-radius:50%; /* Rounded corners */
+  transition: background-color 0.3s ease; /* Smooth background change on hover */
+  border: 2px solid forestgreen;
+}
 
-  .form-left-btn .submit{
-    width:100px;
-    background-color:dodgerblue;
-    height: 50px;
-    border-radius: 10px;
-    color: white;
-  }
+button.add i {
+  font-size: 20px; /* Icon size */
+  padding-left: 6px;
+}
 
-  .form-left-btn .cancel{
-    width:100px;
-    background-color: orange;
-    border-radius: 10px;
-    color:white;
-  }
-  
+/* Button hover effect */
+button.add:hover {
+  background-color: #45a049; /* Darker green on hover */
+}
 
+.header{
+padding-top: 30%;
+padding-left: 50%;
+}
 
-
-  .right-aside{
-    width:50%;
-    position: relative;
-  }
-
-  .right-aside img{
-    padding-left: 50px;
-    padding-top:70px;
-    width:70vmin;
-  }
-
-
-
-  .rightsidebar-content {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 40px;
-    background-color: white;
-    width: 90%;
-    margin-left: 40px;
-  }
-  
-  .todaydata {
-    padding-left: 40px;
-    color: black;
-  }
-  
-  .rightsidebar-content > div {
-    width: 200px;
-    height: 150px;
-    background-color: #e5e1e1;
-    border-radius: 20px;
-    padding: 15px;
-    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);
-  }
   
   .adminlinks {
     display: flex;
@@ -298,5 +274,166 @@
   
  
   
+  /* Modal styles */
+  .modal {
+    display: none; /* Hidden by default */
+    position: fixed; 
+    z-index: 100; 
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4); /* Transparent background */
+    
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: 6% auto; /* Adjust the margin to position closer to the top */
+    border: 1px solid #888;
+    width: 40%;
+    height: auto; /* Change height to auto so it doesn't stretch to full viewport height */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    padding: 20px; /* Add padding for inner spacing */
+    border-radius: 10px;
+}
+
+
+.modal-content h2{
+  padding-left: 46px;
+  color:forestgreen;
+  font-weight: 300;
+}
+.input {
+    width: 80%;
+}
+
+.close{
+  font-size: 30px;
+  color: black;
+  cursor: pointer;
+  margin-left: 95%;
+}
+.close:hover{
+  color:red;
+}
+
+
+#packages{
+  width:150px;
+  height: 30px;
+  border-radius: 5px;
+}
+#plot{
+width:118px;
+height: 30px;
+border-radius: 5px;
+}
+#blocks{
+  width:118px;
+  height: 30px;
+  border-radius: 5px;
+}
+.form-btn{
+  margin-left: 30%;
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
   
+}
+.form-btn .btnsubmit{
+  width: 30%;
+  padding: 10px 20px;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: dodgerblue;
+}
+.form-btn .btncancel{
+  width: 30%;
+  padding: 10px 20px;
+  color: black;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: red;
+}
+
+
+/* TODO: admin reviews section */
+
+.content{
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  height: auto;
+  margin-left:50px;
+  margin-top: 20px;
   
+}
+
+  /* TODO: FETCH RESERVATION CARD  */
+/* Add basic styles for the reservation cards */
+.reservation-card {
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 20px;
+  margin: 10px 0; /* Adjust margin for vertical spacing between cards */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 100%; /* Full width */
+  text-align: center;
+}
+
+/* Style for card title and paragraph */
+.reservation-card h3 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.reservation-card p {
+  margin: 5px 0;
+}
+
+/* Container to display the cards vertically */
+.reservation-container {
+  display: flex;
+  flex-direction: column; /* Stack the cards vertically */
+  width: 100%;
+  height: auto; /* Let it grow based on content */
+}
+
+/* For 'No Reservations Found' message */
+.no-reservation-found {
+  font-size: 20px;
+  padding-top: 100px;
+  display: flex;
+  justify-content: center;
+}
+
+/* View reservation container to handle vertical scrolling */
+.view-reservation {
+  margin-top: 20px;
+  margin-left: 10px;
+  width: 190%; /* Full width */
+  height: 400px; /* Set a fixed height to enable vertical scrolling */
+  overflow-y: auto; /* Enable vertical scroll when necessary */
+  padding: 10px;
+  box-sizing: border-box; /* Make sure padding doesn't affect height */
+}
+
+
+/* Style for WebKit browsers (Chrome, Safari) */
+.view-reservation::-webkit-scrollbar {
+  width: 12px; /* Width of the scrollbar */
+}
+
+.view-reservation::-webkit-scrollbar-thumb {
+  background-color: forestgreen; /* Color of the scrollbar thumb */
+  border-radius: 10px; /* Rounded corners for the scrollbar */
+}
+
+.view-reservation::-webkit-scrollbar-track {
+  background-color: #f1f1f1; /* Background color of the scrollbar track */
+}
+

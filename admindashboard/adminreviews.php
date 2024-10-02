@@ -67,7 +67,6 @@ try {
             <div class="right-content1">
                 <div class="right-header col-9">
                     <br>
-                    <br>
                     <h1> Reviews </h1>
                     <!-- <?php if ($email): ?>
                         <p>You are logged in as <?php echo $email; ?>.</p>
@@ -123,9 +122,7 @@ try {
                         ?>
                         </tbody>
                     </table>   
-                    </div>
-
-                   
+                    </div>  
                 </div>
             </div>
         </div>

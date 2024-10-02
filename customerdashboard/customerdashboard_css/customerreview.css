@@ -82,9 +82,8 @@
     width: 250px; /* Fixed width for desktop */
     position: relative;
     padding: 1rem; /* Add padding inside the sidebar */
-    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   }
-  
   
   .memoriallogo img {
     width: 95px;
@@ -106,6 +105,28 @@
   
   
   }
+  
+  .memoriallogo img {
+      width: 95px;
+      position: absolute;
+      top: 0.6rem;
+      filter: drop-shadow (0px, 0px, 20px,black);
+    }
+    
+    .hamburgermenu img {
+      width: 20px;
+      float: right;
+      margin-top: 0.6rem;
+    }
+    
+    .adminprofile img {
+      padding-top: 20px;
+      border-radius: 50%;
+      width: 150px;
+    
+    }
+  
+
   .main {
     width: 100%;
     margin-top: 1rem;
@@ -119,7 +140,7 @@
     background-color: white;
     color: forestgreen;
     border-radius: 20px;
-    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   
   }
 
@@ -132,7 +153,7 @@
     background-color: white;
     color: rgb(0, 0, 0);
     border-radius: 20px;
-    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   }
   
   

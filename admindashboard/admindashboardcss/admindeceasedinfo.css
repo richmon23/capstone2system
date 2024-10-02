@@ -128,7 +128,9 @@ body {
   margin-top: 2.8rem;
   background-color: white;
   color: rgb(0, 0, 0);
-  border-radius: 20px;box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);
+  border-radius: 20px;
+  /* box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);  */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2)
 }
 
   .adminlinks {
@@ -156,6 +158,48 @@ body {
     font-size: 1rem; /* Adjust font size for better readability */
     display: inline-block;
   }
+
+  .memoriallogo img {
+    width: 95px;
+    position: absolute;
+    top: 0.6rem;
+    filter: drop-shadow (0px, 0px, 20px,black);
+  }
+  
+  .hamburgermenu img {
+    width: 20px;
+    float: right;
+    margin-top: 0.6rem;
+  }
+  
+  .adminprofile img {
+    width: 100px;
+    margin-top: 3rem;
+    padding-left: 30px;
+  
+  
+  }
+  
+  .memoriallogo img {
+      width: 95px;
+      position: absolute;
+      top: 0.6rem;
+      filter: drop-shadow (0px, 0px, 20px,black);
+    }
+    
+    .hamburgermenu img {
+      width: 20px;
+      float: right;
+      margin-top: 0.6rem;
+    }
+    
+    .adminprofile img {
+      padding-top: 20px;
+      border-radius: 50%;
+      width: 150px;
+    
+    }
+  
   
   .adminlinks .logout-link {
     width: 100%;
@@ -192,7 +236,8 @@ body {
   }
   
   th {
-    background-color: #f2f2f2;
+    background-color: forestgreen;
+    color:white;
   }
   
   tr:hover {
@@ -355,3 +400,16 @@ body {
     content: '\f002'; /* Font Awesome search icon */
   }
   
+  /* Style for WebKit browsers (Chrome, Safari) */
+.right-content2 ::-webkit-scrollbar {
+  width: 12px; /* Width of the scrollbar */
+}
+
+.right-content2 ::-webkit-scrollbar-thumb {
+  background-color: forestgreen; /* Color of the scrollbar thumb */
+  border-radius: 10px; /* Rounded corners for the scrollbar */
+}
+
+.right-content2 ::-webkit-scrollbar-track {
+  background-color: #f1f1f1; /* Background color of the scrollbar track */
+}

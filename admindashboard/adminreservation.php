@@ -9,11 +9,23 @@ if (!isset($_SESSION['user_id'])) {
 $firstname = isset($_SESSION['firstname']) ? htmlspecialchars($_SESSION['firstname']) : 'Guest';
 $email = isset($_SESSION['email']) ? htmlspecialchars($_SESSION['email']) : '';
 
+
+
+
 // Include the database connection
 require_once '../connection/connection.php'; // Include your database connection file
 
 // Ensure $pdo is available before using it
 if (isset($pdo)) {
+        // Fetch reserved plots
+        $reservedPlotsStmt = $pdo->prepare("SELECT plotnumber, blocknumber FROM reservation");
+        $reservedPlotsStmt->execute();
+        $reservedPlots = $reservedPlotsStmt->fetchAll(PDO::FETCH_ASSOC);
+        $reserved = [];
+        
+        foreach ($reservedPlots as $reservation) {
+            $reserved[$reservation['blocknumber']][] = $reservation['plotnumber'];
+        }
     // Handling form submission for create, update, delete
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if (isset($_POST['action'])) {
@@ -22,61 +34,61 @@ if (isset($pdo)) {
             if ($action == 'create') {
                 // Check if all required fields are present
                 if (!empty($_POST['fullname']) && !empty($_POST['package']) && !empty($_POST['plotnumber']) && !empty($_POST['blocknumber']) && !empty($_POST['email']) && !empty($_POST['contact']) && !empty($_POST['time'])) {
+                    // Insert reservation
                     $stmt = $pdo->prepare("INSERT INTO reservation (fullname, package, plotnumber, blocknumber, email, contact, time) VALUES (?, ?, ?, ?, ?, ?, ?)");
                     $stmt->execute([$_POST['fullname'], $_POST['package'], $_POST['plotnumber'], $_POST['blocknumber'], $_POST['email'], $_POST['contact'], $_POST['time']]);
+
+                    // Mark the plot as unavailable
+                    $updatePlot = $pdo->prepare("UPDATE plots SET is_available = 0 WHERE plot_number = ? AND block = ?");
+                    $updatePlot->execute([$_POST['plotnumber'], $_POST['blocknumber']]);
                 } else {
                     echo "All fields are required.";
                 }
             } elseif ($action == 'update') {
                 if (!empty($_POST['id']) && !empty($_POST['fullname']) && !empty($_POST['package']) && !empty($_POST['plotnumber']) && !empty($_POST['blocknumber']) && !empty($_POST['email']) && !empty($_POST['contact']) && !empty($_POST['time'])) {
+                    // First, check if the plot number is changing
+                    $reservationStmt = $pdo->prepare("SELECT plotnumber, blocknumber FROM reservation WHERE id = ?");
+                    $reservationStmt->execute([$_POST['id']]);
+                    $oldReservation = $reservationStmt->fetch(PDO::FETCH_ASSOC);
+                    
+                    // Update the reservation
                     $stmt = $pdo->prepare("UPDATE reservation SET fullname = ?, package = ?, plotnumber = ?, blocknumber = ?, email = ?, contact = ?, time = ? WHERE id = ?");
                     $stmt->execute([$_POST['fullname'], $_POST['package'], $_POST['plotnumber'], $_POST['blocknumber'], $_POST['email'], $_POST['contact'], $_POST['time'], $_POST['id']]);
+                    
+                    // If the plot number has changed, mark the old plot as available and the new one as unavailable
+                    if ($oldReservation['plotnumber'] != $_POST['plotnumber']) {
+                        // Mark old plot as available
+                        $markAvailable = $pdo->prepare("UPDATE plots SET is_available = 1 WHERE plot_number = ? AND block = ?");
+                        $markAvailable->execute([$oldReservation['plotnumber'], $oldReservation['blocknumber']]);
+
+                        // Mark new plot as unavailable
+                        $updatePlot = $pdo->prepare("UPDATE plots SET is_available = 0 WHERE plot_number = ? AND block = ?");
+                        $updatePlot->execute([$_POST['plotnumber'], $_POST['blocknumber']]);
+                    }
                 } else {
                     echo "All fields are required.";
                 }
             } elseif ($action == 'delete') {
                 if (!empty($_POST['id'])) {
+                    // Get the plot number and block number before deletion
+                    $reservationStmt = $pdo->prepare("SELECT plotnumber, blocknumber FROM reservation WHERE id = ?");
+                    $reservationStmt->execute([$_POST['id']]);
+                    $reservation = $reservationStmt->fetch(PDO::FETCH_ASSOC);
+
+                    // Delete the reservation
                     $stmt = $pdo->prepare("DELETE FROM reservation WHERE id = ?");
                     $stmt->execute([$_POST['id']]);
+
+                    // Mark the plot as available again
+                    if ($reservation) {
+                        $updatePlot = $pdo->prepare("UPDATE plots SET is_available = 1 WHERE plot_number = ? AND block = ?");
+                        $updatePlot->execute([$reservation['plotnumber'], $reservation['blocknumber']]);
+                    }
                 } else {
                     echo "ID is required for deletion.";
                 }
             }
         }
-
-        
-        // TODO:update reservations table with updated data
-
-        // if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action']) && $_POST['action'] == 'update') {
-        //     if (!empty($_POST['id']) && !empty($_POST['fullname']) && !empty($_POST['package']) && !empty($_POST['plotnumber']) && !empty($_POST['blocknumber']) && !empty($_POST['email']) && !empty($_POST['contact']) && !empty($_POST['time'])) {
-        //         // Prepare the SQL statement
-        //         $stmt = $pdo->prepare("UPDATE reservation SET fullname = ?, package = ?, plotnumber = ?, blocknumber = ?, email = ?, contact = ?, time = ? WHERE id = ?");
-                
-        //         // Execute the update query
-        //         if ($stmt->execute([$_POST['fullname'], $_POST['package'], $_POST['plotnumber'], $_POST['blocknumber'], $_POST['email'], $_POST['contact'], $_POST['time'], $_POST['id']])) {
-        //             echo "<script>
-        //                     document.getElementById('alert-box').innerHTML = 'Record updated successfully!';
-        //                     document.getElementById('alert-box').className = 'alert success';
-        //                     setTimeout(function() {
-        //                         document.getElementById('alert-box').style.display = 'none';
-        //                     }, 5000); // Auto-dismiss after 5 seconds
-        //                   </script>";
-        //         } else {
-        //             echo "<script>
-        //                     document.getElementById('alert-box').innerHTML = 'Error updating record.';
-        //                     document.getElementById('alert-box').className = 'alert error';
-        //                   </script>";
-        //         }
-        //     } else {
-        //         echo "<script>
-        //                 document.getElementById('alert-box').innerHTML = 'All fields are required.';
-        //                 document.getElementById('alert-box').className = 'alert error';
-        //               </script>";
-        //     }
-        // }
-        
-        
-        
     }
 
     // Fetch data from the database
@@ -87,6 +99,7 @@ if (isset($pdo)) {
     echo 'Database connection failed. Please try again later.';
     exit();
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -136,117 +149,156 @@ if (isset($pdo)) {
                     <!-- <button onclick="openAddModal()">Add Reservation</button> -->
                 </div>
             </div>
-            <div class="addreservationvtn">
-                <div class="right-header col-9">
-                    <br>
-                    <!-- <button onclick="openAddModal()"><img src="./images/review.png" alt=""></button> -->
-                </div>
-            </div>
             <div class="right-content2">
-                <div class="right-header col-9">
-                    <br>
-                    <button class="btnadd "onclick="openAddModal()"><img src="../images/add-user.png" alt=""></button>
-                    <div class="table-wrapper">
-                    <table id="myTable">
-                        <thead>
-                            <tr>
-                                <th>Full Name</th>
-                                <th>Package</th>
-                                <th>Plot</th>
-                                <th>Block</th>
-                                <th>Email</th>
-                                <th>Contact</th>
-                                <th>Time</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody id="result">
-                            <tr><td colspan="8">No reservations found.</td></tr>
-                        </tbody>
-                    </table>
+                    <div class="right-header col-9">
+                        <br>
+                            <button class="btnadd" onclick="openAddModal()">
+                                <img src="../images/add-user.png" alt="">
+                            </button>
+                            <div class="table-wrapper">
+                                <table id="myTable">
+                                    <thead>
+                                        <tr>
+                                            <th>Full Name</th>
+                                            <th>Package</th>
+                                            <th>Plot</th>
+                                            <th>Block</th>
+                                            <th>Email</th>
+                                            <th>Contact</th>
+                                            <th>Time</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="result">
+                                        <tr><td colspan="8">No reservations found.</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
+
                     <!-- Modal for Adding a New Reservation -->
-                    <div id="addModal" class="modal">
-                        <div class="modal-content">
-                            <span class="close" onclick="closeAddModal()">&times;</span>
-                            <div class="modal-header">
-                                <h2>Add New Reservation</h2>
-                            </div>
-                            <div class="modal-body">
-                                <form id="addForm" method="post">
-                                    <input type="hidden" name="action" value="create" class="form-element">
-                                    <label for="fullname">Full Name:</label><br>
-                                    <input type="text" id="add_fullname" name="fullname" required class="form-element"><br><br>
-                                    <label for="package">Package:</label><br>
-                                    <!-- <input type="text" id="add_package" name="package" required><br><br>
-                                    <label for="choices">Choose an option:</label> -->
-                                    <select id="add_package"  name="package" class="form-element">
-                                        <option value="">Select Package</option>
-                                        <option value="garden">Garden</option>
-                                        <option value="family_state">Family State</option>
-                                        <option value="lawn">Lawn</option>
-                                    </select>
-                                    <br>
-                                    <br>
-                                    <label for="plot">Plot #:</label><br>
-                                    <input type="text" id="add_plot" name="plotnumber" required class="form-element"><br><br>
-                                    <label for="block">Block #:</label><br>
-                                    <input type="text" id="add_block" name="blocknumber" required class="form-element"><br><br>
-                                    <label for="email">Email:</label><br>
-                                    <input type="email" id="add_email" name="email" required class="form-element"><br><br>
-                                    <label for="contact">Contact:</label><br>
-                                    <input type="text" id="add_contact" name="contact" required class="form-element"><br><br>
-                                    <label for="time">Time:</label><br>
-                                    <input type="datetime-local" id="add_time" name="time" required class="form-element"><br><br>
-                                </form>
-                            </div>
-                            <div class="modal-footer">
-                                <button class="button save button-save-modal" onclick="document.getElementById('addForm').submit()">Save</button>
-                            </div>
-                        </div>
-                    </div>
+<div id="addModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeAddModal()">&times;</span>
+        <div class="modal-header">
+            <h2>Add New Reservation</h2>
+        </div>
+        <div class="modal-body">
+            <form id="addForm" method="post">
+                <input type="hidden" name="action" value="create" class="form-element">
+                
+                <!-- Full Name -->
+                <label for="fullname">Full Name:</label><br>
+                <input type="text" id="add_fullname" name="fullname" required class="form-element"><br><br>
+                
+                <!-- Package -->
+                <label for="package">Package:</label><br>
+                <select id="add_package" name="package" class="form-element">
+                    <option value="">Select Package</option>
+                    <option value="garden">Garden</option>
+                    <option value="family_state">Family State</option>
+                    <option value="lawn">Lawn</option>
+                </select>
+                <br><br>
+                
+                <label for="block">Block #:</label><br>
+<select id="add_block" name="blocknumber" class="form-element" required>
+    <option value="" disabled selected>Select Block</option>
+    <option value="1">1</option>
+    <option value="2">2</option>
+    <option value="3">3</option>
+    <option value="4">4</option>
+</select>
+<br><br>
+<label for="plot">Plot #:</label><br>
+<select id="add_plot" name="plotnumber" class="form-element" required>
+    <option value="" disabled selected>Select Plot</option>
+</select>
 
-                    <!-- Modal for Update -->
-                    <div id="updateModal" class="modal">
-                        <div class="modal-content">
-                            <span class="close" onclick="closeModal()">&times;</span>
-                            <div class="modal-header">
-                                <h2>Update Details</h2>
-                            </div>
-                            <div class="modal-body">
-                                <form id="updateForm" method="post">
-                                    <input type="hidden" name="id" id="modal_id">
-                                    <input type="hidden" name="action" value="update" class="form-element">
-                                    <label for="fullname">Full Name:</label><br>
-                                    <input type="text" id="modal_fullname" name="fullname" class="form-element"><br><br>
-                                    <label for="package">Package:</label><br>
-                                    <!-- <input type="text" id="modal_package" name="package"><br><br> -->
-                                    <select id="modal_package"  name="package" class="form-element">
-                                        <option value="">Select Package</option>
-                                        <option value="garden">Garden</option>
-                                        <option value="family_state">Family State</option>
-                                        <option value="lawn">Lawn</option>
-                                    </select>
-                                    <br>
-                                    <br>
-                                    <label for="plot">Plot #:</label><br>
-                                    <input type="text" id="modal_plot" name="plotnumber" class="form-element"><br><br>
-                                    <label for="block">Block #:</label><br>
-                                    <input type="text" id="modal_block" name="blocknumber" class="form-element"><br><br>
-                                    <label for="email">Email:</label><br>
-                                    <input type="email" id="modal_email" name="email"class="form-element"><br><br>
-                                    <label for="contact">Contact:</label><br>
-                                    <input type="text" id="modal_contact" name="contact"class="form-element"><br><br>
-                                    <label for="time">Date:</label><br>
-                                    <input type="date" id="modal_time" name="time"class="form-element"><br><br>
-                                </form>
-                            </div>
-                            <div class="modal-footer">
-                                <button class="button update" onclick="document.getElementById('updateForm').submit()">Save</button>
-                            </div>
-                        </div>
-                    </div>
+                
+                <!-- Email -->
+                <label for="email">Email:</label><br>
+                <input type="email" id="add_email" name="email" required class="form-element"><br><br>
+                
+                <!-- Contact -->
+                <label for="contact">Contact:</label><br>
+                <input type="text" id="add_contact" name="contact" required class="form-element"><br><br>
+                
+                <!-- Time -->
+                <label for="time">Time:</label><br>
+                <input type="datetime-local" id="add_time" name="time" required class="form-element"><br><br>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button class="button save button-save-modal" onclick="document.getElementById('addForm').submit()">Save</button>
+        </div>
+    </div>
+</div>
 
+<!-- Modal for Update -->
+<div id="updateModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <div class="modal-header">
+            <h2>Update Details</h2>
+        </div>
+        <div class="modal-body">
+            <form id="updateForm" method="post">
+                <input type="hidden" name="id" id="modal_id">
+                <input type="hidden" name="action" value="update" class="form-element">
+                
+                <!-- Full Name -->
+                <label for="fullname">Full Name:</label><br>
+                <input type="text" id="modal_fullname" name="fullname" class="form-element"><br><br>
+                
+                <!-- Package -->
+                <label for="package">Package:</label><br>
+                <select id="modal_package" name="package" class="form-element">
+                    <option value="">Select Package</option>
+                    <option value="garden">Garden</option>
+                    <option value="family_state">Family State</option>
+                    <option value="lawn">Lawn</option>
+                </select>
+                <br><br>
+                
+                <label for="block">Block #:</label><br>
+<select id="modal_block" name="blocknumber" class="form-element" required>
+    <option value="" disabled selected>Select Block</option>
+    <option value="1">1</option>
+    <option value="2">2</option>
+    <option value="3">3</option>
+    <option value="4">4</option>
+</select>
+<br><br>
+<label for="plot">Plot #:</label><br>
+<select id="modal_plot" name="plotnumber" class="form-element" required>
+    <option value="" disabled selected>Select Plot</option>
+</select>
+
+                
+                <!-- Email -->
+                <label for="email">Email:</label><br>
+                <input type="email" id="modal_email" name="email" class="form-element"><br><br>
+                
+                <!-- Contact -->
+                <label for="contact">Contact:</label><br>
+                <input type="text" id="modal_contact" name="contact" class="form-element"><br><br>
+                
+                <!-- Time -->
+                <label for="time">Date:</label><br>
+                <input type="date" id="modal_time" name="time" class="form-element"><br><br>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button class="button update" onclick="document.getElementById('updateForm').submit()">Save</button>
+        </div>
+    </div>
+</div>
+
+
+
+                    
                     <script>
                         var addModal = document.getElementById("addModal");
                         var updateModal = document.getElementById("updateModal");
@@ -323,6 +375,53 @@ if (isset($pdo)) {
                                 });
                             }
                         });
+                        
+
+                        document.addEventListener("DOMContentLoaded", function () {
+    // When block changes, fetch available plots for the add modal
+    document.getElementById("add_block").addEventListener("change", function () {
+        var block = this.value;
+        fetchAvailablePlots(block, "add_plot");
+    });
+
+    // When block changes, fetch available plots for the update modal
+    document.getElementById("modal_block").addEventListener("change", function () {
+        var block = this.value;
+        fetchAvailablePlots(block, "modal_plot");
+    });
+});
+
+// Function to fetch available plots based on selected block
+function fetchAvailablePlots(block, plotDropdownId) {
+    if (block) {
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", "get_plots.php?block=" + block, true);
+        xhr.onload = function () {
+            if (this.status === 200) {
+                var plots = JSON.parse(this.responseText);
+                var plotDropdown = document.getElementById(plotDropdownId);
+                plotDropdown.innerHTML = '<option value="" disabled selected>Select Plot</option>'; // Clear previous options
+
+                // Populate the dropdown with available plots
+                plots.forEach(function (plot) {
+                    var option = document.createElement("option");
+                    option.value = plot;
+                    option.textContent = "Plot " + plot;
+                    plotDropdown.appendChild(option);
+                });
+            } else {
+                console.error("Failed to load plots: " + this.status);
+            }
+        };
+        xhr.send();
+    }
+}
+
+
+
+    
+
+
 
                     </script>
                 </div>
@@ -331,3 +430,4 @@ if (isset($pdo)) {
     </div>
 </body>
 </html>
+

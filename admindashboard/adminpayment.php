@@ -53,9 +53,9 @@ require_once '../connection/connection.php'; // Include your database connection
                 <div class="right-content1">
                    <div class="right-header col-9">
                     <br>
-                    <br>
                     <span><h1 class="rightsidebar-content"> Payment </h1>
                    <!-- <a href=""><img src="../images/file.png" alt="" class="paymenthistory"></a> -->
+                    <br>
                     <br>
                     <!-- <h3 class="rightsidebar-content2" > Choose Payment Method:</h3> -->
                     <div class="uppersidebar-content">
