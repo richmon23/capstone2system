@@ -166,6 +166,7 @@ if (isset($pdo)) {
                                             <th>Email</th>
                                             <th>Contact</th>
                                             <th>Time</th>
+                                            <th> Status </th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -178,127 +179,147 @@ if (isset($pdo)) {
                     </div>
 
                     <!-- Modal for Adding a New Reservation -->
-<div id="addModal" class="modal">
-    <div class="modal-content">
-        <span class="close" onclick="closeAddModal()">&times;</span>
-        <div class="modal-header">
-            <h2>Add New Reservation</h2>
-        </div>
-        <div class="modal-body">
-            <form id="addForm" method="post">
-                <input type="hidden" name="action" value="create" class="form-element">
-                
-                <!-- Full Name -->
-                <label for="fullname">Full Name:</label><br>
-                <input type="text" id="add_fullname" name="fullname" required class="form-element"><br><br>
-                
-                <!-- Package -->
-                <label for="package">Package:</label><br>
-                <select id="add_package" name="package" class="form-element">
-                    <option value="">Select Package</option>
-                    <option value="garden">Garden</option>
-                    <option value="family_state">Family State</option>
-                    <option value="lawn">Lawn</option>
-                </select>
-                <br><br>
-                
-                <label for="block">Block #:</label><br>
-<select id="add_block" name="blocknumber" class="form-element" required>
-    <option value="" disabled selected>Select Block</option>
-    <option value="1">1</option>
-    <option value="2">2</option>
-    <option value="3">3</option>
-    <option value="4">4</option>
-</select>
-<br><br>
-<label for="plot">Plot #:</label><br>
-<select id="add_plot" name="plotnumber" class="form-element" required>
-    <option value="" disabled selected>Select Plot</option>
-</select>
+                    <div id="addModal" class="modal">
+                        <div class="modal-content">
+                            <span class="close" onclick="closeAddModal()">&times;</span>
+                            <div class="modal-header">
+                                <h2>Add New Reservation</h2>
+                            </div>
+                                <div class="modal-body">
+                                    <form id="addForm" method="post">
+                                        <input type="hidden" name="action" value="create" class="form-element">
+                                                    
+                                        <!-- Full Name -->
+                                        <label for="fullname">Full Name:</label><br>
+                                        <input type="text" id="add_fullname" name="fullname" required class="form-element"><br><br>
+                                                    
+                                    <!-- Package -->
+                                    <label for="package">Package:</label><br>
+                                    <select id="add_package" name="package" class="form-element">
+                                        <option value="">Select Package</option>
+                                        <option value="garden">Garden</option>
+                                        <option value="family_state">Family State</option>
+                                        <option value="lawn">Lawn</option>
+                                    </select>
+                                    <br><br>
+                                                    
+                                    <label for="block">Block #:</label><br>
+                                    <select id="add_block" name="blocknumber" class="form-element" required>
+                                        <option value="" disabled selected>Select Block</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                    </select>
+                                    <br><br>
+                                    <label for="plot">Plot #:</label><br>
+                                    <select id="add_plot" name="plotnumber" class="form-element" required>
+                                        <option value="" disabled selected>Select Plot</option>
+                                    </select>
 
-                
-                <!-- Email -->
-                <label for="email">Email:</label><br>
-                <input type="email" id="add_email" name="email" required class="form-element"><br><br>
-                
-                <!-- Contact -->
-                <label for="contact">Contact:</label><br>
-                <input type="text" id="add_contact" name="contact" required class="form-element"><br><br>
-                
-                <!-- Time -->
-                <label for="time">Time:</label><br>
-                <input type="datetime-local" id="add_time" name="time" required class="form-element"><br><br>
-            </form>
-        </div>
-        <div class="modal-footer">
-            <button class="button save button-save-modal" onclick="document.getElementById('addForm').submit()">Save</button>
-        </div>
-    </div>
-</div>
+                                    
+                                    <!-- Email -->
+                                    <label for="email">Email:</label><br>
+                                    <input type="email" id="add_email" name="email" required class="form-element"><br><br>
+                                    
+                                    <!-- Contact -->
+                                    <label for="contact">Contact:</label><br>
+                                    <input type="text" id="add_contact" name="contact" required class="form-element"><br><br>
+                                    
+                                    <!-- Time -->
+                                    <label for="time">Time:</label><br>
+                                    <input type="datetime-local" id="add_time" name="time" required class="form-element"><br><br>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button class="button save button-save-modal" onclick="document.getElementById('addForm').submit()">Save</button>
+                            </div>
+                        </div>
+                    </div>
 
-<!-- Modal for Update -->
-<div id="updateModal" class="modal">
-    <div class="modal-content">
-        <span class="close" onclick="closeModal()">&times;</span>
-        <div class="modal-header">
-            <h2>Update Details</h2>
-        </div>
-        <div class="modal-body">
-            <form id="updateForm" method="post">
-                <input type="hidden" name="id" id="modal_id">
-                <input type="hidden" name="action" value="update" class="form-element">
-                
-                <!-- Full Name -->
-                <label for="fullname">Full Name:</label><br>
-                <input type="text" id="modal_fullname" name="fullname" class="form-element"><br><br>
-                
-                <!-- Package -->
-                <label for="package">Package:</label><br>
-                <select id="modal_package" name="package" class="form-element">
-                    <option value="">Select Package</option>
-                    <option value="garden">Garden</option>
-                    <option value="family_state">Family State</option>
-                    <option value="lawn">Lawn</option>
-                </select>
-                <br><br>
-                
-                <label for="block">Block #:</label><br>
-<select id="modal_block" name="blocknumber" class="form-element" required>
-    <option value="" disabled selected>Select Block</option>
-    <option value="1">1</option>
-    <option value="2">2</option>
-    <option value="3">3</option>
-    <option value="4">4</option>
-</select>
-<br><br>
-<label for="plot">Plot #:</label><br>
-<select id="modal_plot" name="plotnumber" class="form-element" required>
-    <option value="" disabled selected>Select Plot</option>
-</select>
+                    <!-- Modal for Update -->
+                    <div id="updateModal" class="modal">
+                        <div class="modal-content">
+                            <span class="close" onclick="closeModal()">&times;</span>
+                            <div class="modal-header">
+                                <h2>Update Details</h2>
+                            </div>
+                            <div class="modal-body">
+                                <form id="updateForm" method="post">
+                                    <input type="hidden" name="id" id="modal_id">
+                                    <input type="hidden" name="action" value="update" class="form-element">
+                                    
+                                    <!-- Full Name -->
+                                    <label for="fullname">Full Name:</label><br>
+                                    <input type="text" id="modal_fullname" name="fullname" class="form-element"><br><br>
+                                    
+                                    <!-- Package -->
+                                    <label for="package">Package:</label><br>
+                                    <select id="modal_package" name="package" class="form-element">
+                                        <option value="">Select Package</option>
+                                        <option value="garden">Garden</option>
+                                        <option value="family_state">Family State</option>
+                                        <option value="lawn">Lawn</option>
+                                    </select>
+                                    <br><br>
+                                                    
+                                    <label for="block">Block #:</label><br>
+                                    <select id="modal_block" name="blocknumber" class="form-element" required>
+                                        <option value="" disabled selected>Select Block</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                    </select>
+                                    <br><br>
+                                    <label for="plot">Plot #:</label><br>
+                                    <select id="modal_plot" name="plotnumber" class="form-element" required>
+                                        <option value="" disabled selected>Select Plot</option>
+                                    </select>
 
-                
-                <!-- Email -->
-                <label for="email">Email:</label><br>
-                <input type="email" id="modal_email" name="email" class="form-element"><br><br>
-                
-                <!-- Contact -->
-                <label for="contact">Contact:</label><br>
-                <input type="text" id="modal_contact" name="contact" class="form-element"><br><br>
-                
-                <!-- Time -->
-                <label for="time">Date:</label><br>
-                <input type="date" id="modal_time" name="time" class="form-element"><br><br>
-            </form>
-        </div>
-        <div class="modal-footer">
-            <button class="button update" onclick="document.getElementById('updateForm').submit()">Save</button>
-        </div>
-    </div>
-</div>
+                                    
+                                    <!-- Email -->
+                                    <label for="email">Email:</label><br>
+                                    <input type="email" id="modal_email" name="email" class="form-element"><br><br>
+                                    
+                                    <!-- Contact -->
+                                    <label for="contact">Contact:</label><br>
+                                    <input type="text" id="modal_contact" name="contact" class="form-element"><br><br>
+                                    
+                                    <!-- Time -->
+                                    <label for="time">Date:</label><br>
+                                    <input type="date" id="modal_time" name="time" class="form-element"><br><br>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button class="button update" onclick="document.getElementById('updateForm').submit()">Save</button>
+                            </div>
+                        </div>
+                    </div>
 
+                    <!-- TODO: Status modal for changing reservation status -->
+                     <!-- Modal Structure -->
+                    <div id="statusModal" class="modal" style="display:none;">
+                        <div class="modal-content">
+                            <h4>Change Reservation Status</h4>
+                            <br>
+                            <form id="statusForm" method="POST" action="change_status.php">
+                                <input type="hidden" id="reservationId" name="id">
+                                
+                                <label for="status">Select Status:</label>
+                                <select id="status" name="status">
+                                    <option value="Approved">Approved</option>
+                                    <option value="Disapproved">Disapproved</option>
+                                </select>
+                                
+                                <div class="modal-footer">
+                                    <button type="submit" class="button save">Save Changes</button>
+                                    <button type="button" class="button cancel" onclick="closeStatusModal()">Cancel</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
 
-
-                    
                     <script>
                         var addModal = document.getElementById("addModal");
                         var updateModal = document.getElementById("updateModal");
@@ -378,51 +399,57 @@ if (isset($pdo)) {
                         
 
                         document.addEventListener("DOMContentLoaded", function () {
-    // When block changes, fetch available plots for the add modal
-    document.getElementById("add_block").addEventListener("change", function () {
-        var block = this.value;
-        fetchAvailablePlots(block, "add_plot");
-    });
+                        // When block changes, fetch available plots for the add modal
+                        document.getElementById("add_block").addEventListener("change", function () {
+                            var block = this.value;
+                            fetchAvailablePlots(block, "add_plot");
+                        });
 
-    // When block changes, fetch available plots for the update modal
-    document.getElementById("modal_block").addEventListener("change", function () {
-        var block = this.value;
-        fetchAvailablePlots(block, "modal_plot");
-    });
-});
+                        // When block changes, fetch available plots for the update modal
+                        document.getElementById("modal_block").addEventListener("change", function () {
+                            var block = this.value;
+                            fetchAvailablePlots(block, "modal_plot");
+                        });
+                    });
 
-// Function to fetch available plots based on selected block
-function fetchAvailablePlots(block, plotDropdownId) {
-    if (block) {
-        var xhr = new XMLHttpRequest();
-        xhr.open("GET", "get_plots.php?block=" + block, true);
-        xhr.onload = function () {
-            if (this.status === 200) {
-                var plots = JSON.parse(this.responseText);
-                var plotDropdown = document.getElementById(plotDropdownId);
-                plotDropdown.innerHTML = '<option value="" disabled selected>Select Plot</option>'; // Clear previous options
+                    // Function to fetch available plots based on selected block
+                    function fetchAvailablePlots(block, plotDropdownId) {
+                        if (block) {
+                            var xhr = new XMLHttpRequest();
+                            xhr.open("GET", "get_plots.php?block=" + block, true);
+                            xhr.onload = function () {
+                                if (this.status === 200) {
+                                    var plots = JSON.parse(this.responseText);
+                                    var plotDropdown = document.getElementById(plotDropdownId);
+                                    plotDropdown.innerHTML = '<option value="" disabled selected>Select Plot</option>'; // Clear previous options
 
-                // Populate the dropdown with available plots
-                plots.forEach(function (plot) {
-                    var option = document.createElement("option");
-                    option.value = plot;
-                    option.textContent = "Plot " + plot;
-                    plotDropdown.appendChild(option);
-                });
-            } else {
-                console.error("Failed to load plots: " + this.status);
-            }
-        };
-        xhr.send();
-    }
-}
+                                    // Populate the dropdown with available plots
+                                    plots.forEach(function (plot) {
+                                        var option = document.createElement("option");
+                                        option.value = plot;
+                                        option.textContent = "Plot " + plot;
+                                        plotDropdown.appendChild(option);
+                                    });
+                                } else {
+                                    console.error("Failed to load plots: " + this.status);
+                                }
+                            };
+                            xhr.send();
+                        }
+                    }
 
+                    // TODO: status modal functionality
+                     // Function to open the modal and set the current reservation ID
+                    function openStatusModal(reservation) {
+                        document.getElementById('reservationId').value = reservation.id; // Set the reservation ID in the form
+                        document.getElementById('status').value = reservation.status;   // Set the current status
+                        document.getElementById('statusModal').style.display = 'block'; // Show the modal
+                    }
 
-
-    
-
-
-
+                    // Function to close the modal
+                    function closeStatusModal() {
+                        document.getElementById('statusModal').style.display = 'none'; // Hide the modal
+                    }
                     </script>
                 </div>
             </div>

@@ -236,7 +236,7 @@ body {
   max-height: 310px; /* Set a fixed height for the container */
   overflow-y: auto; /* Enable vertical scrolling */
   overflow-x: hidden; /* Disable horizontal scrolling */
-  width: 135%; /* Ensure the wrapper takes full width */
+  width: 135%; /* Ensure the wrapper takes full width of the screen */
   margin-top: 10px;
 }
 
@@ -258,7 +258,7 @@ body {
 table {
   width: 100%; /* Ensure the table occupies the full width of its container */
   border-collapse: collapse;
-  font-size: 14px; /* Adjust font size for table content */
+  font-size: 10px; /* Adjust font size for table content */
   text-align: left;
   color: black;
   word-wrap: break-word; /* Allow word wrapping for long content */
@@ -272,7 +272,7 @@ th, td {
 
 th {
   background-color: forestgreen;
-  color:white;
+  color: white;
 }
 
 tr:hover {
@@ -284,7 +284,7 @@ tr:hover {
   overflow-x: hidden; /* Remove horizontal scroll */
 }
 
-/* Action buttons */
+/* Action buttons container */
 .actions {
   display: flex; /* Use flexbox for alignment */
   gap: 5px; /* Add space between buttons */
@@ -294,15 +294,15 @@ tr:hover {
 
 /* Button styling */
 .button {
-  padding: 10px 20px; /* Adjust padding for button size */
+  padding: 8px 16px; /* Adjust padding for button size */
   border: none; /* Remove borders */
   cursor: pointer; /* Change cursor to pointer on hover */
-  border-radius: 20px; /* Rounded corners */
+  border-radius: 12px; /* Rounded corners */
   color: white; /* Text color */
   text-align: center; /* Horizontally center text */
   font-size: 12px; /* Adjust text size */
   line-height: 1; /* Line height for better text centering */
-  transition: transform 0.3s ease-in-out; /* Transition effect */
+  transition: transform 0.2s ease-in-out; /* Transition effect */
   display: inline-block; /* Ensure button acts like a block */
   vertical-align: middle; /* Vertically center text */
 }
@@ -315,8 +315,12 @@ tr:hover {
   background-color: #f44336; /* Red background for delete button */
 }
 
+.status {
+  background-color: #ff9800; /* Orange background for status button */
+}
+
 .button:hover {
-  transform: scale(1.1); /* Hover effect */
+  transform: scale(1.05); /* Hover effect */
 }
 
 
@@ -331,6 +335,7 @@ tr:hover {
     height: 100%;
     overflow: auto;
     padding-top:10px;
+    color: black;
    
   }
   .modal-content {
@@ -434,3 +439,18 @@ position: relative;
   content: '\f002'; /* Font Awesome search icon */
 }
 
+
+/*TODO: status button */
+.save{
+  background-color: forestgreen;
+  color: white;
+}
+
+.cancel{
+  background-color: red;
+  color: white;
+}
+
+#status{
+  padding: 5px;
+}

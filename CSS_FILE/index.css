@@ -4,11 +4,12 @@ body {
     margin: 0;
     padding: 0;
     background-color: #f4f4f4;
+    overflow-x: hidden;
 }
 
 /* Header */
 .header {
-    background-color: #0a5c36;
+    background-color:dodgerblue;
     padding: 0.5rem 1rem;
     display: flex;
     justify-content: space-between; /* Maintain space between logo, nav, and login */
@@ -88,7 +89,7 @@ body {
 
 /* CSS */
 .button-71 {
-  background-color: #30aa44;
+  background-color: dodgerblue;
   box-shadow: #333;
   border: 0;
   border-radius: 56px;

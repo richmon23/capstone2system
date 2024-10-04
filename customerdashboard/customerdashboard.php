@@ -76,85 +76,35 @@ require_once '../connection/connection.php'; // Include your database connection
             </div>   
             <div class="right-content2">
                 <br>
-                <h2 class="todaydata">Today's  Data </h2>
-                <br>
-                <br>
                 <div class="rightsidebar-content">
                     <div class="div">Reservation Status</div>
-                    <!-- <div class="div">Monthly Reseved</div> -->
-                    <!-- <div class="div">Messages</div> -->
                     <div class="div">Available Plots</div>
-                    <!-- <div class="div">Payment History</div> -->
+                   
+                 </div>
+                 <div class="navigation-content">nav</div>
+                 <br>
+                 <h4> WHAT'S NEW</h4>
+                    <div class="right-content3">
+                            <p>Our memorial park features plot packages that honor loved ones in serene settings. We also offer promotional deals for families, helping create lasting tributes in a peaceful environment.</p>
+                        <br>
+                        <br>
+                        <div class="right_content3-div">
+                        <div class="div1"><img src="../images/memorialparkpic.jpg" alt=""></div>
+                        <div class="div2"><img src="../images/memorialparkpic.jpg" alt=""></div>
+                        <div class="div3"><img src="../images/memorialparkpic.jpg" alt=""></div>
+                        </div>
+                        <div class="right_content-div2">
+                            <br>
+                            <div>The Standard Package includes a landscaped plot with maintenance. The Deluxe Package features enhanced landscaping and a personalized marker. The Ultimate Package offers a premium plot with custom features and regular upkeep.</div>
+                            <br>
+                            <div>The Family Package provides multiple adjoining plots for loved ones with coordinated landscaping. The Memorial Tribute Package includes a plot, a personalized marker, and a custom tribute bench for remembrance.</div>
+                            <br>
+                            <div>The Family Package offers adjoining plots for loved ones with unified landscaping. The Tribute Package includes a plot, personalized marker, and a commemorative bench for remembrance.</div>
+                        </div>
                  </div>
             </div>
-                <!-- Modal for Adding a New Reservation -->
-                <!-- <div id="addModal" class="modal">
-                    <div class="modal-content">
-                        <span class="close" onclick="closeAddModal()">&times;</span>
-                        <div class="modal-header">
-                            <h2>Add New Data </h2>
-                        </div>
-                        <div class="modal-body">
-                            <form id="addForm" method="post">
-                                <input type="hidden" name="action" value="create">
-                                <label for="fullname">Full Name:</label><br>
-                                <input type="text" id="add_fullname" name="fullname" required class="form-element"><br><br>
-                                <label for="address">Address:</label><br>
-                                <input type="text" id="add_address" name="address" required class="form-element"><br><br>
-                                <label for="born">Born:</label><br>
-                                <input type="date" id="add_born" name="born" required class="form-element"><br><br>
-                                <label for="died">Died:</label><br>
-                                <input type="date" id="add_died" name="died" required class="form-element"><br><br>
-                                <label for="plot">Plot #:</label><br>
-                                <input type="text" id="add_plot" name="plot" required class="form-element"><br><br>
-                                <label for="block">Block #:</label><br>
-                                <input type="text" id="add_block" name="block" required class="form-element"><br><br>
-                                <label for="funeralday">Funeral Day:</label><br>
-                                <input type="date" id="add_funeralday" name="funeralday" required class="form-element"><br><br>
-                                <label for="datecreated">Date Created:</label><br>
-                                <input type="date" id="add_datecreated" name="datecreated" required class="form-element"><br><br>
-                            </form>
-                        </div>
-                        <div class="modal-footer">
-                            <button class="button save button-save-modal" onclick="document.getElementById('addForm').submit()">Save</button>
-                        </div>
-                    </div>
-                </div> -->
-
-                <!-- Modal for Update -->
-                <!-- <div id="updateModal" class="modal">
-                    <div class="modal-content">
-                        <span class="close" onclick="closeModal()">&times;</span>
-                        <div class="modal-header">
-                            <h2>Update Details</h2>
-                        </div>
-                        <div class="modal-body">
-                            <form id="updateForm" method="post">
-                                <input type="hidden" name="id" id="modal_id">
-                                <input type="hidden" name="action" value="update" class="form-element">
-                                <label for="fullname">Full Name:</label><br>
-                                <input type="text" id="modal_fullname" name="fullname" class="form-element" ><br><br>
-                                <label for="address">Address:</label><br>
-                                <input type="text" id="modal_address" name="address" class="form-element"><br><br>
-                                <label for="born">Born:</label><br>
-                                <input type="date" id="modal_born" name="born" class="form-element"><br><br>
-                                <label for="died">Died:</label><br>
-                                <input type="date" id="modal_died" name="died"class="form-element"><br><br>
-                                <label for="plot">Plot #:</label><br>
-                                <input type="text" id="modal_plot" name="plot"class="form-element"><br><br>
-                                <label for="block">Block #:</label><br>
-                                <input type="text" id="modal_block" name="block"class="form-element"><br><br>
-                                <label for="funeralday">Funeral Day:</label><br>
-                                <input type="date" id="modal_funeralday" name="funeralday"class="form-element"><br><br>
-                                <label for="datecreated">Date Created:</label><br>
-                                <input type="date" id="modal_datecreated" name="datecreated"class="form-element"><br><br>
-                            </form>
-                        </div>
-                        <div class="modal-footer">
-                            <button class="button update" onclick="document.getElementById('updateForm').submit()">Save</button>
-                        </div>
-                    </div>
-                </div> -->
+        </div>
+               
 
         <!-- TODO: Alert message  -->
         <div id="alertMessage"></div>

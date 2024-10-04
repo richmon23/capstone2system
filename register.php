@@ -9,6 +9,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $firstname = $_POST['firstname'] ?? '';
     $surname = $_POST['surname'] ?? '';
     $email = $_POST['email'] ?? '';
+    $address = $_POST['address']?? '';
     $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
     $birthdate = $_POST['birthdate'] ?? '';
     $gender = $_POST['gender'] ?? '';
@@ -25,13 +26,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Use JavaScript alert to inform the user that the email is already registered
         echo "<br><br><script>alert('This email is already registered.');</script>";
     }else {
-        $stmt = $conn->prepare("INSERT INTO users (firstname, surname, email, password, birthdate, gender) VALUES (?, ?, ?, ?, ?, ?)");
+        $stmt = $conn->prepare("INSERT INTO users (firstname, surname, email,address, password, birthdate, gender) VALUES (?, ?, ?, ?, ?, ?, ?)");
         $stmt->bindParam(1, $firstname);
         $stmt->bindParam(2, $surname);
         $stmt->bindParam(3, $email);
-        $stmt->bindParam(4, $password);
-        $stmt->bindParam(5, $birthdate);
-        $stmt->bindParam(6, $gender);
+        $stmt->bindParam(4, $address);
+        $stmt->bindParam(5, $password);
+        $stmt->bindParam(6, $birthdate);
+        $stmt->bindParam(7, $gender);
         
         if ($stmt->execute()) {
             echo "<br><br><script>
@@ -103,6 +105,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <br>
                     <br> -->
                     <div class="form-group">
+                    <input type="text"id="address" name="address" maxlength="50"  placeholder=""required>
+                        <label for="Address">Address</label>
+                    </div>
+                    <div class="form-group">
                         <input type="Date"id="birthdate" name="birthdate" placeholder=""><br>
                         <!-- <label for="Date">Birthdate</label> -->
                     </div>
@@ -117,7 +123,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                    <p>
                     By clicking Sign Up, <br> you agree to our Terms,Privacy Policy and Cookies Policy.</p>
                     <center><button type= "submit" class="button-29">Sign Up</button> </center> 
-                    <br>
                     <span class="account">have an account?<a href="userlogin.php" class="signuplogin" > login</a>
                     <!-- <center>Don't have an account?<a href="register.php" class="loginbtnsignup"> Sign Up</a></center> -->
 
