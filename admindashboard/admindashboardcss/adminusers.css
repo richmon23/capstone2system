@@ -137,10 +137,10 @@ body {
 }
 
 .left-content1{
-  background-color: rgb(20, 100, 20);
-  color: white;
+  /* background-color: #eeeeee; */
+  color: black;
   border-radius: 25px;
-  height: 65vh;
+  height:auto;
   margin-top: 0.6rem;
   margin-left: 0.7rem;
   width: 700px; /* Fixed width for desktop */
@@ -149,8 +149,8 @@ body {
 }
 
 .right-content{
-  background-color: rgb(20, 100, 20);
-  color: white;
+  background-color: #eeeeee;
+  color: black;
   border-radius: 25px;
   height: 65vh;
   margin-top: 0.6rem;
@@ -235,3 +235,274 @@ body {
   .search-icon::before {
     content: '\f002'; /* Font Awesome search icon */
   }
+
+
+ /* TODO: table */
+
+/* Table container to make it scrollable with a custom scrollbar */
+.table-container {
+  width: 100%; /* Adjust width for a better layout */
+  max-height: 390px; /* Height limit for scrollability */
+  overflow-y: auto; /* Enable vertical scroll */
+  border: 1px solid #ddd; /* Subtle border for the container */
+  border-radius: 10px; /* Rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a soft shadow effect */
+}
+
+/* Styling the table */
+table {
+  width: 100%; /* Full width inside the container */
+  border-collapse: collapse;
+  font-family: 'Arial', sans-serif;
+  background-color: #f9f9f9; /* Light background */
+}
+
+/* Table header styling with sticky */
+thead th {
+  background-color: #4CAF50; /* Forest green for header */
+  color: white; /* White text color */
+  padding: 15px; /* More padding for comfort */
+  text-align: left;
+  border-bottom: 1px solid #ddd; /* Subtle bottom border */
+  position: sticky; /* Make the header sticky */
+  top: 0; /* Stick to the top of the table container */
+  z-index: 1; /* Ensure the header stays on top when scrolling */
+}
+
+/* Alternate row colors */
+tbody tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+/* Hover effect for rows */
+tbody tr:hover {
+  background-color: #d1e7dd; /* Light green on hover */
+  cursor: pointer;
+}
+
+th, td {
+  padding: 15px; /* Padding for table cells */
+  text-align: left; /* Align text to the left */
+  border-bottom: 1px solid #ddd; /* Subtle border for all cells */
+}
+
+/* Custom Scrollbar Styles for WebKit Browsers (Chrome, Safari, Edge) */
+.table-container::-webkit-scrollbar {
+  width: 10px; /* Width of the scrollbar */
+}
+
+.table-container::-webkit-scrollbar-track {
+  background: #f1f1f1; /* Background of the scrollbar track */
+}
+
+.table-container::-webkit-scrollbar-thumb {
+  background-color: forestgreen; /* Scrollbar color */
+  border-radius: 10px; /* Rounded scrollbar */
+  border: 2px solid #f1f1f1; /* Optional border around the scrollbar thumb */
+}
+
+/* Custom Scrollbar Color for Firefox */
+.table-container {
+  scrollbar-color: forestgreen #f1f1f1;
+  scrollbar-width: thin;
+}
+
+
+
+/* TODO: user details  */
+
+/* Container for the image */
+#userDisplay {
+  text-align: center; /* Center all content */
+  margin-bottom: 20px;
+}
+
+/* Styling for the user image */
+#userImage {
+  width: 100px;
+  height: 100px;
+  object-fit: cover; /* Ensure the image fits without distortion */
+  border-radius: 50%; /* Circular image */
+  margin: 0 auto; /* Center the image horizontally */
+  display: block;
+  padding: 0; /* Remove padding */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+#userDetails {
+  /* background: #fff; */
+  padding: 40px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  height: 61.5vh;
+}
+
+/* User row layout */
+.user-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+/* Align labels and spans nicely */
+label {
+  font-size: 15px;
+  color: #333;
+  flex: 1; /* Ensure label takes one part of the space */
+  text-align: right; /* Align label text to the right */
+  padding-right: 10px; /* Space between label and value */
+}
+
+span {
+  color: #555;
+  flex: 2; /* Ensure span takes twice the space of the label */
+  text-align: left; /* Align span text to the left */
+}
+
+/* Buttons styling */
+button {
+  background-color: #4CAF50; /* Green */
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  margin: 5px 0;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+button:hover {
+  background-color: #45a049; /* Darker green */
+}
+
+.btn-danger {
+  background-color: #f44336; /* Red */
+}
+
+.btn-danger:hover {
+  background-color: #e53935; /* Darker red */
+}
+
+/* Responsive layout */
+@media (max-width: 600px) {
+  #userDetails {
+    padding: 15px;
+  }
+
+  button {
+    width: 100%;
+    margin: 3px 0;
+    margin-bottom: 20px;
+  }
+
+  .user-row {
+    flex-direction: column;
+  }
+
+  label, span {
+    flex: none;
+    text-align: left;
+  }
+
+  #userImage {
+    width: 80px;
+    height: 80px;
+  }
+}
+
+/* TODO: update user details */
+/* Modal styles */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1000; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgba(0, 0, 0, 0.5); /* Black w/ opacity */
+}
+
+/* Modal content */
+.modal-content {
+  background-color: #fff;
+  margin: 15% auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  width: 80%; /* Could be more or less, depending on screen size */
+  max-width: 600px; /* Max width for larger screens */
+}
+
+/* Close button */
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Form styling */
+.form-group {
+  margin-bottom: 15px;
+}
+
+label {
+  display: block;
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+input[type="text"],
+input[type="email"] {
+  width: 100%; /* Full width */
+  padding: 10px; /* Some padding */
+  border: 1px solid #ccc; /* Gray border */
+  border-radius: 4px; /* Rounded borders */
+  box-sizing: border-box; /* Include padding and border in element's total width */
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus {
+  border-color: #4CAF50; /* Green border on focus */
+  outline: none; /* Remove default outline */
+}
+
+/* Update button styling */
+.btn-update {
+  background-color: #4CAF50; /* Green */
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  transition: background-color 0.3s;
+  width: 100%; /* Full width */
+}
+
+.btn-update:hover {
+  background-color: #45a049; /* Darker green */
+}
+
+/* Responsive layout */
+@media (max-width: 600px) {
+  .modal-content {
+      width: 90%; /* Adjust modal width on smaller screens */
+  }
+}
+

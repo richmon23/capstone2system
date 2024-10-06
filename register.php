@@ -9,6 +9,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $firstname = $_POST['firstname'] ?? '';
     $surname = $_POST['surname'] ?? '';
     $email = $_POST['email'] ?? '';
+    $contact = $_POST['contact'] ?? '';
     $address = $_POST['address']?? '';
     $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
     $birthdate = $_POST['birthdate'] ?? '';
@@ -26,14 +27,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Use JavaScript alert to inform the user that the email is already registered
         echo "<br><br><script>alert('This email is already registered.');</script>";
     }else {
-        $stmt = $conn->prepare("INSERT INTO users (firstname, surname, email,address, password, birthdate, gender) VALUES (?, ?, ?, ?, ?, ?, ?)");
+        $stmt = $conn->prepare("INSERT INTO users (firstname, surname, email,contact,address, password, birthdate, gender) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
         $stmt->bindParam(1, $firstname);
         $stmt->bindParam(2, $surname);
         $stmt->bindParam(3, $email);
-        $stmt->bindParam(4, $address);
-        $stmt->bindParam(5, $password);
-        $stmt->bindParam(6, $birthdate);
-        $stmt->bindParam(7, $gender);
+        $stmt->bindParam(4, $contact);
+        $stmt->bindParam(5, $address);
+        $stmt->bindParam(6, $password);
+        $stmt->bindParam(7, $birthdate);
+        $stmt->bindParam(8, $gender);
         
         if ($stmt->execute()) {
             echo "<br><br><script>
@@ -86,43 +88,36 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <input type="text"id="surname" name="surname" maxlength="50"  placeholder=""required>
                         <label for="Surname">Surname</label>
                     </div>
-                    <!-- <label for="surname">Surname:</label> -->
-                    <!-- <input type="text"id="surname" name="surname" maxlength="50"  placeholder="Surname"required>
-                    <br>
-                    <br> -->
-                    <div class="form-group">
-                    <input type="password" id="password" name="password" placeholder="" required>
-                        <label for="Password">Password</label>
-                    </div>
-                    <!-- <input type="password" id="password" name="password" placeholder="New Password">
-                    <br>
-                    <br> -->
                     <div class="form-group">
                         <input type="email" id="email" name="email" maxlength="50"  placeholder=""required>
                         <label for="Email">Email</label>
                     </div>
-                    <!-- <input type="text" id="email" name="email" maxlength="50"  placeholder="Email"required>
-                    <br>
-                    <br> -->
+                    <div class="form-group">
+                    <input type="password" id="password" name="password" placeholder="" required>
+                        <label for="Password">Password</label>
+                    </div>
+                    <div class="form-group">
+                    <input type="text"id="contact" name="contact" maxlength="50"  placeholder=""required>
+                        <label for="Contact">contact</label>
+                    </div>
                     <div class="form-group">
                     <input type="text"id="address" name="address" maxlength="50"  placeholder=""required>
                         <label for="Address">Address</label>
                     </div>
                     <div class="form-group">
-                        <input type="Date"id="birthdate" name="birthdate" placeholder=""><br>
-                        <!-- <label for="Date">Birthdate</label> -->
+                        <input type="Date"id="birthdate" name="birthdate" placeholder=""><br>  
                     </div>
-                    <!-- <input type="date" id="birthdate" name="birthdate" placeholder="Birthdate"><br>
-                    <br> -->
                     <label>Gender:</label><br>
                     <input type="radio" id="male" name="gender" value="Male" required>
-                    <label for="male">Male</label><br>
+                    <label for="male" class="gender-label">Male</label><br>
                     <input type="radio" id="female" name="gender" value="Female">
-                    <label for="female">Female</label><br>
-                    <br>
+                    <label for="female" class="gender-label">Female</label>
                    <p>
+                    <br>
                     By clicking Sign Up, <br> you agree to our Terms,Privacy Policy and Cookies Policy.</p>
-                    <center><button type= "submit" class="button-29">Sign Up</button> </center> 
+                    <center>
+                    <br>
+                    <button type= "submit" class="button-29">Sign Up</button> </center> 
                     <span class="account">have an account?<a href="userlogin.php" class="signuplogin" > login</a>
                     <!-- <center>Don't have an account?<a href="register.php" class="loginbtnsignup"> Sign Up</a></center> -->
 

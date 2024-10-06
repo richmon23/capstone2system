@@ -8,6 +8,7 @@
   body{
       /* background-color: #e5e1e1; */
       background-color: #e5e1e1;
+      overflow-y: hidden;
   }
   
   /* media queries breakpoints - responsive design*/
@@ -87,13 +88,13 @@
 
   .right {
     margin-bottom: 6rem;
-    height: 85vh;
+    height: 88vh;
     margin-top:20px;
     box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);
     border: 1px solid forestgreen;
     border-radius:10px 10px;
     background-color: white;
-    height:93vh;
+    height:96vh;
     width:45%;
   }
 
@@ -211,6 +212,7 @@
     white-space: nowrap;
     will-change: box-shadow, transform;
     font-size: 18px;
+    height: 40px;
   }
   
   .button-29:focus {
@@ -236,4 +238,8 @@ color:black;
 }
 .signuplogin:hover{
     text-decoration: underline;
+}
+
+p{
+font-size: 10px;
 }
