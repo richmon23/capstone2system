@@ -201,40 +201,47 @@ body {
     margin-top: 0.3rem; /* Adjust margin to move the logout button up */
   }
 
-    /* TODO: search bar dashboard  */
-.right-header {
+ /* TODO: searchbox  */
+ .right-header {
   position: relative;
-  }
-  
-  .search-box {
-    position: absolute;
-    margin-top: 10px;
-    left: 45%;
-    display: flex;
-    align-items: center;
-    position: absolute;
-    top: 20px;
-    left:650px;
-  }
-  
-  .search-input {
-    padding: 8px 8px 8px 30px; /* Add padding-left to make room for the icon */
-    font-size: 14px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    width: 250px;
-  }
-  
-  .search-icon {
-    position: absolute;
-    left: 10px; /* Position the icon inside the left corner */
-    font-size: 16px;
-    color: #666;
-  }
-  
-  .search-icon::before {
-    content: '\f002'; /* Font Awesome search icon */
-  }
+}
+
+.search-box1 {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  top: 30px;
+  left: 650px;
+  width: 30%;
+}
+
+.search-input {
+  /* padding: 20px 20px 8px 30px; Ensure padding-left leaves room for the icon */
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 350px;
+  box-sizing: border-box;
+  text-indent:10%; /* Adds 10px indentation to the placeholder text */
+}
+
+.search-input::placeholder {
+  text-indent: 20px; /* Ensure placeholder is also indented by 10px */
+}
+
+.search-icon {
+  position: absolute;
+  left: 10px; /* Adjust left padding for better alignment */
+  font-size: 16px;
+  color: #666;
+  pointer-events: none; /* Prevents icon from blocking input clicks */
+}
+
+.search-icon::before {
+  content: '\f002'; /* Font Awesome search icon */
+  font-family: "FontAwesome";
+}
+
 
 
  /* TODO: table */
@@ -347,7 +354,7 @@ th, td {
 
 /* Align labels and spans nicely */
 label {
-  font-size: 15px;
+  font-size: 8px;
   color: #333;
   flex: 1; /* Ensure label takes one part of the space */
   text-align: right; /* Align label text to the right */
