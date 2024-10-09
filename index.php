@@ -67,15 +67,15 @@
             <h2>Our Gallery</h2>
             <div class="package-container">
                 <div class="package" data-aos="zoom-in">
-                    <img src="images/img1.jpg" alt="Gallery Image 1" class="zoom">
+                    <img src="./images/memorialparkpic.jpg" alt="memorialparkfrontpic" class="zoom">
                     <h3>front</h3>
                 </div>
                 <div class="package" data-aos="zoom-in">
-                    <img src="images/img2.jpg" alt="Gallery Image 2" class="zoom">
+                    <img src="./images/pic2.jpg" alt="memorialparkbackpic" class="zoom">
                     <h3>back</h3>
                 </div>
                 <div class="package" data-aos="zoom-in">
-                    <img src="images/img3.jpg" alt="Gallery Image 3" class="zoom">
+                    <img src="./images/family.jpg" alt="memorialparkhallwayspic" class="zoom">
                     <h3>hallways</h3>
                 </div>
             </div>

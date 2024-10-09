@@ -39,94 +39,98 @@ try {
 </head> 
 <body>
     <div class="row">
-        <div class="left-content col-4">
-            <div class="memoriallogo"><img src="../images/bogomemoriallogo.png" alt="bogomemoriallogo"></div>
-            <div class="hamburgermenu"><img src="../images/hamburgermenu.png" alt="hamburgermenu"></div> 
-            <div class="adminprofile">
-                <center>
-                    <img src="../images/female.png" alt="adminicon">
-                    <h2><?php echo $firstname; ?></h2>
-                </center>
-            </div>
-            <center>
-                <br>
-                <div class="adminlinks">
-                            <span><img src="../images/dashboard.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminDashboard.php">Dashboard</a></span> 
-                            <span><img src="../images/deceased.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminDeceased.php">Deceased</a></span>
-                            <span><img src="../images/reservation.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminreservation.php">Reservation</a></span>
-                            <span><img src="../images/review.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminreviews.php">Reviews</a></span>
-                            <!-- <span><img src="../images/settings.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminsettings.php">Settings</a></span> -->
-                            <span><img src="../images/payment.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminpayment.php">Payments</a></span>
+    <div class="left-content col-3"> 
+                    <div class="adminprofile">
+                                <center>
+                                    <img src="../images/female.png" alt="adminicon">
+                                    <div class="dropdown">
+                                        <button class="dropdown-btn">
+                                            <?php echo "<h4> $firstname</h4>" ?> 
+                                        </button>
+                                        <!-- <i class="fas fa-caret-down dropdown-icon"></i> -->
+                                        <!-- <div class="dropdown-content">
+                                            <button onclick="openModal('changePasswordModal')">Change Password</button>
+                                        </div> -->
+                                        <!-- <button onclick="openModal('termsModal')">Terms and Conditions</button> -->
+                                    </div>
+                                </center>
+                            </div>
                             <br>
-                            <span><img src="../images/logout.png" alt="">&nbsp;&nbsp;&nbsp;<a href="../logout.php">Logout</a></span>
-                        </div>
-                <br>
-            </center>
-        </div>
-        <div class="main">
-            <div class="right-content1">
-                <div class="right-header col-9">
-                    <br>
-                    <h1> Reviews </h1>
-                    <!-- <?php if ($email): ?>
-                        <p>You are logged in as <?php echo $email; ?>.</p>
-                    <?php else: ?>
-                        <p>Email address not available.</p>
-                    <?php endif; ?> -->
+                            <div class="adminlinks">
+                                <span><img src="../images/dashboard.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminDashboard.php">Dashboard</a></span> 
+                                <span><img src="../images/deceased.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminDeceased.php">Deceased</a></span>
+                                <span><img src="../images/reservation.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminreservation.php">Reservation</a></span>
+                                <span><img src="../images/review.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminreviews.php">Reviews</a></span>
+                                <span><img src="../images/users.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminusers.php">User's</a></span>
+                                <span><img src="../images/payment.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminpayment.php">Payments</a></span>
+                                <span><img src="../images/logout.png" alt="">&nbsp;&nbsp;&nbsp;<a href="../logout.php">Logout</a></span>
+                            </div>
+                            <br>
+                    </div>
+            <div class="main">
+                <div class="right-content1">
+                    <div class="right-header col-9">
+                        <br>
+                        <h2> CUSTOMER REVIEWS </h2>
+                        <!-- <?php if ($email): ?>
+                            <p>You are logged in as <?php echo $email; ?>.</p>
+                        <?php else: ?>
+                            <p>Email address not available.</p>
+                        <?php endif; ?> -->
+                    </div>
                 </div>
-            </div>
-            <div class="right-content2">
-                <div class="right-header col-9">
-                    <div class="table-container">
-                    <table id="myTable">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>NAME</th>
-                                <th>USER FEEDBACK</th>
-                                <th>RATING</th>
-                                <th>TIME</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        <?php
-                            $sql = "SELECT id, fullname, userfeedback, rating, time FROM reviews ORDER BY time DESC LIMIT 1000";  
-                            $stmt = $pdo->prepare($sql);
-                            $stmt->execute();
+                <div class="right-content2">
+                    <div class="right-header col-9">
+                        <div class="table-container">
+                        <table id="myTable">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>NAME</th>
+                                    <th>USER FEEDBACK</th>
+                                    <th>RATING</th>
+                                    <th>TIME</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <?php
+                                $sql = "SELECT id, fullname, userfeedback, rating, time FROM reviews ORDER BY time DESC LIMIT 1000";  
+                                $stmt = $pdo->prepare($sql);
+                                $stmt->execute();
 
-                            if ($stmt->rowCount() > 0) {
-                                while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                                    echo "<tr>
-                                            <td>" . htmlspecialchars($row["id"]). "</td>
-                                            <td>" . htmlspecialchars($row["fullname"]). "</td>
-                                            <td>" . htmlspecialchars($row["userfeedback"]). "</td>
-                                            <td>";
-                                            
-                                    // Display stars based on the rating
-                                    $rating = (int)$row['rating'];
-                                    for ($i = 1; $i <= 5; $i++) {
-                                        if ($i <= $rating) {
-                                            echo "<i class='fas fa-star'></i>"; // Filled star
-                                        } else {
-                                            echo "<i class='far fa-star'></i>"; // Empty star
+                                if ($stmt->rowCount() > 0) {
+                                    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                                        echo "<tr>
+                                                <td>" . htmlspecialchars($row["id"]). "</td>
+                                                <td>" . htmlspecialchars($row["fullname"]). "</td>
+                                                <td>" . htmlspecialchars($row["userfeedback"]). "</td>
+                                                <td>";
+                                                
+                                        // Display stars based on the rating
+                                        $rating = (int)$row['rating'];
+                                        for ($i = 1; $i <= 5; $i++) {
+                                            if ($i <= $rating) {
+                                                echo "<i class='fas fa-star'></i>"; // Filled star
+                                            } else {
+                                                echo "<i class='far fa-star'></i>"; // Empty star
+                                            }
                                         }
-                                    }
 
-                                    echo "</td>
-                                            <td>" . htmlspecialchars($row["time"]). "</td>
-                                        </tr>";
+                                        echo "</td>
+                                                <td>" . htmlspecialchars($row["time"]). "</td>
+                                            </tr>";
+                                    }
+                                } else {
+                                    echo "<tr><td colspan='5'>0 results</td></tr>";
                                 }
-                            } else {
-                                echo "<tr><td colspan='5'>0 results</td></tr>";
-                            }
-                        ?>
-                        </tbody>
-                    </table>   
-                    </div>  
+                            ?>
+                            </tbody>
+                        </table>   
+                        </div>  
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <?php $pdo = null; // Closing the PDO connection ?>
+        <?php $pdo = null; // Closing the PDO connection ?>
 </body>
 </html>

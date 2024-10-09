@@ -145,10 +145,8 @@ if (isset($pdo)) {
 <body>
     <!-- <a href="logout.php">Logout</a> -->
         <div class="row">
-                <div class="left-content col-3">
-                    <div class="memoriallogo"><img src="../images/bogomemoriallogo.png" alt="bogomemoriallogo"></div>
-                    <div class="hamburgermenu"><img src="../images/hamburgermenu.png" alt="hamburgermenu"></div> 
-                    <div class="adminprofile">
+            <div class="left-content col-3"> 
+                 <div class="adminprofile">
                             <center>
                                 <img src="../images/female.png" alt="adminicon">
                                 <div class="dropdown">
@@ -175,52 +173,54 @@ if (isset($pdo)) {
                         <br>
                 </div>
                 <div class="main">
-                        <div class="right-content1">
-                            <div class="right-header col-9">
-                                <span>
-                                    <h1>Bogo Memorial Park</h1>
-                                    <h1>Admin Dashboard</h1>
-                                </span>
-                                <!-- <div class="search-box">
-                                    <i class="fas fa-search search-icon"></i>
-                                    <input type="text" class="search-input" placeholder="Search">
-                                </div> -->
+                            <div class="right-content1">
+                                <div class="right-header col-9">
+                                    <span>
+                                        <h2>ADMIN DASHBOARD</h2>
+                                    </span>
+                                    <!-- <div class="search-box">
+                                        <i class="fas fa-search search-icon"></i>
+                                        <input type="text" class="search-input" placeholder="Search">
+                                    </div> -->
+                                </div>
                             </div>
-                        </div>
                         <div class="right-content2">
                             <br>
-                            <h2 class="todaydata">Today's  Data </h2>
+                            <h3 class="todaydata">Today's  Data </h3>
                             <br>
                             <br>
                             <div class="rightsidebar-content">
                             <div class="div">
-                                <h3>Weekly Reservations</h3>
                                 <p class="dashboard-counter-number"> <?php echo $total_weekly_reservations; ?></p>
+                                <h5>Weekly Reservations</h5>
                             </div>
                             <div class="div">
-                                <h3>Monthly Reservations</h3>
                                 <p class="dashboard-counter-number"> <?php echo $total_monthly_reservations; ?></p>
+                                <h5>Monthly Reservations</h5>
+
                             </div>
 		                    <div class="div">
-                                <h3>Yearly Reservations</h3>
                                 <p class="dashboard-counter-number"> <?php echo $total_yearly_reservations; ?></p>
+                                <h5>Yearly Reservations</h5>
+
                             </div>
                             <!-- <div class="div"> -->
                                 <!-- <h3>Messages</h3> -->
                                 <!-- <p class="dashboard-counter-number"> <?php echo $total_reservations; ?></p> -->
                             <!-- </div> -->
                             <div class="div">
-                                <h3>Available Plots</h3>
+                                <h5>Available Plots</h5>
                             </div>
                             <!-- <div class="div">Payment History</div> -->
                         </div>
-                        </div>
                     </div>
+                </div>
         </div>
 
         <!-- TODO: Alert message  -->
         <div id="alertMessage"></div>
 
+        <!-- TODO: Change Password Modal -->
          <!-- TODO: Change Password Modal  -->
         <div id="changePasswordModal" class="modal">
             <div class="modal-content">
@@ -265,23 +265,55 @@ if (isset($pdo)) {
         </div> -->
 
 </body>
-<script>
-    // Function to open a modal
-    function openModal(modalId) {
-        document.getElementById(modalId).style.display = 'block';
-    }
-
-    // Function to close a modal
-    function closeModal(modalId) {
-        document.getElementById(modalId).style.display = 'none';
-    }
-
-    // Close modal if clicked outside of modal content
-    window.onclick = function(event) {
-        if (event.target.classList.contains('modal')) {
-            event.target.style.display = 'none';
+    <script>
+        // Function to open a modal
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'block';
         }
-    }
+
+        // Function to close a modal
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        // Close modal if clicked outside of modal content
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+            }
+        }
+
+    
+        // Function to open a modal
+        function openModal(modalId) {
+            const modal = document.getElementById(modalId);
+            modal.style.display = 'block';  // First, set display to block
+            setTimeout(() => {
+                modal.classList.add('show');  // Then, add the 'show' class after a slight delay to trigger animation
+            }, 10);  // The delay ensures that the display change is rendered before the animation starts
+        }
+
+        // Function to close a modal
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            modal.classList.remove('show');  // Remove the show class to trigger the fade-out animation
+            setTimeout(() => {
+                modal.style.display = 'none';  // Hide the modal after the animation ends
+            }, 300);  // Delay matches the CSS transition duration (0.3s)
+        }
+
+        // Close modal if clicked outside of modal content
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                const modal = event.target;
+                modal.classList.remove('show');
+                setTimeout(() => {
+                    modal.style.display = 'none';
+                }, 300); // Delay matches the transition time
+            }
+        };
+
+
 
 
 

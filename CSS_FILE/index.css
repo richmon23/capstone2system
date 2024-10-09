@@ -9,7 +9,7 @@ body {
 
 /* Header */
 .header {
-    background-color:dodgerblue;
+    background-color:#0a5c36 ;
     padding: 0.5rem 1rem;
     display: flex;
     justify-content: space-between; /* Maintain space between logo, nav, and login */
@@ -89,7 +89,7 @@ body {
 
 /* CSS */
 .button-71 {
-  background-color: dodgerblue;
+  background-color: #0a5c36 ;
   box-shadow: #333;
   border: 0;
   border-radius: 56px;
@@ -184,6 +184,7 @@ h2{
 /* Zoom on Hover */
 .package:hover img {
     transform: scale(1.05); /* Slight zoom on hover */
+    opacity: 0.9; /* Slight opacity change on hover */
 }
 
 /* Package Hover Effect */

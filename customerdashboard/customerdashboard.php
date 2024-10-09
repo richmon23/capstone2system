@@ -31,49 +31,44 @@ require_once '../connection/connection.php'; // Include your database connection
     <!-- <a href="logout.php">Logout</a> -->
 
     <div class="row">
-    <div class="left-content col-3">
-                <div class="memoriallogo"><img src="../images/bogomemoriallogo.png" alt="bogomemoriallogo"></div>
-                <div class="hamburgermenu"><img src="../images/hamburgermenu.png" alt="hamburgermenu"></div> 
+            <div class="left-content col-3">
                 <div class="adminprofile">
-                <center>
-                    <img src="../images/female.png" alt="adminicon">
-                    <div class="dropdown">
-                        <button class="dropdown-btn">
-                            <?php echo "<h4> $firstname</h4>" ?> <i class="fas fa-caret-down dropdown-icon"></i>
-                        </button>
-                        <div class="dropdown-content">
-                             <button onclick="openModal('changePasswordModal')">Change Password</button>
-                             <button onclick="openModal('termsModal')">Terms and Conditions</button>
+                            <center>
+                                <img src="../images/female.png" alt="adminicon">
+                                <div class="dropdown">
+                                    <button class="dropdown-btn">
+                                        <?php echo "<h4> $firstname</h4>" ?> <i class="fas fa-caret-down dropdown-icon"></i>
+                                    </button>
+                                    <div class="dropdown-content">
+                                        <button onclick="openModal('changePasswordModal')">Change Password</button>
+                                        <button onclick="openModal('termsModal')">Terms and Conditions</button>
+                                    </div>
+                                </div>
+                            </center>
                         </div>
-                    </div>
-                </center>
-            </div>
-             <br>
-             <div class="adminlinks">
-                <span><img src="../images/dashboard.png" alt="">&nbsp;&nbsp;&nbsp;<a href="/customerdashboard/customerdashboard.php">Dashboard</a></span> 
-                <!-- <span><img src="../images/deceased.png" alt="">&nbsp;&nbsp;&nbsp;<a href="/customerdashboard/customerdeceased.php">Deceased</a></span> -->
-                <span><img src="../images/reservation.png" alt="">&nbsp;&nbsp;&nbsp;<a href="/customerdashboard/customerreservation.php">Reservation</a></span>
-                <span><img src="../images/payment.png" alt="">&nbsp;&nbsp;&nbsp;<a href="/customerdashboard/customerpayment.php">Payments</a></span>
-                <span><img src="../images/review.png" alt="">&nbsp;&nbsp;&nbsp;<a href="/customerdashboard/customerreviews.php">Reviews</a></span>
-                <span><img src="../images/map.png" alt="">&nbsp;&nbsp;&nbsp;<a href="/customerdashboard/mapnavigation.php">Map Navigation</a></span>
-                <!-- <span><img src="../images/settings.png" alt="">&nbsp;&nbsp;&nbsp;<a href="/customerdashboard/customersettings.php">Settings</a></span> -->
-                <span><img src="../images/logout.png" alt="">&nbsp;&nbsp;&nbsp;<a href="../logout.php">Logout</a></span>
-             </div>
-            <br>
-        </div>
-        <div class="main">
-            <div class="right-content1">
-                <div class="right-header col-9">
-                        <span>
-                            <h1>Bogo Memorial Park</h1>
-                            <h1>Customer Dashboard</h1>
-                        </span>
-                        <!-- <div class="search-box">
-                            <i class="fas fa-search search-icon"></i>
-                            <input type="text" class="search-input" placeholder="Search">
-                        </div> -->
+                        <br>
+                        <div class="adminlinks">
+                            <span><img src="../images/dashboard.png" alt="">&nbsp;&nbsp;&nbsp;<a href="customerDashboard.php">Dashboard</a></span> 
+                            <!-- <span><img src="../images/deceased.png" alt="">&nbsp;&nbsp;&nbsp;<a href="customerDeceased.php">Deceased</a></span> -->
+                            <span><img src="../images/reservation.png" alt="">&nbsp;&nbsp;&nbsp;<a href="customerreservation.php">Reservation</a></span>
+                            <span><img src="../images/review.png" alt="">&nbsp;&nbsp;&nbsp;<a href="customerreviews.php">Reviews</a></span>
+                            <!-- <span><img src="../images/users.png" alt="">&nbsp;&nbsp;&nbsp;<a href="customerusers.php">User's</a></span> -->
+                            <span><img src="../images/payment.png" alt="">&nbsp;&nbsp;&nbsp;<a href="customerpayment.php">Payments</a></span>
+                            <span><img src="../images/logout.png" alt="">&nbsp;&nbsp;&nbsp;<a href="../logout.php">Logout</a></span>
+                        </div>
+                        <br>
                 </div>
-            </div>   
+                <div class="main">
+                        <div class="right-content1">
+                                <div class="right-header col-9">
+                                    <span>CUSTOMER DASHBOARD</h2>
+                                    </span>
+                                    <!-- <div class="search-box">
+                                        <i class="fas fa-search search-icon"></i>
+                                        <input type="text" class="search-input" placeholder="Search">
+                                    </div> -->
+                                </div>
+                            </div>
             <div class="right-content2">
                 <br>
                 <div class="rightsidebar-content">
@@ -170,6 +165,37 @@ require_once '../connection/connection.php'; // Include your database connection
                         }
                     }
 
+                    // Function to open a modal
+                    function openModal(modalId) {
+                        const modal = document.getElementById(modalId);
+                        modal.style.display = 'block';  // First, set display to block
+                        setTimeout(() => {
+                            modal.classList.add('show');  // Then, add the 'show' class after a slight delay to trigger animation
+                        }, 10);  // The delay ensures that the display change is rendered before the animation starts
+                    }
+
+                    // Function to close a modal
+                    function closeModal(modalId) {
+                        const modal = document.getElementById(modalId);
+                        modal.classList.remove('show');  // Remove the show class to trigger the fade-out animation
+                        setTimeout(() => {
+                            modal.style.display = 'none';  // Hide the modal after the animation ends
+                        }, 300);  // Delay matches the CSS transition duration (0.3s)
+                    }
+
+                    // Close modal if clicked outside of modal content
+                    window.onclick = function(event) {
+                        if (event.target.classList.contains('modal')) {
+                            const modal = event.target;
+                            modal.classList.remove('show');
+                            setTimeout(() => {
+                                modal.style.display = 'none';
+                            }, 300); // Delay matches the transition time
+                        }
+                    };
+
+
+
                      // TODO: alert button functionality
                     // Function to show an alert
                     function showAlert(message, type) {
@@ -199,3 +225,6 @@ require_once '../connection/connection.php'; // Include your database connection
     </div> 
 </body>
 </html>
+
+
+                

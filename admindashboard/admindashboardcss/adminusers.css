@@ -4,11 +4,12 @@
   box-sizing: border-box;
   font-family: Arial, sans-serif;
 }
+
 body {
-  background-color: #e5e1e1;
+  background-color: #efefef;
 }
 
-/* media queries breakpoints - responsive design*/
+/* Responsive Design */
 .row::after {
   content: "";
   clear: both;
@@ -20,51 +21,27 @@ body {
   padding: 15px;
 }
 
-/* For desktop: */
-.col-1 {
-  width: 8.33%;
-}
-.col-2 {
-  width: 16.66%;
-}
-.col-3 {
-  width: 25%;
-}
-.col-4 {
-  width: 33.33%;
-}
-.col-5 {
-  width: 41.66%;
-}
-.col-6 {
-  width: 50%;
-}
-.col-7 {
-  width: 58.33%;
-}
-.col-8 {
-  width: 66.66%;
-}
-.col-9 {
-  width: 75%;
-}
-.col-10 {
-  width: 83.33%;
-}
-.col-11 {
-  width: 91.66%;
-}
-.col-12 {
-  width: 100%;
-}
+/* For Desktop */
+.col-1 { width: 8.33%; }
+.col-2 { width: 16.66%; }
+.col-3 { width: 25%; }
+.col-4 { width: 33.33%; }
+.col-5 { width: 41.66%; }
+.col-6 { width: 50%; }
+.col-7 { width: 58.33%; }
+.col-8 { width: 66.66%; }
+.col-9 { width: 75%; }
+.col-10 { width: 83.33%; }
+.col-11 { width: 91.66%; }
+.col-12 { width: 100%; }
 
 @media only screen and (max-width: 768px) {
-  /* For mobile phones: */
-  [class*="col-"] {
-    width: 100%;
+  .left-content {
+    width: 100%; /* Full width on mobile screens */
+    margin: 0; /* Remove margins on mobile */
+    height: auto; /* Adjust height based on content */
   }
 }
-/* responsive design media queries breakpoints */
 
 .row {
   width: 100%;
@@ -73,18 +50,17 @@ body {
 }
 
 .left-content {
-  background-color: rgb(20, 100, 20);
-  color: white;
-  border-radius: 25px;
+  background-color:#18392b;
+  color: black;
+  border-radius: 10px;
   height: 95vh;
   margin-top: 0.6rem;
-  margin-left: 0.7rem;
+  margin-left: 0.8rem;
+  margin-right: 10px;
   width: 250px; /* Fixed width for desktop */
   position: relative;
   padding: 1rem; /* Add padding inside the sidebar */
 }
-
-
 
 
 .memoriallogo img {
@@ -108,39 +84,64 @@ body {
 
 }
 
+.memoriallogo img {
+    width: 95px;
+    position: absolute;
+    top: 0.6rem;
+    filter: drop-shadow (0px, 0px, 20px,black);
+  }
+  
+  .hamburgermenu img {
+    width: 20px;
+    float: right;
+    margin-top: 0.6rem;
+  }
+  
+  .adminprofile img {
+    width: 100px;
+    margin-top: 3rem;
+    padding-left: 30px;
+  
+  
+  }
+
+
 .main {
   width: 100%;
   margin-top: 1rem;
   margin-left: 50px;
 }
 
-
 .right-content1 {
-  margin-left: 20px;
-  width: 90%;
-  height: 6.5rem;
-  background-color: white;
-  color: forestgreen;
-  border-radius: 20px;
- 
-}
+  margin-left: 1px;
+  padding-top: 1px;
+  width: 97%;
+  height: 5rem;
+  background-color:#18392b;
+  color: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2)
 
-.right-content2 {
-  margin-left: 25px;
-  width: 90%;
-  height: 70vh;
-  margin-top: 2.8rem;
-  background-color: white;
-  color: rgb(0, 0, 0);
-  border-radius: 20px;
   
 }
 
+.right-content2 {
+  margin-left: 1px;
+  width: 97%;
+  height: 77vh;
+  margin-top: 1rem;
+  background-color: #f1f1f1;
+  color: rgb(0, 0, 0);
+  border-radius: 10px;
+
+}
+
+
 .left-content1{
-  /* background-color: #eeeeee; */
-  color: black;
+  background-color:#18392b;
+  color: white;
   border-radius: 25px;
-  height:auto;
+  height: 73vh;
   margin-top: 0.6rem;
   margin-left: 0.7rem;
   width: 700px; /* Fixed width for desktop */
@@ -149,10 +150,10 @@ body {
 }
 
 .right-content{
-  background-color: #eeeeee;
-  color: black;
+  background-color: #18392b;
+  color: white;
   border-radius: 25px;
-  height: 65vh;
+  height: 73vh;
   margin-top: 0.6rem;
   margin-left: 0.7rem;
   width: 300px; /* Fixed width for desktop */
@@ -169,9 +170,10 @@ body {
   .adminlinks {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem; /* Spacing between each link */
+    gap: 1rem; /* Spacing between each link */
     align-items: flex-start; /* Aligns all links to the left */
     margin-left: 10px;
+    margin-top: 1px;
   }
   
   .adminlinks span {
@@ -188,59 +190,153 @@ body {
   .adminlinks a {
     text-decoration: none;
     color: white;
-    font-size: 1rem; /* Adjust font size for better readability */
+    font-size: 12px; /* Adjust font size for better readability */
     display: inline-block;
+    transition: color 0.3s, background-color 0.3s; /* Smooth transition for hover */
+  }
+  
+  .adminlinks a:hover {
+    color: white; /* Change text color on hover */
+    background-color: #18392b; /* Add background color on hover */
+    padding: 5px 10px; /* Optional: Add some padding for hover effect */
+    border-radius: 20px; /* Optional: Add border radius */
+    
   }
   
   .adminlinks .logout-link {
-    width: 100%;
-    padding: 10px 0; /* Add padding to align with other links */
+    width: 50%;
+    padding: 1px 0; /* Add padding to align with other links */
   }
   
   .adminlinks span:last-child {
-    margin-top: 0.3rem; /* Adjust margin to move the logout button up */
+    margin-top: 2.1rem; /* Adjust margin to move the logout button up */
+    margin-bottom: 5rem;
+  }
+  .adminlinks a:hover {
+    color: rgb(0, 0, 0); /* Change text color on hover */
+    background-color: #00ff95; /* Add background color on hover */
+    padding: 5px 10px; /* Optional: Add some padding for hover effect */
+    border-radius: 20px; /* Optional: Add border radius */
+    
+  }
+  .adminlinks a:hover i, .adminlinks a:hover svg {
+    color: rgb(0, 0, 0); /* Change icon color on hover */
+}
+
+   /* Admin Profile Styling */
+   .adminprofile {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    bottom: 40px;
+    right: 10px;
+  }
+  .adminprofile img {
+    border-radius: 50%;
+    width: 100px;
+  }
+  .adminprofile h2 {
+    margin-top: 10px;
   }
 
- /* TODO: searchbox  */
- .right-header {
+  /* Dropdown Styling */
+.dropdown {
   position: relative;
+  display: inline-block;
+  margin-left: 20px; /* Adjust margin for spacing */
 }
 
-.search-box1 {
-  position: absolute;
+.dropdown-btn {
+  background-color: transparent;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  /* cursor: pointer; */
   display: flex;
   align-items: center;
-  top: 30px;
-  left: 650px;
-  width: 30%;
-}
-
-.search-input {
-  /* padding: 20px 20px 8px 30px; Ensure padding-left leaves room for the icon */
-  font-size: 14px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  width: 350px;
-  box-sizing: border-box;
-  text-indent:10%; /* Adds 10px indentation to the placeholder text */
-}
-
-.search-input::placeholder {
-  text-indent: 20px; /* Ensure placeholder is also indented by 10px */
-}
-
-.search-icon {
-  position: absolute;
-  left: 10px; /* Adjust left padding for better alignment */
+  gap: 8px; /* Adds spacing between name and icon */
   font-size: 16px;
-  color: #666;
-  pointer-events: none; /* Prevents icon from blocking input clicks */
 }
 
-.search-icon::before {
-  content: '\f002'; /* Font Awesome search icon */
-  font-family: "FontAwesome";
+
+.dropdown-icon {
+font-size: 18px;
 }
+
+/* .dropdown-btn:hover {
+background-color: black;
+} */
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+  left: 50%; /* Position the dropdown to the right of the button */
+  top: 70%; /* Align the top of the dropdown with the button */
+}
+
+.dropdown-content button {
+  background-color: white;
+  color: black;
+  padding: 12px 16px;
+  text-align: left;
+  border: none;
+  width: 100%;
+  cursor: pointer;
+}
+
+.dropdown-content button:hover {
+  background-color: #ddd;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+   
+    /* TODO: search bar dashboard  */
+.right-header {
+  position: relative;
+  }
+  
+  .search-box {
+    position: absolute;
+    margin-top: 10px;
+    left: 70%;
+    display: flex;
+    align-items: center;
+    position: absolute;
+    top: 15px;
+    left:750px;
+    width:250px;
+    border-radius: 20px;
+   
+   
+  }
+  
+  .search-input {
+    padding: 8px 8px 8px 30px; /* Add padding-left to make room for the icon */
+    font-size: 14px;
+    border: 1px solid #efefef;
+
+  }
+
+  #search{
+    padding-left: 40px;
+  }
+  .search-icon {
+    position: absolute;
+    left: 10px; /* Position the icon inside the left corner */
+    font-size: 16px;
+    color: green;
+  }
+  
+  .search-icon::before {
+    content: '\f002'; /* Font Awesome search icon */
+  }
+  
 
 
 
@@ -289,6 +385,7 @@ tbody tr:hover {
 
 th, td {
   padding: 15px; /* Padding for table cells */
+  color:black;
   text-align: left; /* Align text to the left */
   border-bottom: 1px solid #ddd; /* Subtle border for all cells */
 }
@@ -333,14 +430,14 @@ th, td {
   margin: 0 auto; /* Center the image horizontally */
   display: block;
   padding: 0; /* Remove padding */
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  /* box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); */
 }
 
 #userDetails {
   /* background: #fff; */
   padding: 40px;
   border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  /* box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); */
   margin-bottom: 20px;
   height: 61.5vh;
 }
@@ -354,15 +451,15 @@ th, td {
 
 /* Align labels and spans nicely */
 label {
-  font-size: 8px;
-  color: #333;
+  font-size: 15px;
+  color: #ffffff;
   flex: 1; /* Ensure label takes one part of the space */
   text-align: right; /* Align label text to the right */
   padding-right: 10px; /* Space between label and value */
 }
 
 span {
-  color: #555;
+  color: #ffffff;
   flex: 2; /* Ensure span takes twice the space of the label */
   text-align: left; /* Align span text to the left */
 }
@@ -436,7 +533,7 @@ button:hover {
 
 /* Modal content */
 .modal-content {
-  background-color: #fff;
+  background-color: #ffffff;
   margin: 15% auto; /* 15% from the top and centered */
   padding: 20px;
   border: 1px solid #888;
@@ -444,6 +541,7 @@ button:hover {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   width: 80%; /* Could be more or less, depending on screen size */
   max-width: 600px; /* Max width for larger screens */
+  color:black;
 }
 
 /* Close button */
@@ -466,10 +564,11 @@ button:hover {
   margin-bottom: 15px;
 }
 
-label {
+.modallabel {
   display: block;
+  text-align: left;
   font-size: 16px;
-  color: #333;
+  color:black;
   margin-bottom: 5px;
 }
 
@@ -512,4 +611,8 @@ input[type="email"]:focus {
       width: 90%; /* Adjust modal width on smaller screens */
   }
 }
+
+
+
+
 

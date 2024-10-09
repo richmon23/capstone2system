@@ -38,50 +38,570 @@ try {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> 
 </head>
+<style>
+    * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+body {
+  background-color: #e5e1e1;
+}
+
+/* media queries breakpoints - responsive design*/
+.row::after {
+  content: "";
+  clear: both;
+  display: block;
+}
+
+[class*="col-"] {
+  float: left;
+  padding: 15px;
+}
+
+/* For desktop: */
+.col-1 {
+  width: 8.33%;
+}
+.col-2 {
+  width: 16.66%;
+}
+.col-3 {
+  width: 25%;
+}
+.col-4 {
+  width: 33.33%;
+}
+.col-5 {
+  width: 41.66%;
+}
+.col-6 {
+  width: 50%;
+}
+.col-7 {
+  width: 58.33%;
+}
+.col-8 {
+  width: 66.66%;
+}
+.col-9 {
+  width: 75%;
+}
+.col-10 {
+  width: 83.33%;
+}
+.col-11 {
+  width: 91.66%;
+}
+.col-12 {
+  width: 100%;
+}
+
+@media only screen and (max-width: 768px) {
+  /* For mobile phones: */
+  [class*="col-"] {
+    width: 100%;
+  }
+}
+/* responsive design media queries breakpoints */
+
+.row {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+}
+
+.left-content {
+  background-color: rgb(20, 100, 20);
+  color: white;
+  border-radius: 25px;
+  height: 95vh;
+  margin-top: 0.6rem;
+  margin-left: 0.7rem;
+  width: 250px; /* Fixed width for desktop */
+  position: relative;
+  padding: 1rem; /* Add padding inside the sidebar */
+}
+
+
+
+
+.memoriallogo img {
+  width: 95px;
+  position: absolute;
+  top: 0.6rem;
+  filter: drop-shadow (0px, 0px, 20px,black);
+}
+
+.hamburgermenu img {
+  width: 20px;
+  float: right;
+  margin-top: 0.6rem;
+}
+
+.adminprofile img {
+  width: 100px;
+  margin-top: 3rem;
+  padding-left: 30px;
+
+
+}
+
+.main {
+  width: 100%;
+  margin-top: 1rem;
+  margin-left: 50px;
+}
+
+
+.right-content1 {
+  margin-left: 20px;
+  width: 90%;
+  height: 6.5rem;
+  background-color: white;
+  color: forestgreen;
+  border-radius: 20px;
+ 
+}
+
+.right-content2 {
+  margin-left: 25px;
+  width: 90%;
+  height: 70vh;
+  margin-top: 2.8rem;
+  background-color: white;
+  color: rgb(0, 0, 0);
+  border-radius: 20px;
+  
+}
+
+.left-content1{
+  /* background-color: #eeeeee; */
+  color: black;
+  border-radius: 25px;
+  height:auto;
+  margin-top: 0.6rem;
+  margin-left: 0.7rem;
+  width: 700px; /* Fixed width for desktop */
+  position: relative;
+  padding: 1rem; /* Add padding inside the sidebar */
+}
+
+.right-content{
+  background-color: #eeeeee;
+  color: black;
+  border-radius: 25px;
+  height: 65vh;
+  margin-top: 0.6rem;
+  margin-left: 0.7rem;
+  width: 300px; /* Fixed width for desktop */
+  position: relative;
+  padding: 1rem; /* Add padding inside the sidebar */
+
+}
+
+.right-header2 {
+  display:flex;
+  width: 100%;
+}
+
+  .adminlinks {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem; /* Spacing between each link */
+    align-items: flex-start; /* Aligns all links to the left */
+    margin-left: 10px;
+  }
+  
+  .adminlinks span {
+    display: flex;
+    align-items: center; /* Align icons and text vertically */
+    width: 100%; /* Ensure the full span takes up the width */
+  }
+  
+  .adminlinks img {
+    width: 25px;
+    margin-right: 5px; /* Space between icon and text */
+  }
+  
+  .adminlinks a {
+    text-decoration: none;
+    color: white;
+    font-size: 1rem; /* Adjust font size for better readability */
+    display: inline-block;
+  }
+  
+  .adminlinks .logout-link {
+    width: 100%;
+    padding: 10px 0; /* Add padding to align with other links */
+  }
+  
+  .adminlinks span:last-child {
+    margin-top: 0.3rem; /* Adjust margin to move the logout button up */
+  }
+
+ /* TODO: searchbox  */
+ .right-header {
+  position: relative;
+}
+
+.search-box1 {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  top: 30px;
+  left: 650px;
+  width: 30%;
+}
+
+.search-input {
+  /* padding: 20px 20px 8px 30px; Ensure padding-left leaves room for the icon */
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 350px;
+  box-sizing: border-box;
+  text-indent:10%; /* Adds 10px indentation to the placeholder text */
+}
+
+.search-input::placeholder {
+  text-indent: 20px; /* Ensure placeholder is also indented by 10px */
+}
+
+.search-icon {
+  position: absolute;
+  left: 10px; /* Adjust left padding for better alignment */
+  font-size: 16px;
+  color: #666;
+  pointer-events: none; /* Prevents icon from blocking input clicks */
+}
+
+.search-icon::before {
+  content: '\f002'; /* Font Awesome search icon */
+  font-family: "FontAwesome";
+}
+
+
+
+ /* TODO: table */
+
+/* Table container to make it scrollable with a custom scrollbar */
+.table-container {
+  width: 100%; /* Adjust width for a better layout */
+  max-height: 390px; /* Height limit for scrollability */
+  overflow-y: auto; /* Enable vertical scroll */
+  border: 1px solid #ddd; /* Subtle border for the container */
+  border-radius: 10px; /* Rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a soft shadow effect */
+}
+
+/* Styling the table */
+table {
+  width: 100%; /* Full width inside the container */
+  border-collapse: collapse;
+  font-family: 'Arial', sans-serif;
+  background-color: #f9f9f9; /* Light background */
+}
+
+/* Table header styling with sticky */
+thead th {
+  background-color: #4CAF50; /* Forest green for header */
+  color: white; /* White text color */
+  padding: 15px; /* More padding for comfort */
+  text-align: left;
+  border-bottom: 1px solid #ddd; /* Subtle bottom border */
+  position: sticky; /* Make the header sticky */
+  top: 0; /* Stick to the top of the table container */
+  z-index: 1; /* Ensure the header stays on top when scrolling */
+}
+
+/* Alternate row colors */
+tbody tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+/* Hover effect for rows */
+tbody tr:hover {
+  background-color: #d1e7dd; /* Light green on hover */
+  cursor: pointer;
+}
+
+th, td {
+  padding: 15px; /* Padding for table cells */
+  text-align: left; /* Align text to the left */
+  border-bottom: 1px solid #ddd; /* Subtle border for all cells */
+}
+
+/* Custom Scrollbar Styles for WebKit Browsers (Chrome, Safari, Edge) */
+.table-container::-webkit-scrollbar {
+  width: 10px; /* Width of the scrollbar */
+}
+
+.table-container::-webkit-scrollbar-track {
+  background: #f1f1f1; /* Background of the scrollbar track */
+}
+
+.table-container::-webkit-scrollbar-thumb {
+  background-color: forestgreen; /* Scrollbar color */
+  border-radius: 10px; /* Rounded scrollbar */
+  border: 2px solid #f1f1f1; /* Optional border around the scrollbar thumb */
+}
+
+/* Custom Scrollbar Color for Firefox */
+.table-container {
+  scrollbar-color: forestgreen #f1f1f1;
+  scrollbar-width: thin;
+}
+
+
+
+/* TODO: user details  */
+
+/* Container for the image */
+#userDisplay {
+  text-align: center; /* Center all content */
+  margin-bottom: 20px;
+}
+
+/* Styling for the user image */
+#userImage {
+  width: 100px;
+  height: 100px;
+  object-fit: cover; /* Ensure the image fits without distortion */
+  border-radius: 50%; /* Circular image */
+  margin: 0 auto; /* Center the image horizontally */
+  display: block;
+  padding: 0; /* Remove padding */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+#userDetails {
+  /* background: #fff; */
+  padding: 40px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  height: 61.5vh;
+}
+
+/* User row layout */
+.user-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+/* Align labels and spans nicely */
+label {
+  font-size: 8px;
+  color: #333;
+  flex: 1; /* Ensure label takes one part of the space */
+  text-align: right; /* Align label text to the right */
+  padding-right: 10px; /* Space between label and value */
+}
+
+span {
+  color: #555;
+  flex: 2; /* Ensure span takes twice the space of the label */
+  text-align: left; /* Align span text to the left */
+}
+
+/* Buttons styling */
+button {
+  background-color: #4CAF50; /* Green */
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  margin: 5px 0;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+button:hover {
+  background-color: #45a049; /* Darker green */
+}
+
+.btn-danger {
+  background-color: #f44336; /* Red */
+}
+
+.btn-danger:hover {
+  background-color: #e53935; /* Darker red */
+}
+
+/* Responsive layout */
+@media (max-width: 600px) {
+  #userDetails {
+    padding: 15px;
+  }
+
+  button {
+    width: 100%;
+    margin: 3px 0;
+    margin-bottom: 20px;
+  }
+
+  .user-row {
+    flex-direction: column;
+  }
+
+  label, span {
+    flex: none;
+    text-align: left;
+  }
+
+  #userImage {
+    width: 80px;
+    height: 80px;
+  }
+}
+
+/* TODO: update user details */
+/* Modal styles */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1000; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgba(0, 0, 0, 0.5); /* Black w/ opacity */
+}
+
+/* Modal content */
+.modal-content {
+  background-color: #fff;
+  margin: 15% auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  width: 80%; /* Could be more or less, depending on screen size */
+  max-width: 600px; /* Max width for larger screens */
+}
+
+/* Close button */
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Form styling */
+.form-group {
+  margin-bottom: 15px;
+}
+
+label {
+  display: block;
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+input[type="text"],
+input[type="email"] {
+  width: 100%; /* Full width */
+  padding: 10px; /* Some padding */
+  border: 1px solid #ccc; /* Gray border */
+  border-radius: 4px; /* Rounded borders */
+  box-sizing: border-box; /* Include padding and border in element's total width */
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus {
+  border-color: #4CAF50; /* Green border on focus */
+  outline: none; /* Remove default outline */
+}
+
+/* Update button styling */
+.btn-update {
+  background-color: #4CAF50; /* Green */
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  transition: background-color 0.3s;
+  width: 100%; /* Full width */
+}
+
+.btn-update:hover {
+  background-color: #45a049; /* Darker green */
+}
+
+/* Responsive layout */
+@media (max-width: 600px) {
+  .modal-content {
+      width: 90%; /* Adjust modal width on smaller screens */
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+</style>
 <body>
 
 <div class="row">
-<div class="left-content col-3"> 
-                 <div class="adminprofile">
-                            <center>
-                                <img src="../images/female.png" alt="adminicon">
-                                <div class="dropdown">
-                                    <div class="dropdown-btn">
-                                    <?php echo "<h4 > $firstname</h4>" ?> 
-                                    </div>        
-                                        <!-- <i class="fas fa-caret-down dropdown-icon"></i> -->
-                                        <!-- <div class="dropdown-content">
-                                            <button onclick="openModal('changePasswordModal')">Change Password</button>
-                                        </div> -->
-                                        <!-- <button onclick="openModal('termsModal')">Terms and Conditions</button> -->
-                                    </div>
-                            </center>
-                        </div>
-                        <br>
-                        <div class="adminlinks">
-                            <span><img src="../images/dashboard.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminDashboard.php">Dashboard</a></span> 
-                            <span><img src="../images/deceased.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminDeceased.php">Deceased</a></span>
-                            <span><img src="../images/reservation.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminreservation.php">Reservation</a></span>
-                            <span><img src="../images/review.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminreviews.php">Reviews</a></span>
-                            <span><img src="../images/users.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminusers.php">User's</a></span>
-                            <span><img src="../images/payment.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminpayment.php">Payments</a></span>
-                            <span><img src="../images/logout.png" alt="">&nbsp;&nbsp;&nbsp;<a href="../logout.php">Logout</a></span>
-                        </div>
-                        <br>
+    <div class="left-content col-4">
+        <div class="memoriallogo"><img src="../images/bogomemoriallogo.png" alt="bogomemoriallogo"></div>
+        <div class="hamburgermenu"><img src="../images/hamburgermenu.png" alt="hamburgermenu"></div> 
+        <div class="adminprofile">
+            <center><img src="../images/female.png" alt="adminicon">
+            <h2><?php echo $firstname; ?></h2></center>
+        </div>
+        <center>
+            <br>
+            <div class="adminlinks">
+                <span><img src="../images/dashboard.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminDashboard.php">Dashboard</a></span>
+                <span><img src="../images/deceased.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminDeceased.php">Deceased</a></span>
+                <span><img src="../images/reservation.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminreservation.php">Reservation</a></span>
+                <span><img src="../images/review.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminreviews.php">Reviews</a></span>
+                <span><img src="../images/settings.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminusers.php">User's</a></span>
+                <span><img src="../images/payment.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminpayment.php">Payments</a></span>
+                <br>
+                <span><img src="../images/logout.png" alt="">&nbsp;&nbsp;&nbsp;<a href="../logout.php">Logout</a></span>
+            </div>
+            <br>
+        </center>
+    </div>
+    <div class="main">
+        <div class="right-content1">
+            <div class="right-header col-10">
+                <br>
+                <span><h1>Customer Data</h1></span>
+                <div class="search-box1">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" id="search" class="search-input" placeholder="Search Customers ..." onkeyup="searchUsers()">
                 </div>
-                <div class="main">
-                <div class="right-content1">
-                    <div class="right-header col-10">
-                        <br>
-                        <span><h2>CUSTOMER DATA</h2></span>
-                        <div class="search-box">
-                            <i class="fas fa-search search-icon"></i>
-                            <!-- <input type="text" class="search-input" placeholder="Search"> -->
-                            <input type="text" id="search" class="search-input" placeholder="Search Customers ..." onkeyup="searchUsers()">
-                        </div>
-                        <!-- <button onclick="openAddModal()">Add Reservation</button> -->
-                    </div>
-                </div>
+             </div>
+        </div>
         <div class="right-content2">
             <div class="right-header2 col-9">
                 <div class="left-content1">
@@ -148,27 +668,26 @@ try {
                 <div id="modalContent" class="modal-content">
                     <span class="close" onclick="closeModal()">&times;</span>
                     <h2>Update User</h2>
-                    <br>
                     <form id="userForm">
                         <input type="hidden" id="userId" name="userId">
                         <div class="form-group">
-                            <label for="firstname"  class="modallabel">First Name:</label>
+                            <label for="firstname">First Name:</label>
                             <input type="text" id="firstname" name="firstname" required>
                         </div>
                         <div class="form-group">
-                            <label for="surname" class="modallabel">Surname:</label>
+                            <label for="surname">Surname:</label>
                             <input type="text" id="surname" name="surname" required>
                         </div>
                         <div class="form-group">
-                            <label for="contact" class="modallabel">Contact:</label>
+                            <label for="contact">Contact:</label>
                             <input type="text" id="contact" name="contact" required>
                         </div>
                         <div class="form-group">
-                            <label for="email" class="modallabel">Email:</label>
+                            <label for="email">Email:</label>
                             <input type="email" id="email" name="email" required>
                         </div>
                         <div class="form-group">
-                            <label for="address" class="modallabel">Address:</label>
+                            <label for="address">Address:</label>
                             <input type="text" id="address" name="address" required>
                         </div>
                         <button type="button" onclick="updateUser()" class="btn-update">Update</button>

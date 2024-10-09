@@ -4,12 +4,12 @@
   box-sizing: border-box;
   font-family: Arial, sans-serif;
 }
+
 body {
-  background-color: #e5e1e1;
-  position: relative;
+  background-color: #efefef;
 }
 
-/* media queries breakpoints - responsive design*/
+/* Responsive Design */
 .row::after {
   content: "";
   clear: both;
@@ -21,90 +21,47 @@ body {
   padding: 15px;
 }
 
-/* For desktop: */
-.col-1 {
-  width: 8.33%;
-}
-.col-2 {
-  width: 16.66%;
-}
-.col-3 {
-  width: 25%;
-}
-.col-4 {
-  width: 33.33%;
-}
-.col-5 {
-  width: 41.66%;
-}
-.col-6 {
-  width: 50%;
-}
-.col-7 {
-  width: 58.33%;
-}
-.col-8 {
-  width: 66.66%;
-}
-.col-9 {
-  width: 75%;
-}
-.col-10 {
-  width: 83.33%;
-}
-.col-11 {
-  width: 91.66%;
-}
-.col-12 {
-  width: 100%;
-}
+/* For Desktop */
+.col-1 { width: 8.33%; }
+.col-2 { width: 16.66%; }
+.col-3 { width: 25%; }
+.col-4 { width: 33.33%; }
+.col-5 { width: 41.66%; }
+.col-6 { width: 50%; }
+.col-7 { width: 58.33%; }
+.col-8 { width: 66.66%; }
+.col-9 { width: 75%; }
+.col-10 { width: 83.33%; }
+.col-11 { width: 91.66%; }
+.col-12 { width: 100%; }
 
 @media only screen and (max-width: 768px) {
-  /* For mobile phones: */
-  [class*="col-"] {
-    width: 100%;
+  .left-content {
+    width: 100%; /* Full width on mobile screens */
+    margin: 0; /* Remove margins on mobile */
+    height: auto; /* Adjust height based on content */
   }
 }
-/* responsive design media queries breakpoints */
 
 .row {
   width: 100%;
   height: 100vh;
   display: flex;
 }
+
 .left-content {
-  background-color: rgb(20, 100, 20);
-  color: white;
-  border-radius: 25px;
+  background-color:#18392b;
+  color: black;
+  border-radius: 10px;
   height: 95vh;
   margin-top: 0.6rem;
-  margin-left: 0.7rem;
+  margin-left: 0.8rem;
+  margin-right: 10px;
   width: 250px; /* Fixed width for desktop */
   position: relative;
   padding: 1rem; /* Add padding inside the sidebar */
 }
 
-
-.memoriallogo img {
-  width: 95px;
-  position: absolute;
-  top: 0.6rem;
-  filter: drop-shadow (0px, 0px, 20px,black);
-}
-
-.hamburgermenu img {
-  width: 20px;
-  float: right;
-  margin-top: 0.6rem;
-}
-
-.adminprofile img {
-  width: 100px;
-  margin-top: 3rem;
-  padding-left: 30px;
-
-
-}
 
 .memoriallogo img {
   width: 95px;
@@ -141,172 +98,81 @@ body {
   }
   
   .adminprofile img {
-    padding-top: 20px;
-    border-radius: 50%;
-    width: 150px;
+    width: 100px;
+    margin-top: 3rem;
+    padding-left: 30px;
+  
   
   }
+
 
 .main {
   width: 100%;
   margin-top: 1rem;
   margin-left: 50px;
- 
 }
+
 .right-content1 {
-  margin-left: 20px;
-  width: 90%;
-  height: 6.5rem;
-  background-color: white;
-  color: forestgreen;
-  border-radius: 20px;
-  position: relative;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2)
-}
-.paymenthistory {
-  padding-left: 58rem;
-  padding-top: 0rem; /* Set top padding to 0 */
-  padding-bottom: 0rem;
+  margin-left: 1px;
+  padding-top: 1px;
+  width: 97%;
+  height: 5rem;
+  background-color:#18392b;
+  color: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2)
 }
 
 .right-content2 {
-  margin-left: 20px;
-  width: 90%;
-  height: 70vh;
-  margin-top: 2.8rem;
-  background-color: white;
-  color: forestgreen;
-  border-radius: 20px;
-  padding: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2)
-}
-
-.rightsidebar-content h1{
-  padding-left: 20px;
-  text-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);
-}
-.rightsidebar-content2{
-  padding-left: 20px;
-  color: black;
-}
-.uppersidebar-content{
-display: flex;
-gap: 40px;
-padding-top: 50px;
-
-}
-.uppersidebar-content>div{
-  width:250px;
-  height:70px;
-  background-color: #e5e1e1;
-  margin-left: 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  border-radius:10px;
-  font-size: .8rem;
-  color: black;
-}
-.uppersidebar-content a{
-  text-decoration: none;
-  color:black;
-}
-.banktransfer p{
-  padding-left: 40px;
-}
-.banktransfer img{
-  width:40px;
-  margin-left: 70px;
-}
-.cash p{
-  padding-left: 70px;
-}
-.cash img{
-  width:40px;
-  margin-left: 70px;
-}
-.other img{
-  width:25px;
-  margin-left: 80px;
-  padding-top: 15px;
-}
-.other p{
-  padding-left: 40px;
-}
-
-.creditcardinfo-header{
-  padding-left: 20px;
-  padding-top: 20px;
-  text-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);
-  color:black;
-  font-size: 20px;
-}
-
-.right-content2 form{
-  margin-left: 10px;
-  width: 100%;
-  height: auto;
-  background-color: #e5e1e1;;
-  color: forestgreen;
-  border-radius: 20px;
-  padding: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2)
-  
-}
-
-
-
-.content {
-  display: none;
-  padding: 10px;
-}
-.active {
-  display: block;
-}
-
-
-.right-content2 form p{
-  font-size: 20px;
-  color:black;
-}
-.Expiry{
-  display: flex;
-  gap:10px;
-  height: 2rem;
-}
-.expiry1{
-  height: 5rem;
-}
-
-.cashexpiry2{
-  height: 5rem;
-}
-.input1{
-  width:30rem;
-  height:2rem;
-  font-size: 1rem;
-}
-.input2{
-  width:5rem;
-  height:2rem;
-  font-size: 1rem;
-}
-.confirmbtn{
-  width:100%;
-  height: 3rem;
-  background-color: forestgreen;
-  color: white;
-  border: none;
+  margin-left: 1px;
+  width: 97%;
+  height: 77vh;
+  margin-top: 1rem;
+  /* background-color: #f1f1f1; */
+  color: rgb(0, 0, 0);
   border-radius: 10px;
-  cursor: pointer;
+
 }
 
 
+
+.left-content1{
+  background-color:#18392b;
+  color: white;
+  border-radius: 25px;
+  height: 73vh;
+  margin-top: 0.6rem;
+  margin-left: 0.7rem;
+  width: 700px; /* Fixed width for desktop */
+  position: relative;
+  padding: 1rem; /* Add padding inside the sidebar */
+}
+
+.right-content{
+  background-color: #18392b;
+  color: white;
+  border-radius: 25px;
+  height: 73vh;
+  margin-top: 0.6rem;
+  margin-left: 0.7rem;
+  width: 300px; /* Fixed width for desktop */
+  position: relative;
+  padding: 1rem; /* Add padding inside the sidebar */
+
+}
+
+.right-header2 {
+  display:flex;
+  width: 100%;
+}
 
   .adminlinks {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem; /* Spacing between each link */
+    gap: 1rem; /* Spacing between each link */
     align-items: flex-start; /* Aligns all links to the left */
     margin-left: 10px;
+    margin-top: 1px;
   }
   
   .adminlinks span {
@@ -323,15 +189,220 @@ padding-top: 50px;
   .adminlinks a {
     text-decoration: none;
     color: white;
-    font-size: 1rem; /* Adjust font size for better readability */
+    font-size: 12px; /* Adjust font size for better readability */
     display: inline-block;
+    transition: color 0.3s, background-color 0.3s; /* Smooth transition for hover */
+  }
+  
+  .adminlinks a:hover {
+    color: white; /* Change text color on hover */
+    background-color: #18392b; /* Add background color on hover */
+    padding: 5px 10px; /* Optional: Add some padding for hover effect */
+    border-radius: 20px; /* Optional: Add border radius */
+    
   }
   
   .adminlinks .logout-link {
-    width: 100%;
-    padding: 10px 0; /* Add padding to align with other links */
+    width: 50%;
+    padding: 1px 0; /* Add padding to align with other links */
   }
   
   .adminlinks span:last-child {
-    margin-top: 0.3rem; /* Adjust margin to move the logout button up */
+    margin-top: 2.1rem; /* Adjust margin to move the logout button up */
+    margin-bottom: 5rem;
   }
+  .adminlinks a:hover {
+    color: rgb(0, 0, 0); /* Change text color on hover */
+    background-color: #00ff95; /* Add background color on hover */
+    padding: 5px 10px; /* Optional: Add some padding for hover effect */
+    border-radius: 20px; /* Optional: Add border radius */
+    
+  }
+  .adminlinks a:hover i, .adminlinks a:hover svg {
+    color: rgb(0, 0, 0); /* Change icon color on hover */
+}
+
+   /* Admin Profile Styling */
+   .adminprofile {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    bottom: 40px;
+    right: 10px;
+  }
+  .adminprofile img {
+    border-radius: 50%;
+    width: 100px;
+  }
+  .adminprofile h2 {
+    margin-top: 10px;
+  }
+
+  /* Dropdown Styling */
+  .dropdown {
+    position: relative;
+    display: inline-block;
+    margin-left: 20px; /* Adjust margin for spacing */
+  }
+
+  .dropdown-btn {
+    background-color: transparent;
+    color: rgb(255, 255, 255);
+    padding: 10px 20px;
+    border: none;
+    /* cursor: pointer; */
+    display: flex;
+    align-items: center;
+    gap: 8px; /* Adds spacing between name and icon */
+    font-size: 16px;
+  }
+
+
+  .dropdown-icon {
+  font-size: 18px;
+  }
+
+  /* .dropdown-btn:hover {
+  background-color: black;
+  } */
+
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #000000;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    left: 50%; /* Position the dropdown to the right of the button */
+    top: 70%; /* Align the top of the dropdown with the button */
+  }
+
+  .dropdown-content button {
+    background-color: black;
+    color: rgb(255, 255, 255);
+    padding: 12px 16px;
+    text-align: left;
+    border: none;
+    width: 100% ;
+    /* cursor: pointer; */
+  }
+
+  .dropdown-content button:hover {
+    background-color: #3b3b3b;
+  }
+
+  .dropdown:hover .dropdown-content {
+    display: block;
+  }
+
+   
+    /* TODO: search bar dashboard  */
+.right-header {
+  position: relative;
+  
+  
+  }
+  
+  .search-box {
+    position: absolute;
+    margin-top: 10px;
+    left: 45%;
+    display: flex;
+    align-items: center;
+    position: absolute;
+    top: 15px;
+    left:750px;
+  }
+  
+  .search-input {
+    padding: 8px 8px 8px 30px; /* Add padding-left to make room for the icon */
+    font-size: 14px;
+    border: 1px solid #efefef;
+    border-radius: 20px;
+    width: 250px;
+  }
+  
+  .search-icon {
+    position: absolute;
+    left: 10px; /* Position the icon inside the left corner */
+    font-size: 16px;
+    color: green;
+  }
+  
+  .search-icon::before {
+    content: '\f002'; /* Font Awesome search icon */
+  }
+  
+
+   /* TODO: table */
+
+/* Table container to make it scrollable with a custom scrollbar */
+.table-container {
+  width: 100%; /* Adjust width for a better layout */
+  max-height: 390px; /* Height limit for scrollability */
+  overflow-y: auto; /* Enable vertical scroll */
+  border: 1px solid #ddd; /* Subtle border for the container */
+  border-radius: 10px; /* Rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a soft shadow effect */
+}
+
+/* Styling the table */
+table {
+  width: 100%; /* Full width inside the container */
+  border-collapse: collapse;
+  font-family: 'Arial', sans-serif;
+  background-color: #f9f9f9; /* Light background */
+}
+
+/* Table header styling with sticky */
+thead th {
+  background-color: #4CAF50; /* Forest green for header */
+  color: white; /* White text color */
+  padding: 15px; /* More padding for comfort */
+  text-align: left;
+  border-bottom: 1px solid #ddd; /* Subtle bottom border */
+  position: sticky; /* Make the header sticky */
+  top: 0; /* Stick to the top of the table container */
+  z-index: 1; /* Ensure the header stays on top when scrolling */
+}
+
+/* Alternate row colors */
+tbody tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+/* Hover effect for rows */
+tbody tr:hover {
+  background-color: #d1e7dd; /* Light green on hover */
+  cursor: pointer;
+}
+
+th, td {
+  padding: 15px; /* Padding for table cells */
+  color:black;
+  text-align: left; /* Align text to the left */
+  border-bottom: 1px solid #ddd; /* Subtle border for all cells */
+}
+
+/* Custom Scrollbar Styles for WebKit Browsers (Chrome, Safari, Edge) */
+.table-container::-webkit-scrollbar {
+  width: 10px; /* Width of the scrollbar */
+}
+
+.table-container::-webkit-scrollbar-track {
+  background: #f1f1f1; /* Background of the scrollbar track */
+}
+
+.table-container::-webkit-scrollbar-thumb {
+  background-color: forestgreen; /* Scrollbar color */
+  border-radius: 10px; /* Rounded scrollbar */
+  border: 2px solid #f1f1f1; /* Optional border around the scrollbar thumb */
+}
+
+/* Custom Scrollbar Color for Firefox */
+.table-container {
+  scrollbar-color: forestgreen #f1f1f1;
+  scrollbar-width: thin;
+}
+
+

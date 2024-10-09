@@ -7,7 +7,7 @@
 }
 
 body {
-  background-color: #e5e1e1;
+  background-color: #caf0f8;
   margin: 0;
   padding: 0;
 }
@@ -44,7 +44,8 @@ body {
 
 .left {
   height: 50vh;
-  text-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);
+  text-shadow: 2px 2px 2px rgba(0, 0, 0, 0);
+  font-family: 'Courier New', Courier, monospace;
 }
 
 .left .header {
@@ -67,11 +68,11 @@ body {
 .form {
   width: 70%;
   background-color: white;
-  border: 3px solid forestgreen;
+  border: 1px solid forestgreen;
   height: 70vh;
   border-radius: 20px;
   color: forestgreen;
-  box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);
+  box-shadow: 1px 2px 2px rgba(0, 0, 0, 0.5);
 }
 
 .form img {
@@ -148,9 +149,9 @@ body {
 .button-29 {
   align-items: center;
   appearance: none;
-  background-image: radial-gradient(100% 100% at 100% 0, #5adaff 0, #5468ff 100%);
+  background-image: radial-gradient(100% 100% at 100% 0, #1ba500 0, #51ff00 100%);
   border: 0;
-  border-radius: 6px;
+  border-radius: 15px;
   box-shadow: rgba(45, 35, 66, 0.4) 0 2px 4px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px, rgba(58, 65, 111, 0.5) 0 -3px 0 inset;
   box-sizing: border-box;
   color: #fff;
@@ -177,16 +178,16 @@ body {
 }
 
 .button-29:focus {
-  box-shadow: #3c4fe0 0 0 0 1.5px inset, rgba(45, 35, 66, 0.4) 0 2px 4px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #3c4fe0 0 -3px 0 inset;
+  box-shadow: #a8fa97 0 0 0 1.5px inset, rgba(45, 35, 66, 0.4) 0 2px 4px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #3c4fe0 0 -3px 0 inset;
 }
 
 .button-29:hover {
-  box-shadow: rgba(45, 35, 66, 0.4) 0 4px 8px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #3c4fe0 0 -3px 0 inset;
+  box-shadow: rgba(45, 35, 66, 0.4) 0 4px 8px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #00ac0e 0 -3px 0 inset;
   transform: translateY(-2px);
 }
 
 .button-29:active {
-  box-shadow: #3c4fe0 0 3px 7px inset;
+  box-shadow: #60f83a 0 3px 7px inset;
   transform: translateY(2px);
 }
 .loginbtnsignup {

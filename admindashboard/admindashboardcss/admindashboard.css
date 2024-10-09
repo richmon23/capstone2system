@@ -6,7 +6,7 @@
 }
 
 body {
-  background-color: #e7e3e3;
+  background-color: #efefef;
 }
 
 /* Responsive Design */
@@ -50,12 +50,13 @@ body {
 }
 
 .left-content {
-  background-color: rgb(20, 100, 20);
-  color: white;
-  border-radius: 25px;
+  background-color:#18392b;
+  color: black;
+  border-radius: 10px;
   height: 95vh;
   margin-top: 0.6rem;
-  margin-left: 0.7rem;
+  margin-left: 0.8rem;
+  margin-right: 10px;
   width: 250px; /* Fixed width for desktop */
   position: relative;
   padding: 1rem; /* Add padding inside the sidebar */
@@ -112,55 +113,68 @@ body {
 }
 
 .right-content1 {
-  margin-left: 20px;
-  width: 90%;
-  height: 6.5rem;
-  background-color: white;
-  color: forestgreen;
-  border-radius: 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2)
+  margin-left: 1px;
+  padding-top: 12px;
+  width: 97%;
+  height: 5rem;
+  background-color:#18392b;
+  color: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2)
 }
 
 .right-content2 {
-  margin-left: 25px;
-  width: 90%;
-  height: 70vh;
-  margin-top: 2.8rem;
-  background-color: white;
+  margin-left: 1px;
+  width: 97%;
+  height: 77vh;
+  margin-top: 1rem;
+  background-color: #f1f1f1;
   color: rgb(0, 0, 0);
-  border-radius: 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2)
+  border-radius: 10px;
+
 }
 
 .rightsidebar-content {
   display: flex;
   flex-wrap: wrap;
   gap: 40px;
-  background-color: white;
+  background-color: #f1f1f1;
   width: 90%;
   margin-left: 40px;
 }
 
-.todaydata {
+.todaydata {  
   padding-left: 40px;
   color: black;
 }
 
 .rightsidebar-content > div {
   width: 200px;
-  height: 150px;
-  background-color: #e5e1e1;
-  border-radius: 20px;
+  height: 100px;
+  background-color:#d7d7d7  ;
+  border-radius: 5px;
   padding: 15px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2)
+  text-align: center;
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2)
 }
+.dashboard-counter-number {
+  margin: 0; /* Remove default margin */
+  padding: 0; /* Remove default padding */
+  font-size: 2em; /* You can adjust the size as needed */
+}
+
+h5 {
+  margin-top: 15px; /* Add some space between the number and the heading */
+}
+
 
 .adminlinks {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem; /* Spacing between each link */
+  gap: 1rem; /* Spacing between each link */
   align-items: flex-start; /* Aligns all links to the left */
   margin-left: 10px;
+  margin-top: 0px;
 }
 
 .adminlinks span {
@@ -177,29 +191,46 @@ body {
 .adminlinks a {
   text-decoration: none;
   color: white;
-  font-size: 1rem; /* Adjust font size for better readability */
+  font-size: 12px; /* Adjust font size for better readability */
   display: inline-block;
+  transition: color 0.3s, background-color 0.3s; /* Smooth transition for hover */
+}
+
+.adminlinks a:hover,
+.adminlinks a.active {
+  color: rgb(0, 0, 0); /* Change text color */
+  background-color: #00ff95; /* Add background color */
+  padding: 5px 10px; /* Optional: Add some padding */
+  border-radius: 20px; /* Add border radius */
+}
+
+.adminlinks a:hover i, .adminlinks a:hover svg {
+  color: rgb(0, 0, 0); /* Change icon color on hover */
 }
 
 .adminlinks .logout-link {
-  width: 100%;
-  padding: 10px 0; /* Add padding to align with other links */
+  width: 50%;
+  padding: 1px 0; /* Add padding to align with other links */
 }
 
 .adminlinks span:last-child {
-  margin-top: 0.3rem; /* Adjust margin to move the logout button up */
+  margin-top: 2.1rem; /* Adjust margin to move the logout button up */
+  margin-bottom: 5rem;
 }
 
- /* Admin Profile Styling */
- .adminprofile {
+
+/* Admin Profile Styling */
+.adminprofile {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 20px;
+  position: relative;
+  bottom: 40px;
+  right: 10px;
 }
 .adminprofile img {
   border-radius: 50%;
-  width: 150px;
+  width: 100px;
 }
 .adminprofile h2 {
   margin-top: 10px;
@@ -209,12 +240,12 @@ body {
 .dropdown {
   position: relative;
   display: inline-block;
-  margin-left: 10px; /* Adjust margin for spacing */
+  margin-left: 20px; /* Adjust margin for spacing */
 }
 
 .dropdown-btn {
   background-color: transparent;
-  color: white;
+  color: rgb(255, 255, 255);
   padding: 10px 20px;
   border: none;
   cursor: pointer;
@@ -236,7 +267,7 @@ background-color: black;
 .dropdown-content {
   display: none;
   position: absolute;
-  background-color: #f1f1f1;
+  background-color: #000000;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
   z-index: 1;
   left: 50%; /* Position the dropdown to the right of the button */
@@ -244,22 +275,23 @@ background-color: black;
 }
 
 .dropdown-content button {
-  background-color: white;
-  color: black;
+  background-color: black;
+  color: rgb(255, 255, 255);
   padding: 12px 16px;
   text-align: left;
   border: none;
-  width: 100%;
+  width: 100% ;
   cursor: pointer;
 }
 
 .dropdown-content button:hover {
-  background-color: #ddd;
+  background-color: #3b3b3b;
 }
 
 .dropdown:hover .dropdown-content {
   display: block;
 }
+
 /* Modal Styling */
 .modal {
   display: none;
@@ -270,6 +302,13 @@ background-color: black;
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.modal.show {
+  display: block;
+  opacity: 1;
 }
 
 .modal-content {
@@ -279,8 +318,15 @@ background-color: black;
   border-radius: 5px;
   width: 30%;
   text-align: left;
+  transform: scale(0.8);
+  transition: transform 0.3s ease-in-out;
 }
 
+.modal.show .modal-content {
+  transform: scale(1);
+}
+
+/* Modal Header */
 .modal-header {
   display: flex;
   justify-content: space-between;
@@ -321,6 +367,7 @@ background-color: black;
 .btn-primary:hover {
   background-color: #0056b3;
 }
+
 
 /* TODO: search bar dashboard  */
 .right-header {

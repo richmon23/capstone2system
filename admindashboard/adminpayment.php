@@ -13,6 +13,13 @@ $email = isset($_SESSION['email']) ? htmlspecialchars($_SESSION['email']) : '';
 
 require_once '../connection/connection.php'; // Include your database connection file
 
+$sql = "SELECT  fullname,package, plotnumber, blocknumber, status FROM reservation WHERE status = 'approved'";
+$stmt = $conn->prepare($sql);
+$stmt->execute();
+$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -21,6 +28,8 @@ require_once '../connection/connection.php'; // Include your database connection
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title> Payment </title>
     <link rel="stylesheet" href="./admindashboardcss/adminpayment.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> 
 </head> 
 <body>
 
@@ -28,118 +37,86 @@ require_once '../connection/connection.php'; // Include your database connection
     <!-- <a href="logout.php">Logout</a> -->
 
         <div class="row">
-                <div class="left-content col-4">
-                <div class="memoriallogo"><img src="../images/bogomemoriallogo.png" alt="bogomemoriallogo"></div>
-                   <div class="hamburgermenu"><img src="../images/hamburgermenu.png" alt="hamburgermenu"></div> 
-                   <div class="adminprofile">
-                   <center><img src="../images/female.png" alt="adminicon">
-                    <h2><?php echo $firstname; ?></h2></center>
-                   </div>
-                   <center>
-                    <br>
-                    <div class="adminlinks">
+        <div class="left-content col-3"> 
+                 <div class="adminprofile">
+                            <center>
+                                <img src="../images/female.png" alt="adminicon">
+                                <div class="dropdown">
+                                    <button class="dropdown-btn">
+                                        <?php echo "<h4> $firstname</h4>" ?> 
+                                    </button>
+                                    <!-- <div class="dropdown-content">
+                                        <button onclick="openModal('changePasswordModal')">Change Password</button>
+                                    </div> -->
+                                    <!-- <i class="fas fa-caret-down dropdown-icon"></i> -->
+                                     <!-- <button onclick="openModal('termsModal')">Terms and Conditions</button> -->
+                                </div>
+                            </center>
+                        </div>
+                        <br>
+                        <div class="adminlinks">
                             <span><img src="../images/dashboard.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminDashboard.php">Dashboard</a></span> 
                             <span><img src="../images/deceased.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminDeceased.php">Deceased</a></span>
                             <span><img src="../images/reservation.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminreservation.php">Reservation</a></span>
                             <span><img src="../images/review.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminreviews.php">Reviews</a></span>
-                            <!-- <span><img src="../images/settings.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminsettings.php">Settings</a></span> -->
+                            <span><img src="../images/users.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminusers.php">User's</a></span>
                             <span><img src="../images/payment.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminpayment.php">Payments</a></span>
-                            <br>
                             <span><img src="../images/logout.png" alt="">&nbsp;&nbsp;&nbsp;<a href="../logout.php">Logout</a></span>
                         </div>
-                    <br>
+                        <br>
                 </div>
                 <div class="main">
                 <div class="right-content1">
-                   <div class="right-header col-9">
-                    <br>
-                    <span><h1 class="rightsidebar-content"> Payment </h1>
-                   <!-- <a href=""><img src="../images/file.png" alt="" class="paymenthistory"></a> -->
-                    <br>
-                    <br>
-                    <!-- <h3 class="rightsidebar-content2" > Choose Payment Method:</h3> -->
-                    <div class="uppersidebar-content">
-                        <div class="banktransfer">
-                            <img src="../images/atm.png" alt="atmlogo">
-                          <!-- <a href=""onclick="showContent> <p>BANK TRANSFER</p> </a> -->
-                          <a href="#creditcard" onclick="showContent('content1')"><p>BANK TRANSFER</p> </a>
+                    <div class="right-header col-10">
+                        <br>
+                        <span><h2>PAYMENT</h2></span>
+                        <div class="search-box">
+                            <i class="fas fa-search search-icon"></i>
+                            <!-- <input type="text" class="search-input" placeholder="Search"> -->
+                            <input type="text" id="search" class="search-input" placeholder="Search Customers ..." onkeyup="searchUsers()">
                         </div>
-                        <div class="cash">
-                            <img src="../images/cash.png" alt="cashlogo">
-                            <!-- <a href=""><p>CASH</p></a> -->
-                            <a href="#cash" onclick="showContent('content2')"><p>CASH</p>  </a>
-                        </div>
-                        <div class="other">
-                            <img src="../images/file.png" alt="paymenthistorylogo">
-                           <!-- <a href=""><p>Payment History</p></a>  -->
-                           <a href="#cash" onclick="showContent('content3')"><p>PAYMENT HISTORY</p> </a>
-                        </div>
+                        <!-- <button onclick="openAddModal()">Add Reservation</button> -->
                     </div>
-                   </div>
                 </div>
                 <div class="right-content2">
-                        <div class="right-header col-9">
-                            <!-- <h1 class="creditcardinfo-header">Credit Card Information</h1> -->
-                                <div id="content1" class="content">
-                                    <form action="">
-                                        <p>Card Information</p>
-                                        <br>
-                                        <label for="Card Holder Name">Card Holder Name</label>
-                                        <br>
-                                        <input type="text" class="input1" require>
-                                        <br>
-                                        <br>
-                                        <label for="Cardnumber" >Cardnumber</label>
-                                        <br>
-                                        <input type="text" class="input1" require>
-                                        <br>
-                                        <br>
-                                        <div class="Expiry">
-                                        <div class="expiry1">
-                                                <label for="Expiry Date">Expiry Date</label>
-                                                <br>
-                                            <input type="text" class="input2" require>
-                                        </div>
-                                            <div class="security">
-                                                <label for="Security Code">Security Code</label>
-                                                <br>
-                                                <input type="text" class="input2"require>
-                                            </div>
-                                        </div>
-                                        <br>
-                                        <br>
-                                        <button type="submit" class="confirmbtn">Confirm Payment</button>
-                                    </form>
-                                </div>
-                                <div id="content2" class="content">
-                                <form action="">
-                                        <p>Cash</p>
-                                        <br>
-                                        <label for="Card Holder Name">Name</label>
-                                        <br>
-                                        <input type="text" class="input1" require>
-                                        <br>
-                                        <br>
-                                        <label for="Cardnumber" >Contact Number</label>
-                                        <br>
-                                        <input type="text" class="input1" require>
-                                        <br>
-                                        <br>
-                                        <label for="Amount">Amount</label>
-                                        <br>
-                                        <input type="number" class="input1" require>
-                                        <br>
-                                        <br>
-                                        <button type="submit" class="confirmbtn">Confirm Payment</button>
-                                    </form>
-                                </div>
-                                <div id="content3" class="content">
-                                    <form action="">Payment History</form>
-                                </div>
-                        </div>  
+                    <div class="right-header2 col-9">
+                    <div class="left-content1">
+                        <div class="table-container">
+                        <table>
+                            <tr>
+                                <th>Name</th>
+                                <th>Package</th>
+                                <th>Plot Number</th>
+                                <th>Block Number</th>
+                                <th>Status</th>
+                            </tr>
+                            <?php
+                            if ($result) {
+                                foreach($result as $row) {
+                                    echo "<tr>
+                                            <td>" . htmlspecialchars($row["fullname"]) . "</td>
+                                            <td>" . htmlspecialchars($row["package"]) . "</td>
+                                            <td>" . htmlspecialchars($row["plotnumber"]) . "</td>
+                                            <td>" . htmlspecialchars($row["blocknumber"]) . "</td>
+                                            <td>" . htmlspecialchars($row["status"]) . "</td>
+                                        </tr>";
+                                }
+                            } else {
+                                echo "<tr><td colspan='4'>No approved reservations found.</td></tr>";
+                            }
+                            ?>
+                        </table>
+                        </div>
+                       
+                        </div>
+                        <div class="right-content">
+                            2
+                        </div>
                     </div>
+                    
+                </div>
             
         </div>
-        <script src="./admindashboardjs/adminpayment.js"></script>
+        
 </body>
 </html>
