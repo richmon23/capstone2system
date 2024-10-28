@@ -33,8 +33,8 @@ if (isset($pdo)) {
                 // Check if all required fields are present
                 if (!empty($_POST['firstname']) && !empty($_POST['surname']) && !empty($_POST['address']) && !empty($_POST['born']) && !empty($_POST['died']) && !empty($_POST['plot']) && !empty($_POST['block']) && !empty($_POST['funeralday'])) {
                     // Insert deceased person info
-                    $stmt = $pdo->prepare("INSERT INTO deceasedpersoninfo (firstname,surname, address, born, died, plot, block, funeralday, datecreated) VALUES (?,?, ?, ?, ?, ?, ?, ?, NOW())");
-                    $stmt->execute([$_POST['firstname'], $_POST['surname'], $_POST['address'], $_POST['born'], $_POST['died'], $_POST['plot'], $_POST['block'], $_POST['funeralday']]);
+                    $stmt = $pdo->prepare("INSERT INTO deceasedpersoninfo (firstname,surname, address, born, died, plot, block, funeralday) VALUES (?,?, ?, ?, ?, ?, ?, NOW())");
+                    $stmt->execute([$_POST['firstname'], $_POST['surname'], $_POST['address'], $_POST['born'], $_POST['died'], $_POST['plot'], $_POST['block']]);
 
                     // Mark the plot as unavailable
                     $updatePlot = $pdo->prepare("UPDATE plots SET is_available = 0 WHERE plot_number = ? AND block = ?");
@@ -246,8 +246,8 @@ if (isset($pdo)) {
                                     <input type="date" id="add_funeralday" name="funeralday" required class="form-element"><br><br>
 
                                     <!-- Date Created -->
-                                    <label for="datecreated">Date Created:</label><br>
-                                    <input type="date" id="add_datecreated" name="datecreated" required class="form-element"><br><br>
+                                    <!-- <label for="datecreated">Date Created:</label><br>
+                                    <input type="date" id="add_datecreated" name="datecreated" required class="form-element"><br><br> -->
 
                                     <!-- Plot Selection -->
                                     <label for="plot">Plot #:</label><br>
@@ -335,11 +335,7 @@ if (isset($pdo)) {
                                         <label for="funeralday">Funeral Day:</label><br>
                                         <input type="date" id="modal_funeralday" name="funeralday" required class="form-element"><br>
                                     </div>
-                                    <div class="form-column">
-                                        <!-- Date Created -->
-                                        <label for="datecreated">Date Created:</label><br>
-                                        <input type="date" id="modal_datecreated" name="datecreated" required class="form-element"><br>
-                                    </div>
+                                    
                                 </div>
 
                             </form>

@@ -34,10 +34,10 @@ if (isset($pdo)) {
 
             if ($action == 'create') {
                 // Check if all required fields are present
-                if (!empty($_POST['firstname']) && !empty($_POST['surname']) && !empty($_POST['package']) && !empty($_POST['plotnumber']) && !empty($_POST['blocknumber']) && !empty($_POST['email']) && !empty($_POST['contact']) && !empty($_POST['time'])) {
+                if (!empty($_POST['firstname']) && !empty($_POST['surname']) && !empty($_POST['package']) && !empty($_POST['plotnumber']) && !empty($_POST['blocknumber']) && !empty($_POST['email']) && !empty($_POST['contact'])) {
                     // Insert reservation
-                    $stmt = $pdo->prepare("INSERT INTO reservation (firstname,surname, package, plotnumber, blocknumber, email, contact, time) VALUES (?,?, ?, ?, ?, ?, ?, ?)");
-                    $stmt->execute([$_POST['firstname'],$_POST['surname'], $_POST['package'], $_POST['plotnumber'], $_POST['blocknumber'], $_POST['email'], $_POST['contact'], $_POST['time']]);
+                    $stmt = $pdo->prepare("INSERT INTO reservation (firstname,surname, package, plotnumber, blocknumber, email, contact) VALUES (?,?, ?, ?, ?, ?, ?)");
+                    $stmt->execute([$_POST['firstname'],$_POST['surname'], $_POST['package'], $_POST['plotnumber'], $_POST['blocknumber'], $_POST['email'], $_POST['contact']]);
 
                     // Mark the plot as unavailable
                     $updatePlot = $pdo->prepare("UPDATE plots SET is_available = 0 WHERE plot_number = ? AND block = ?");
@@ -46,15 +46,15 @@ if (isset($pdo)) {
                     echo "All fields are required.";
                 }
             } elseif ($action == 'update') {
-                if (!empty($_POST['id']) && !empty($_POST['firstname']) && !empty($_POST['surname']) && !empty($_POST['package']) && !empty($_POST['plotnumber']) && !empty($_POST['blocknumber']) && !empty($_POST['email']) && !empty($_POST['contact']) && !empty($_POST['time'])) {
+                if (!empty($_POST['id']) && !empty($_POST['firstname']) && !empty($_POST['surname']) && !empty($_POST['package']) && !empty($_POST['plotnumber']) && !empty($_POST['blocknumber']) && !empty($_POST['email']) && !empty($_POST['contact'])) {
                     // First, check if the plot number is changing
                     $reservationStmt = $pdo->prepare("SELECT plotnumber, blocknumber FROM reservation WHERE id = ?");
                     $reservationStmt->execute([$_POST['id']]);
                     $oldReservation = $reservationStmt->fetch(PDO::FETCH_ASSOC);
                     
                     // Update the reservation
-                    $stmt = $pdo->prepare("UPDATE reservation SET firstname = ?, surname = ?, package = ?, plotnumber = ?, blocknumber = ?, email = ?, contact = ?, time = ? WHERE id = ?");
-                    $stmt->execute([$_POST['firstname'],$_POST['surname'], $_POST['package'], $_POST['plotnumber'], $_POST['blocknumber'], $_POST['email'], $_POST['contact'], $_POST['time'], $_POST['id']]);
+                    $stmt = $pdo->prepare("UPDATE reservation SET firstname = ?, surname = ?, package = ?, plotnumber = ?, blocknumber = ?, email = ?, contact = ? WHERE id = ?");
+                    $stmt->execute([$_POST['firstname'],$_POST['surname'], $_POST['package'], $_POST['plotnumber'], $_POST['blocknumber'], $_POST['email'], $_POST['contact'],$_POST['id']]);
                     
                     // If the plot number has changed, mark the old plot as available and the new one as unavailable
                     if ($oldReservation['plotnumber'] != $_POST['plotnumber']) {
@@ -197,75 +197,72 @@ if (isset($pdo)) {
                         </div>
                     </div>
 
-                         <!-- Modal for Adding a New Reservation -->
-                        <div id="addModal" class="modal">
-                            <div class="modal-content">
-                                <span class="close" onclick="closeAddModal()">&times;</span>
-                                <div class="modal-header">
-                                    <h2>Add New Reservation</h2>
-                                </div>
-                                <div class="modal-body">
-                                    <form id="addForm" method="post" onsubmit="return validateForm('addForm')">
-                                        <input type="hidden" name="action" value="create">  
+                    <div id="addModal" class="modal">
+                        <div class="modal-content">
+                            <span class="close" onclick="closeAddModal()">&times;</span>
+                            <div class="modal-header">
+                                <h2>Add New Reservation</h2>
+                            </div>
+                            <div class="modal-body">
+                                <form id="addForm" method="post" onsubmit="return validateForm('addForm')">
+                                    <input type="hidden" name="action" value="create">  
 
-                                        <div class="form-row">
-                                            <div class="form-column">
-                                                <!-- Full Name -->
-                                                <label for="firstname">First Name:</label><br>
-                                                <input type="text" id="add_firstname" name="firstname" required class="form-element"><br><br>
+                                    <div class="form-row">
+                                        <div class="form-column">
+                                            <!-- First Name -->
+                                            <label for="firstname">First Name:</label><br>
+                                            <input type="text" id="add_firstname" name="firstname" required class="form-element"><br><br>
 
-                                                <label for="surname">Surname Name:</label><br>
-                                                <input type="text" id="add_surname" name="surname" required class="form-element"><br><br>
-                                                
-                                                <!-- Package -->
-                                                <label for="package">Package:</label><br>
-                                                <select id="add_package" name="package" class="form-element">
-                                                    <option value="">Select Package</option>
-                                                    <option value="garden">Garden</option>
-                                                    <option value="family_state">Family State</option>
-                                                    <option value="lawn">Lawn</option>
-                                                </select><br><br>
-                                                
-                                                <!-- Block Selection -->
-                                                <label for="block">Block #:</label><br>
-                                                <select id="add_block" name="blocknumber" required class="form-element">
-                                                    <option value="" disabled selected>Select Block</option>
-                                                    <option value="1">1</option>
-                                                    <option value="2">2</option>
-                                                    <option value="3">3</option>
-                                                    <option value="4">4</option>
-                                                </select><br><br>
-                                                
-                                                <!-- Email -->
-                                                <label for="email">Email:</label><br>
-                                                <input type="email" id="add_email" name="email" required class="form-element"><br><br>
-                                            </div>
+                                            <!-- Surname -->
+                                            <label for="surname">Surname:</label><br>
+                                            <input type="text" id="add_surname" name="surname" required class="form-element"><br><br>
                                             
-                                            <div class="form-column">
-                                                <!-- Plot Selection -->
-                                                <label for="plot">Plot #:</label><br>
-                                                <select id="add_plot" name="plotnumber" required class="form-element">
-                                                    <option value="" disabled selected>Select Plot</option>
-                                                </select><br><br>
-
-                                                <!-- Contact -->
-                                                <label for="contact">Contact:</label><br>
-                                                <input type="text" id="add_contact" name="contact" required class="form-element"><br><br>
-                                                
-                                                <!-- Time -->
-                                                <!-- <label for="time">Time:</label><br>
-                                                <input type="datetime-local" id="add_time" name="time" required class="form-element"><br><br> -->
-                                            </div>
+                                            <!-- Package -->
+                                            <label for="package">Package:</label><br>
+                                            <select id="add_package" name="package" required class="form-element">
+                                                <option value="">Select Package</option>
+                                                <option value="garden">Garden</option>
+                                                <option value="family_state">Family State</option>
+                                                <option value="lawn">Lawn</option>
+                                            </select><br><br>
+                                            
+                                            <!-- Block Selection -->
+                                            <label for="block">Block #:</label><br>
+                                            <select id="add_block" name="blocknumber" required class="form-element">
+                                                <option value="" disabled selected>Select Block</option>
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                            </select><br><br>
+                                            
+                                            <!-- Email -->
+                                            <label for="email">Email:</label><br>
+                                            <input type="email" id="add_email" name="email" required class="form-element"><br><br>
                                         </div>
-                                    </form>
-                                </div>
-                                <div class="modal-footer">
-                                    <button class="button-save-modal" onclick="document.getElementById('addForm').submit()">Save</button>
-                                </div>
+                                        
+                                        <div class="form-column">
+                                            <!-- Plot Selection -->
+                                            <label for="plot">Plot #:</label><br>
+                                            <select id="add_plot" name="plotnumber" required class="form-element">
+                                                <option value="" disabled selected>Select Plot</option>
+                                            </select><br><br>
+
+                                            <!-- Contact -->
+                                            <label for="contact">Contact:</label><br>
+                                            <input type="text" id="add_contact" name="contact" required class="form-element"><br><br>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button class="button-save-modal" onclick="document.getElementById('addForm').submit()">Save</button>
                             </div>
                         </div>
+                    </div>
 
-                    <!-- Modal for Update -->
+
+
                     <div id="updateModal" class="modal">
                         <div class="modal-content">
                             <span class="close" onclick="closeModal()">&times;</span>
@@ -320,10 +317,6 @@ if (isset($pdo)) {
                                             <!-- Contact -->
                                             <label for="contact">Contact:</label><br>
                                             <input type="text" id="modal_contact" name="contact" class="form-element"><br><br>
-                                            
-                                            <!-- Time -->
-                                            <label for="time">Date:</label><br>
-                                            <input type="date" id="modal_time" name="time" class="form-element"><br><br>
                                         </div>
                                     </div>
                                 </form>
@@ -333,6 +326,7 @@ if (isset($pdo)) {
                             </div>
                         </div>
                     </div>
+
 
 
                     <!-- The  Payment Modal -->

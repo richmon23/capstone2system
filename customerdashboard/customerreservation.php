@@ -31,7 +31,8 @@ try {
 
     // Handle form submission to save reservation
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $fullname = $_POST['fullname'];
+    $firstname = $_POST['firstname'];
+    $surname = $_POST['surname'];
     $address = $_POST['address'];
     $contact = $_POST['contact'];
     $email = $_POST['email'];
@@ -39,15 +40,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $plotnumber = $_POST['plotnumber'];
     $blocknumber = $_POST['blocknumber'];
 
+
     // SQL query to insert data into the reservation table
-    $sql = "INSERT INTO reservation (fullname, address, contact, email, package, plotnumber, blocknumber, user_id) 
-            VALUES (:fullname, :address, :contact, :email, :package, :plotnumber, :blocknumber, :user_id)";
+    $sql = "INSERT INTO reservation (firstname,surname, address, contact, email, package, plotnumber, blocknumber, user_id) 
+            VALUES (:firstname, :surname, :address, :contact, :email, :package, :plotnumber, :blocknumber, :user_id)";
 
     // Prepare the SQL statement
     $stmt = $pdo->prepare($sql);
 
     // Bind values to the SQL query
-    $stmt->bindParam(':fullname', $fullname);
+    $stmt->bindParam(':firstname', $firstname);
+    $stmt->bindParam(':surname', $surname);
     $stmt->bindParam(':address', $address);
     $stmt->bindParam(':contact', $contact);
     $stmt->bindParam(':email', $email);
@@ -184,7 +187,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <?php if (!empty($reservations)): ?>
                             <?php foreach ($reservations as $reservation): ?>
                                 <div class="reservation-card">
-                                    <h3><?php echo htmlspecialchars($reservation['fullname']); ?></h3>
+                                    <p><strong>Firstname:</strong> <?php echo htmlspecialchars($reservation['firstname']); ?></p>
+                                    <p><strong>Surname:</strong> <?php echo htmlspecialchars($reservation['surname']); ?></p>
                                     <p><strong>Address:</strong> <?php echo htmlspecialchars($reservation['address']); ?></p>
                                     <p><strong>Contact:</strong> <?php echo htmlspecialchars($reservation['contact']); ?></p>
                                     <p><strong>Email:</strong> <?php echo htmlspecialchars($reservation['email']); ?></p>
@@ -206,7 +210,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <span class="close">&times;</span>
                             <h2>Add Reservation </h2>
                             <form method="POST">
-                                <input type="text" class="input" id="name" name="fullname" required placeholder="Name">
+                                <input type="text" class="input" id="firstname" name="firstname" required placeholder="Firstname">
+                                <input type="text" class="input" id="surname" name="surname" required placeholder="Surname">
                                 <input type="text" class="input" id="address" name="address" required placeholder="Address">
                                 <input type="text" class="input" id="contact" name="contact" required placeholder="Contact">
                                 <input type="text" class="input" id="email" name="email" required placeholder="Email">
