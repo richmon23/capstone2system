@@ -60,6 +60,7 @@ body {
   width: 250px; /* Fixed width for desktop */
   position: relative;
   padding: 1rem; /* Add padding inside the sidebar */
+  overflow-y: hidden;
 }
 
 
@@ -77,13 +78,15 @@ body {
 }
 
 .adminprofile img {
-  width: 100px;
-  margin-top: 3rem;
-  padding-left: 30px;
-
+  width: 150px; /* Set the desired width */
+  height: 150px; /* Set the desired height */
+  border-radius: 50%; /* Make it circular */
+  object-fit: cover; /* Maintain aspect ratio and cover the entire area */
+  border: 2px solid #ddd; 
+  margin-top: 50px;
+  margin-left:20px;
 
 }
-
 .memoriallogo img {
     width: 95px;
     position: absolute;
@@ -97,19 +100,13 @@ body {
     margin-top: 0.6rem;
   }
   
-  .adminprofile img {
-    width: 100px;
-    margin-top: 3rem;
-    padding-left: 30px;
-  
-  
-  }
+ 
 
 
 .main {
   width: 100%;
-  margin-top: 1rem;
-  margin-left: 50px;
+  margin-top: .8rem;
+
 }
 
 .right-content1 {
@@ -228,13 +225,11 @@ h5 {
   bottom: 40px;
   right: 10px;
 }
-.adminprofile img {
-  border-radius: 50%;
-  width: 100px;
-}
+
 .adminprofile h2 {
   margin-top: 10px;
 }
+
 
 /* Dropdown Styling */
 .dropdown {
@@ -253,44 +248,57 @@ h5 {
   align-items: center;
   gap: 8px; /* Adds spacing between name and icon */
   font-size: 16px;
+  transition: background-color 0.3s ease; /* Smooth background transition */
 }
 
+.dropdown-btn:hover {
+  background-color: rgba(255, 255, 255, 0.1); /* Light background on hover */
+  border-radius: 10px; /* Rounded corners on hover */
+}
 
 .dropdown-icon {
-font-size: 18px;
+  font-size: 18px;
 }
 
-/* .dropdown-btn:hover {
-background-color: black;
-} */
-
+/* Dropdown content styling */
 .dropdown-content {
   display: none;
+  border-radius: 10px;
   position: absolute;
-  background-color: #000000;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  background-color: #1c1c1c; /* Dark background for modern look */
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.3); /* Soft shadow for depth */
   z-index: 1;
-  left: 50%; /* Position the dropdown to the right of the button */
-  top: 70%; /* Align the top of the dropdown with the button */
+  left: 50%; /* Center dropdown below button */
+  transform: translateX(-50%); /* Adjust dropdown position */
+  top: calc(100% + 5px); /* Slight gap below button */
+  opacity: 0; /* Start with opacity 0 for fade-in effect */
+  transition: opacity 0.3s ease; /* Smooth fade-in transition */
+  pointer-events: none; /* Prevent interaction when hidden */
 }
 
 .dropdown-content button {
-  background-color: black;
+  background-color: transparent; /* Transparent background for modern look */
   color: rgb(255, 255, 255);
   padding: 12px 16px;
   text-align: left;
   border: none;
-  width: 100% ;
+  width: 100%;
   cursor: pointer;
+  transition: background-color 0.3s ease; /* Smooth background transition */
 }
 
 .dropdown-content button:hover {
-  background-color: #3b3b3b;
+  background-color: rgba(255, 255, 255, 0.2); /* Light background on hover */
+  border-radius: 10px; /* Rounded corners on hover */
 }
 
+/* Show dropdown on hover */
 .dropdown:hover .dropdown-content {
   display: block;
+  opacity: 1; /* Fade in the dropdown */
+  pointer-events: auto; /* Enable interaction when visible */
 }
+
 
 /* Modal Styling */
 .modal {
@@ -315,7 +323,7 @@ background-color: black;
   background-color: white;
   margin: 15% auto;
   padding: 20px;
-  border-radius: 5px;
+  border-radius: 20px;
   width: 30%;
   text-align: left;
   transform: scale(0.8);
@@ -354,10 +362,12 @@ background-color: black;
   width: 100%;
   padding: 8px;
   box-sizing: border-box;
+  border-radius: 20px;
 }
 
 .btn-primary {
-  background-color: #007bff;
+  background-color: #0056b3;
+  border-radius: 20px;
   color: white;
   padding: 10px 20px;
   border: none;
@@ -370,9 +380,37 @@ background-color: black;
 
 
 /* TODO: search bar dashboard  */
+/* .right-header {
+  display: flex;
+
+} */
 .right-header {
   display: flex;
+  align-items: center; /* Vertically align items */
 }
+
+.button-container {
+  display: flex; /* Align buttons next to each other */
+  gap: 5px; /* Space between the two buttons */
+
+  float: right;
+}
+
+#image-button {
+  padding: 8px 15px;
+  border-radius: 5px;
+  border: none;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  width: 130px;
+}
+
+#image-button:hover {
+  background-color: #0056b3;
+}
+
+
 
 .search-box {
   position: absolute;

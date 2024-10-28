@@ -27,13 +27,25 @@ try {
 } catch(PDOException $e) {
     echo "Connection failed: " . $e->getMessage();
 }
+
+ // Fetch user profile picture from the database
+ $userId = $_SESSION['user_id'];
+ $stmt = $conn->prepare("SELECT profile_pic FROM users WHERE id = :id");
+ $stmt->bindParam(':id', $userId);
+ $stmt->execute();
+ $user = $stmt->fetch(PDO::FETCH_ASSOC);
+ 
+ // Check if user profile picture exists
+ $profilePic = !empty($user['profile_pic']) ? $user['profile_pic'] : 'default.png'; // Use a default image if none is found
+    
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Reservation</title>
+    <title>Users</title>
     <link rel="stylesheet" href="./admindashboardcss/adminusers.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> 
@@ -42,21 +54,21 @@ try {
 
 <div class="row">
 <div class="left-content col-3"> 
-                 <div class="adminprofile">
+<div class="adminprofile">
                             <center>
-                                <img src="../images/female.png" alt="adminicon">
+                            <img src="../uploads/profile_pics/<?php echo $profilePic; ?>" alt="Profile Picture">
                                 <div class="dropdown">
-                                    <div class="dropdown-btn">
-                                    <?php echo "<h4 > $firstname</h4>" ?> 
-                                    </div>        
-                                        <!-- <i class="fas fa-caret-down dropdown-icon"></i> -->
-                                        <!-- <div class="dropdown-content">
-                                            <button onclick="openModal('changePasswordModal')">Change Password</button>
-                                        </div> -->
-                                        <!-- <button onclick="openModal('termsModal')">Terms and Conditions</button> -->
-                                    </div>
-                            </center>
-                        </div>
+                                    <button class="dropdown-btn">
+                                        <?php echo "<h4> $firstname</h4>" ?> 
+                                    </button>
+                                    <!-- <i class="fas fa-caret-down dropdown-icon"></i> -->
+                                    <!-- <div class="dropdown-content">
+                                        <button onclick="openModal('changePasswordModal')">Change Password</button>
+                                        <button onclick="openModal('termsModal')">Terms and Conditions</button>
+                                    </div> -->
+                                </div>
+                        </center>
+                    </div>
                         <br>
                         <div class="adminlinks">
                             <span><img src="../images/dashboard.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminDashboard.php">Dashboard</a></span> 

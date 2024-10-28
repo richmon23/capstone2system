@@ -9,7 +9,8 @@ if (!isset($_SESSION['user_id'])) {
 $firstname = isset($_SESSION['firstname']) ? htmlspecialchars($_SESSION['firstname']) : 'Guest';
 $email = isset($_SESSION['email']) ? htmlspecialchars($_SESSION['email']) : '';
 
-
+$sampletotal =200;
+$sampleid =0001;
 
 
 // Include the database connection
@@ -33,10 +34,10 @@ if (isset($pdo)) {
 
             if ($action == 'create') {
                 // Check if all required fields are present
-                if (!empty($_POST['fullname']) && !empty($_POST['package']) && !empty($_POST['plotnumber']) && !empty($_POST['blocknumber']) && !empty($_POST['email']) && !empty($_POST['contact']) && !empty($_POST['time'])) {
+                if (!empty($_POST['firstname']) && !empty($_POST['surname']) && !empty($_POST['package']) && !empty($_POST['plotnumber']) && !empty($_POST['blocknumber']) && !empty($_POST['email']) && !empty($_POST['contact']) && !empty($_POST['time'])) {
                     // Insert reservation
-                    $stmt = $pdo->prepare("INSERT INTO reservation (fullname, package, plotnumber, blocknumber, email, contact, time) VALUES (?, ?, ?, ?, ?, ?, ?)");
-                    $stmt->execute([$_POST['fullname'], $_POST['package'], $_POST['plotnumber'], $_POST['blocknumber'], $_POST['email'], $_POST['contact'], $_POST['time']]);
+                    $stmt = $pdo->prepare("INSERT INTO reservation (firstname,surname, package, plotnumber, blocknumber, email, contact, time) VALUES (?,?, ?, ?, ?, ?, ?, ?)");
+                    $stmt->execute([$_POST['firstname'],$_POST['surname'], $_POST['package'], $_POST['plotnumber'], $_POST['blocknumber'], $_POST['email'], $_POST['contact'], $_POST['time']]);
 
                     // Mark the plot as unavailable
                     $updatePlot = $pdo->prepare("UPDATE plots SET is_available = 0 WHERE plot_number = ? AND block = ?");
@@ -45,15 +46,15 @@ if (isset($pdo)) {
                     echo "All fields are required.";
                 }
             } elseif ($action == 'update') {
-                if (!empty($_POST['id']) && !empty($_POST['fullname']) && !empty($_POST['package']) && !empty($_POST['plotnumber']) && !empty($_POST['blocknumber']) && !empty($_POST['email']) && !empty($_POST['contact']) && !empty($_POST['time'])) {
+                if (!empty($_POST['id']) && !empty($_POST['firstname']) && !empty($_POST['surname']) && !empty($_POST['package']) && !empty($_POST['plotnumber']) && !empty($_POST['blocknumber']) && !empty($_POST['email']) && !empty($_POST['contact']) && !empty($_POST['time'])) {
                     // First, check if the plot number is changing
                     $reservationStmt = $pdo->prepare("SELECT plotnumber, blocknumber FROM reservation WHERE id = ?");
                     $reservationStmt->execute([$_POST['id']]);
                     $oldReservation = $reservationStmt->fetch(PDO::FETCH_ASSOC);
                     
                     // Update the reservation
-                    $stmt = $pdo->prepare("UPDATE reservation SET fullname = ?, package = ?, plotnumber = ?, blocknumber = ?, email = ?, contact = ?, time = ? WHERE id = ?");
-                    $stmt->execute([$_POST['fullname'], $_POST['package'], $_POST['plotnumber'], $_POST['blocknumber'], $_POST['email'], $_POST['contact'], $_POST['time'], $_POST['id']]);
+                    $stmt = $pdo->prepare("UPDATE reservation SET firstname = ?, surname = ?, package = ?, plotnumber = ?, blocknumber = ?, email = ?, contact = ?, time = ? WHERE id = ?");
+                    $stmt->execute([$_POST['firstname'],$_POST['surname'], $_POST['package'], $_POST['plotnumber'], $_POST['blocknumber'], $_POST['email'], $_POST['contact'], $_POST['time'], $_POST['id']]);
                     
                     // If the plot number has changed, mark the old plot as available and the new one as unavailable
                     if ($oldReservation['plotnumber'] != $_POST['plotnumber']) {
@@ -100,6 +101,19 @@ if (isset($pdo)) {
     exit();
 }
 
+ // Fetch user profile picture from the database
+ $userId = $_SESSION['user_id'];
+ $stmt = $conn->prepare("SELECT profile_pic FROM users WHERE id = :id");
+ $stmt->bindParam(':id', $userId);
+ $stmt->execute();
+ $user = $stmt->fetch(PDO::FETCH_ASSOC);
+ 
+ // Check if user profile picture exists
+ $profilePic = !empty($user['profile_pic']) ? $user['profile_pic'] : 'default.png'; // Use a default image if none is found
+    
+ 
+
+
 ?>
 
 <!DOCTYPE html>
@@ -107,7 +121,7 @@ if (isset($pdo)) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reservation</title>
+    <title> Reservation</title>
     <link rel="stylesheet" href="./admindashboardcss/adminreserved.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -115,21 +129,21 @@ if (isset($pdo)) {
 <body>
     <div class="row">
     <div class="left-content col-3"> 
-                 <div class="adminprofile">
+    <div class="adminprofile">
                             <center>
-                                <img src="../images/female.png" alt="adminicon">
+                            <img src="../uploads/profile_pics/<?php echo $profilePic; ?>" alt="Profile Picture">
                                 <div class="dropdown">
                                     <button class="dropdown-btn">
-                                        <?php echo "<h4> $firstname</h4>" ?>
+                                        <?php echo "<h4> $firstname</h4>" ?> 
                                     </button>
                                     <!-- <i class="fas fa-caret-down dropdown-icon"></i> -->
                                     <!-- <div class="dropdown-content">
                                         <button onclick="openModal('changePasswordModal')">Change Password</button>
+                                        <button onclick="openModal('termsModal')">Terms and Conditions</button>
                                     </div> -->
-                                     <!-- <button onclick="openModal('termsModal')">Terms and Conditions</button> -->
                                 </div>
-                            </center>
-                        </div>
+                        </center>
+                    </div>
                         <br>
                         <div class="adminlinks">
                             <span><img src="../images/dashboard.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminDashboard.php">Dashboard</a></span> 
@@ -163,7 +177,8 @@ if (isset($pdo)) {
                                 <table id="myTable">
                                     <thead>
                                         <tr>
-                                            <th>Full Name</th>
+                                            <th>FirstName</th>
+                                            <th>SurName</th>
                                             <th>Package</th>
                                             <th>Plot</th>
                                             <th>Block</th>
@@ -182,7 +197,7 @@ if (isset($pdo)) {
                         </div>
                     </div>
 
-                                        <!-- Modal for Adding a New Reservation -->
+                         <!-- Modal for Adding a New Reservation -->
                         <div id="addModal" class="modal">
                             <div class="modal-content">
                                 <span class="close" onclick="closeAddModal()">&times;</span>
@@ -191,13 +206,16 @@ if (isset($pdo)) {
                                 </div>
                                 <div class="modal-body">
                                     <form id="addForm" method="post" onsubmit="return validateForm('addForm')">
-                                        <input type="hidden" name="action" value="create">
+                                        <input type="hidden" name="action" value="create">  
 
                                         <div class="form-row">
                                             <div class="form-column">
                                                 <!-- Full Name -->
-                                                <label for="fullname">Full Name:</label><br>
-                                                <input type="text" id="add_fullname" name="fullname" required class="form-element"><br><br>
+                                                <label for="firstname">First Name:</label><br>
+                                                <input type="text" id="add_firstname" name="firstname" required class="form-element"><br><br>
+
+                                                <label for="surname">Surname Name:</label><br>
+                                                <input type="text" id="add_surname" name="surname" required class="form-element"><br><br>
                                                 
                                                 <!-- Package -->
                                                 <label for="package">Package:</label><br>
@@ -235,8 +253,8 @@ if (isset($pdo)) {
                                                 <input type="text" id="add_contact" name="contact" required class="form-element"><br><br>
                                                 
                                                 <!-- Time -->
-                                                <label for="time">Time:</label><br>
-                                                <input type="datetime-local" id="add_time" name="time" required class="form-element"><br><br>
+                                                <!-- <label for="time">Time:</label><br>
+                                                <input type="datetime-local" id="add_time" name="time" required class="form-element"><br><br> -->
                                             </div>
                                         </div>
                                     </form>
@@ -248,70 +266,151 @@ if (isset($pdo)) {
                         </div>
 
                     <!-- Modal for Update -->
-<div id="updateModal" class="modal">
-    <div class="modal-content">
-        <span class="close" onclick="closeModal()">&times;</span>
-        <div class="modal-header">
-            <h2>Update Details</h2>
-        </div>
-        <div class="modal-body">
-            <form id="updateForm" method="post">
-                <input type="hidden" name="id" id="modal_id">
-                <input type="hidden" name="action" value="update" class="form-element">
-                
-                <div class="form-row">
-                    <div class="form-column">
-                        <!-- Full Name -->
-                        <label for="fullname">Full Name:</label><br>
-                        <input type="text" id="modal_fullname" name="fullname" class="form-element"><br><br>
-                        
-                        <!-- Package -->
-                        <label for="package">Package:</label><br>
-                        <select id="modal_package" name="package" class="form-element">
-                            <option value="">Select Package</option>
-                            <option value="garden">Garden</option>
-                            <option value="family_state">Family State</option>
-                            <option value="lawn">Lawn</option>
-                        </select>
-                        <br><br>
-                        
-                        <!-- Block Selection -->
-                        <label for="block">Block #:</label><br>
-                        <select id="modal_block" name="blocknumber" class="form-element" required>
-                            <option value="" disabled selected>Select Block</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                        </select><br><br>
-                    </div>
-                    <div class="form-column">
-                        <!-- Plot Selection -->
-                        <label for="plot">Plot #:</label><br>
-                        <select id="modal_plot" name="plotnumber" class="form-element" required>
-                            <option value="" disabled selected>Select Plot</option>
-                        </select><br><br>
+                    <div id="updateModal" class="modal">
+                        <div class="modal-content">
+                            <span class="close" onclick="closeModal()">&times;</span>
+                            <div class="modal-header">
+                                <h2>Update Details</h2>
+                            </div>
+                            <div class="modal-body">
+                                <form id="updateForm" method="post">
+                                    <input type="hidden" name="id" id="modal_id">
+                                    <input type="hidden" name="action" value="update" class="form-element">
+                                    
+                                    <div class="form-row">
+                                        <div class="form-column">
+                                            <!-- Full Name -->
+                                            <label for="firstname">Firstname:</label><br>
+                                            <input type="text" id="modal_firstname" name="firstname" class="form-element"><br><br>
 
-                        <!-- Email -->
-                        <label for="email">Email:</label><br>
-                        <input type="email" id="modal_email" name="email" class="form-element"><br><br>
-                        
-                        <!-- Contact -->
-                        <label for="contact">Contact:</label><br>
-                        <input type="text" id="modal_contact" name="contact" class="form-element"><br><br>
-                        
-                        <!-- Time -->
-                        <label for="time">Date:</label><br>
-                        <input type="date" id="modal_time" name="time" class="form-element"><br><br>
+                                            <label for="surname">Surname:</label><br>
+                                            <input type="text" id="modal_surname" name="surname" class="form-element"><br><br>
+                                            
+                                            <!-- Package -->
+                                            <label for="package">Package:</label><br>
+                                            <select id="modal_package" name="package" class="form-element">
+                                                <option value="">Select Package</option>
+                                                <option value="garden">Garden</option>
+                                                <option value="family_state">Family State</option>
+                                                <option value="lawn">Lawn</option>
+                                            </select>
+                                            <br><br>
+                                            
+                                            <!-- Block Selection -->
+                                            <label for="block">Block #:</label><br>
+                                            <select id="modal_block" name="blocknumber" class="form-element" required>
+                                                <option value="" disabled selected>Select Block</option>
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                            </select><br><br>
+                                        </div>
+                                        <div class="form-column">
+                                            <!-- Plot Selection -->
+                                            <label for="plot">Plot #:</label><br>
+                                            <select id="modal_plot" name="plotnumber" class="form-element" required>
+                                                <option value="" disabled selected>Select Plot</option>
+                                            </select><br><br>
+
+                                            <!-- Email -->
+                                            <label for="email">Email:</label><br>
+                                            <input type="email" id="modal_email" name="email" class="form-element"><br><br>
+                                            
+                                            <!-- Contact -->
+                                            <label for="contact">Contact:</label><br>
+                                            <input type="text" id="modal_contact" name="contact" class="form-element"><br><br>
+                                            
+                                            <!-- Time -->
+                                            <label for="time">Date:</label><br>
+                                            <input type="date" id="modal_time" name="time" class="form-element"><br><br>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button class="button update" onclick="document.getElementById('updateForm').submit()">Save</button>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </form>
-        </div>
-        <div class="modal-footer">
-            <button class="button update" onclick="document.getElementById('updateForm').submit()">Save</button>
-        </div>
-    </div>
-</div>
+
+
+                    <!-- The  Payment Modal -->
+                    <div id="paymentModal" class="modal">
+                        <div class="modal-content">
+                            <span class="close" onclick="closePaymentModal()">&times;</span>
+                            <div class="modal-header-payment">Payment</div>
+                            <form action="#" method="post">
+                             <div class="total-amount1">
+                                <p> Total Payment:</p>
+                                <p><?php echo "&#x20B1; $sampletotal.00" ?></p>
+                             </div> 
+                             <br>
+                              <div class="name-info">
+                                <div class="name-client">
+                                    <?php echo "<p> $firstname #00$sampleid </p>" ?>
+                                    <br>
+                                    Lawn
+                                    <br>
+                                    Block 4
+                                    <br>
+                                    Plot 1
+                                </div>
+                                <div class="total-amount">
+                                <?php echo "" . date("Y/m/d") ?>
+                                <p>Payment Status: Paid</p>
+                                </div>
+                              </div>
+                                <div class="modal-content">
+                                <!-- <div class="modal-header"></div> -->
+                                <form action="#" method="post">
+                                    <!-- Dropdown for selecting payment method -->
+                                   <div class="payment-option">
+                                   <label for="payment-method">Select Payment Method:</label>
+                                    <select id="payment-method" class="form-input" name="payment_method" required>
+                                        <option value="cash">Cash</option>
+                                        <option value="gcash">GCash</option>
+                                    </select>
+
+                                   </div>
+                                    <!-- Input fields (can be optional based on selected payment method) -->
+                                    <div id="gcash-info" style="display: none;">
+                                        <!-- <input type="text" class="form-input" name="gcash_name" placeholder="Enter GCash Name" required>
+                                        <br>
+                                        <input type="text" class="form-input" name="gcash_number" placeholder="Enter GCash Number" required> -->
+                                        <p> Desiree Leal</p>
+                                        <p> 09653384884</p>
+                                         <br>
+                                        <input type="file" id="file-upload" name="payment_proof" class="upload-container "  title="upload your prof of payment">
+                                    </div>
+                                    <div class="payment-radio">
+                                        <br>
+                                        <input type="radio" id="cash-radio" name="payment_method" value="cash" checked>
+                                        <label for="cash-radio">Fullpayment</label>
+                                        <br>
+                                        <input type="radio" id="gcash-radio" name="payment_method" value="gcash">
+                                        <label for="gcash-radio">Installment</label>
+                                    </div>
+                                    </div>
+                                    <div class="radio-term">
+                                        <div class="radio-group">
+                                            <label>
+                                                <input type="radio" name="duration" value="6months" required>
+                                               3,400   x6 Months
+                                            </label>
+                                            <label>
+                                                <input type="radio" name="duration" value="9months">
+                                              5,000  x9 Months
+                                            </label>
+                                        </div>
+                                    </div>
+                                     <!-- Submit button -->
+                                   <div class="payment-button">
+                                   <button type="submit" class="form-payment-button">Proceed to Payment</button>
+                                   </div>
+                            </form>
+                        </div>
+                    </div>
 
 
                     <!-- TODO: Status modal for changing reservation status -->
@@ -350,7 +449,8 @@ if (isset($pdo)) {
 
                         function openModal(data) {
                             document.getElementById("modal_id").value = data.id;
-                            document.getElementById("modal_fullname").value = data.fullname;
+                            document.getElementById("modal_firstname").value = data.firstname;
+                            document.getElementById("modal_surname").value = data.surname;
                             document.getElementById("modal_package").value = data.package;
                             document.getElementById("modal_plot").value = data.plotnumber;
                             document.getElementById("modal_block").value = data.blocknumber;
@@ -358,10 +458,10 @@ if (isset($pdo)) {
                             document.getElementById("modal_contact").value = data.contact;
 
                             // Ensure the time is correctly formatted
-                            if (data.time) {
-                                var formattedTime = data.time.replace(" ", "T");
-                                document.getElementById("modal_time").value = formattedTime;
-                            }
+                            // if (data.time) {
+                            //     var formattedTime = data.time.replace(" ", "T");
+                            //     document.getElementById("modal_time").value = formattedTime;
+                            // }
 
                             updateModal.style.display = "block";
                         }
@@ -466,6 +566,52 @@ if (isset($pdo)) {
                     function closeStatusModal() {
                         document.getElementById('statusModal').style.display = 'none'; // Hide the modal
                     }
+
+                    // TODO: payment modal functionality
+
+                     // Function to open the Payment modal
+                    function openPaymentModal() {
+                        document.getElementById("paymentModal").style.display = "flex";
+                    }
+
+                    // Function to close the modal
+                    function closePaymentModal() {
+                        document.getElementById("paymentModal").style.display = "none";
+                    }
+
+                    // Close modal when clicking outside of the modal content
+                    window.onclick = function(event) {
+                        var modal = document.getElementById("paymentModal");
+                        if (event.target === modal) {
+                            modal.style.display = "none";
+                        }
+                    }
+
+                    // TODO: payment modalcash and gcash
+                    const paymentMethodDropdown = document.getElementById('payment-method');
+                    const gcashInfo = document.getElementById('gcash-info');
+
+                    // Show GCash fields only when GCash is selected
+                    paymentMethodDropdown.addEventListener('change', function() {
+                        if (this.value === 'gcash') {
+                            gcashInfo.style.display = 'block'; // Show GCash input
+                        } else {
+                            gcashInfo.style.display = 'none'; // Hide GCash input
+                        }
+                    });
+
+
+                    // TODO: upload file functionality
+                    const fileUpload = document.getElementById('file-upload');
+                    const fileName = document.getElementById('file-name');
+
+                    fileUpload.addEventListener('change', function() {
+                        if (fileUpload.files.length > 0) {
+                            fileName.textContent = fileUpload.files[0].name;
+                        } else {
+                            fileName.textContent = 'No file chosen';
+                        }
+                    });
                     </script>
                 </div>
             </div>

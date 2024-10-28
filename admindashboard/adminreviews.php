@@ -26,13 +26,26 @@ try {
     die("Connection failed: " . $e->getMessage());
 }
 
+
+ // Fetch user profile picture from the database
+ $userId = $_SESSION['user_id'];
+ $stmt = $conn->prepare("SELECT profile_pic FROM users WHERE id = :id");
+ $stmt->bindParam(':id', $userId);
+ $stmt->execute();
+ $user = $stmt->fetch(PDO::FETCH_ASSOC);
+ 
+ // Check if user profile picture exists
+ $profilePic = !empty($user['profile_pic']) ? $user['profile_pic'] : 'default.png'; // Use a default image if none is found
+    
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Review</title>
+    <title>Reviews</title>
     <link rel="stylesheet" href="./admindashboardcss/adminreviews.css">
     <!-- Include Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -40,21 +53,22 @@ try {
 <body>
     <div class="row">
     <div class="left-content col-3"> 
-                    <div class="adminprofile">
-                                <center>
-                                    <img src="../images/female.png" alt="adminicon">
-                                    <div class="dropdown">
-                                        <button class="dropdown-btn">
-                                            <?php echo "<h4> $firstname</h4>" ?> 
-                                        </button>
-                                        <!-- <i class="fas fa-caret-down dropdown-icon"></i> -->
-                                        <!-- <div class="dropdown-content">
-                                            <button onclick="openModal('changePasswordModal')">Change Password</button>
-                                        </div> -->
-                                        <!-- <button onclick="openModal('termsModal')">Terms and Conditions</button> -->
-                                    </div>
-                                </center>
-                            </div>
+    <div class="adminprofile">
+                            <center>
+                            <img src="../uploads/profile_pics/<?php echo $profilePic; ?>" alt="Profile Picture">
+                                <div class="dropdown">
+                                    <button class="dropdown-btn">
+                                        <?php echo "<h4> $firstname</h4>" ?> 
+                                    </button>
+                                    <!-- <i class="fas fa-caret-down dropdown-icon"></i> -->
+                                    <!-- <div class="dropdown-content">
+                                        <button onclick="openModal('changePasswordModal')">Change Password</button>
+                                        <button onclick="openModal('termsModal')">Terms and Conditions</button>
+                                    </div> -->
+                                </div>
+                        </center>
+                    </div>
+
                             <br>
                             <div class="adminlinks">
                                 <span><img src="../images/dashboard.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminDashboard.php">Dashboard</a></span> 
@@ -67,7 +81,7 @@ try {
                             </div>
                             <br>
                     </div>
-            <div class="main">
+                    <div class="main">
                 <div class="right-content1">
                     <div class="right-header col-9">
                         <br>
@@ -81,52 +95,44 @@ try {
                 </div>
                 <div class="right-content2">
                     <div class="right-header col-9">
-                        <div class="table-container">
-                        <table id="myTable">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>NAME</th>
-                                    <th>USER FEEDBACK</th>
-                                    <th>RATING</th>
-                                    <th>TIME</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            <?php
-                                $sql = "SELECT id, fullname, userfeedback, rating, time FROM reviews ORDER BY time DESC LIMIT 1000";  
-                                $stmt = $pdo->prepare($sql);
-                                $stmt->execute();
+                    <div class="table-container">
+    <?php
+    $sql = "SELECT id, fullname, userfeedback, rating, time FROM reviews ORDER BY time DESC LIMIT 1000";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute();
 
-                                if ($stmt->rowCount() > 0) {
-                                    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                                        echo "<tr>
-                                                <td>" . htmlspecialchars($row["id"]). "</td>
-                                                <td>" . htmlspecialchars($row["fullname"]). "</td>
-                                                <td>" . htmlspecialchars($row["userfeedback"]). "</td>
-                                                <td>";
-                                                
-                                        // Display stars based on the rating
-                                        $rating = (int)$row['rating'];
-                                        for ($i = 1; $i <= 5; $i++) {
-                                            if ($i <= $rating) {
-                                                echo "<i class='fas fa-star'></i>"; // Filled star
-                                            } else {
-                                                echo "<i class='far fa-star'></i>"; // Empty star
-                                            }
-                                        }
+    if ($stmt->rowCount() > 0) {
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            echo "
+            <div class='card'>
+                <div class='card-header'>
+                    <h3>" . htmlspecialchars($row['fullname']) . "</h3>
+                    <span class='time'>" . htmlspecialchars($row['time']) . "</span>
+                </div>
+                <div class='card-body'>
+                    <p>" . htmlspecialchars($row['userfeedback']) . "</p>
+                </div>
+                <div class='card-footer'>
+                    <div class='rating'>";
+                    
+            // Display stars based on the rating
+            $rating = (int)$row['rating'];
+            for ($i = 1; $i <= 5; $i++) {
+                if ($i <= $rating) {
+                    echo "<i class='fas fa-star'></i>"; // Filled star
+                } else {
+                    echo "<i class='far fa-star'></i>"; // Empty star
+                }
+            }
 
-                                        echo "</td>
-                                                <td>" . htmlspecialchars($row["time"]). "</td>
-                                            </tr>";
-                                    }
-                                } else {
-                                    echo "<tr><td colspan='5'>0 results</td></tr>";
-                                }
-                            ?>
-                            </tbody>
-                        </table>   
-                        </div>  
+            echo "</div></div></div>";
+        }
+    } else {
+        echo "<p>No reviews available.</p>";
+    }
+    ?>
+</div>
+
                     </div>
                 </div>
             </div>

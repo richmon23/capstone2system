@@ -31,10 +31,10 @@ if (isset($pdo)) {
 
             if ($action == 'create') {
                 // Check if all required fields are present
-                if (!empty($_POST['fullname']) && !empty($_POST['address']) && !empty($_POST['born']) && !empty($_POST['died']) && !empty($_POST['plot']) && !empty($_POST['block']) && !empty($_POST['funeralday'])) {
+                if (!empty($_POST['firstname']) && !empty($_POST['surname']) && !empty($_POST['address']) && !empty($_POST['born']) && !empty($_POST['died']) && !empty($_POST['plot']) && !empty($_POST['block']) && !empty($_POST['funeralday'])) {
                     // Insert deceased person info
-                    $stmt = $pdo->prepare("INSERT INTO deceasedpersoninfo (fullname, address, born, died, plot, block, funeralday, datecreated) VALUES (?, ?, ?, ?, ?, ?, ?, NOW())");
-                    $stmt->execute([$_POST['fullname'], $_POST['address'], $_POST['born'], $_POST['died'], $_POST['plot'], $_POST['block'], $_POST['funeralday']]);
+                    $stmt = $pdo->prepare("INSERT INTO deceasedpersoninfo (firstname,surname, address, born, died, plot, block, funeralday, datecreated) VALUES (?,?, ?, ?, ?, ?, ?, ?, NOW())");
+                    $stmt->execute([$_POST['firstname'], $_POST['surname'], $_POST['address'], $_POST['born'], $_POST['died'], $_POST['plot'], $_POST['block'], $_POST['funeralday']]);
 
                     // Mark the plot as unavailable
                     $updatePlot = $pdo->prepare("UPDATE plots SET is_available = 0 WHERE plot_number = ? AND block = ?");
@@ -43,15 +43,15 @@ if (isset($pdo)) {
                     echo "All fields are required.";
                 }
             } elseif ($action == 'update') {
-                if (!empty($_POST['id']) && !empty($_POST['fullname']) && !empty($_POST['address']) && !empty($_POST['born']) && !empty($_POST['died']) && !empty($_POST['plot']) && !empty($_POST['block']) && !empty($_POST['funeralday'])) {
+                if (!empty($_POST['id']) && !empty($_POST['firstname'])&& !empty($_POST['surname']) && !empty($_POST['address']) && !empty($_POST['born']) && !empty($_POST['died']) && !empty($_POST['plot']) && !empty($_POST['block']) && !empty($_POST['funeralday'])) {
                     // First, check if the plot number is changing
                     $reservationStmt = $pdo->prepare("SELECT plot, block FROM deceasedpersoninfo WHERE id = ?");
                     $reservationStmt->execute([$_POST['id']]);
                     $oldReservation = $reservationStmt->fetch(PDO::FETCH_ASSOC);
                     
                     // Update the deceased person info
-                    $stmt = $pdo->prepare("UPDATE deceasedpersoninfo SET fullname = ?, address = ?, born = ?, died = ?, plot = ?, block = ?, funeralday = ? WHERE id = ?");
-                    $stmt->execute([$_POST['fullname'], $_POST['address'], $_POST['born'], $_POST['died'], $_POST['plot'], $_POST['block'], $_POST['funeralday'], $_POST['id']]);
+                    $stmt = $pdo->prepare("UPDATE deceasedpersoninfo SET firstname = ?, surname = ?, address = ?, born = ?, died = ?, plot = ?, block = ?, funeralday = ? WHERE id = ?");
+                    $stmt->execute([$_POST['firstname'],$_POST['surname'], $_POST['address'], $_POST['born'], $_POST['died'], $_POST['plot'], $_POST['block'], $_POST['funeralday'], $_POST['id']]);
 
                     // If the plot number has changed, mark the old plot as available and the new one as unavailable
                     if ($oldReservation['plot'] != $_POST['plot']) {
@@ -97,6 +97,18 @@ if (isset($pdo)) {
     echo 'Database connection failed. Please try again later.';
     exit();
 }
+
+      // Fetch user profile picture from the database
+      $userId = $_SESSION['user_id'];
+      $stmt = $conn->prepare("SELECT profile_pic FROM users WHERE id = :id");
+      $stmt->bindParam(':id', $userId);
+      $stmt->execute();
+      $user = $stmt->fetch(PDO::FETCH_ASSOC);
+      
+      // Check if user profile picture exists
+      $profilePic = !empty($user['profile_pic']) ? $user['profile_pic'] : 'default.png'; // Use a default image if none is found
+         
+
 ?>
 
 
@@ -117,33 +129,31 @@ if (isset($pdo)) {
 
     <div class="row">
     <div class="left-content col-4">
-            <div class="adminprofile">
-            <center>
-                <img src="../images/female.png" alt="adminicon">
-                <div class="dropdown">
-                    <button class="dropdown-btn">
-                        <?php echo "<h4> $firstname</h4>" ?> 
-                    </button>
-                    <!-- <i class="fas fa-caret-down dropdown-icon"></i> -->
-                    <!-- <div class="dropdown-content">
-                        <button onclick="openModal('changePasswordModal')">Change Password</button>
-                    </div> -->
-                     <!-- <button onclick="openModal('termsModal')">Terms and Conditions</button> -->
-                </div>
-            </center>
-        </div>
-
-            <center>
+    <div class="adminprofile">
+                            <center>
+                            <img src="../uploads/profile_pics/<?php echo $profilePic; ?>" alt="Profile Picture">
+                                <div class="dropdown">
+                                    <button class="dropdown-btn">
+                                        <?php echo "<h4> $firstname</h4>" ?> 
+                                    </button>
+                                    <!-- <i class="fas fa-caret-down dropdown-icon"></i> -->
+                                    <!-- <div class="dropdown-content">
+                                        <button onclick="openModal('changePasswordModal')">Change Password</button>
+                                        <button onclick="openModal('termsModal')">Terms and Conditions</button>
+                                    </div> -->
+                                </div>
+                        </center>
+                    </div>
                 <br>
                 <div class="adminlinks">
-                            <span><img src="../images/dashboard.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminDashboard.php">Dashboard</a></span> 
-                            <span><img src="../images/deceased.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminDeceased.php">Deceased</a></span>
-                            <span><img src="../images/reservation.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminreservation.php">Reservation</a></span>
-                            <span><img src="../images/review.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminreviews.php">Reviews</a></span>
-                            <span><img src="../images/users.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminusers.php">User's</a></span>
-                            <span><img src="../images/payment.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminpayment.php">Payments</a></span>
-                            <br>
-                            <span><img src="../images/logout.png" alt="">&nbsp;&nbsp;&nbsp;<a href="../logout.php">Logout</a></span>
+                    <span><img src="../images/dashboard.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminDashboard.php">Dashboard</a></span> 
+                    <span><img src="../images/deceased.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminDeceased.php">Deceased</a></span>
+                    <span><img src="../images/reservation.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminreservation.php">Reservation</a></span>
+                    <span><img src="../images/review.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminreviews.php">Reviews</a></span>
+                    <span><img src="../images/users.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminusers.php">User's</a></span>
+                    <span><img src="../images/payment.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminpayment.php">Payments</a></span>
+                    <br>
+                    <span><img src="../images/logout.png" alt="">&nbsp;&nbsp;&nbsp;<a href="../logout.php">Logout</a></span>
                  </div>
                 <br>
             </center>
@@ -169,7 +179,8 @@ if (isset($pdo)) {
                 <table id="myTable">
                         <thead>
                             <tr>
-                                <th>Full Name</th>
+                                <th>Firstame</th>
+                                <th>Surname</th>
                                 <th>Address</th>
                                 <th>Born</th>
                                 <th>Departed</th>
@@ -183,7 +194,7 @@ if (isset($pdo)) {
 
                         <!-- TODO: display the data in table -->
                         <tbody id="result">
-                            <tr><td colspan="8">No reservations found.</td></tr>
+                            <tr><td colspan="8">No Information found.</td></tr>
                         </tbody>
                     </table>
                 </div>   
@@ -200,8 +211,12 @@ if (isset($pdo)) {
                             <div class="form-row">
                                 <div class="form-column">
                                     <!-- Full Name -->
-                                    <label for="fullname">Full Name:</label><br>
-                                    <input type="text" id="add_fullname" name="fullname" required class="form-element"><br><br>
+                                    <label for="firstname">Firstname:</label><br>
+                                    <input type="text" id="add_firstname" name="firstname" required class="form-element"><br><br>
+
+                                    <label for="surname">Surname:</label><br>
+                                    <input type="text" id="add_surname" name="surname" required class="form-element"><br><br>
+                                    
                                     
                                     <!-- Address -->
                                     <label for="address">Address:</label><br>
@@ -265,8 +280,13 @@ if (isset($pdo)) {
                                 <div class="form-row">
                                     <div class="form-column">
                                         <!-- Full Name -->
-                                        <label for="fullname">Full Name:</label><br>
-                                        <input type="text" id="modal_fullname" name="fullname" required class="form-element"><br>
+                                        <label for="firstname">Firstname:</label><br>
+                                        <input type="text" id="modal_firstname" name="firstname" required class="form-element"><br>
+                                    </div>
+                                    <div class="form-column">
+                                        <!-- Full Name -->
+                                        <label for="surname">surname:</label><br>
+                                        <input type="text" id="modal_surname" name="surname" required class="form-element"><br>
                                     </div>
                                     <div class="form-column">
                                         <!-- Address -->
@@ -346,24 +366,25 @@ if (isset($pdo)) {
                     }
 
                     function openModal(data) {
-                           // Set modal field values from the passed data
-    document.getElementById("modal_id").value = data.id;
-    document.getElementById("modal_fullname").value = data.fullname;
-    document.getElementById("modal_address").value = data.address;
-    document.getElementById("modal_born").value = data.born;
-    document.getElementById("modal_died").value = data.died;
-    document.getElementById("modal_plot").value = data.plot;
-    document.getElementById("modal_block").value = data.block;
-    document.getElementById("modal_funeralday").value = data.funeralday;
+                    // Set modal field values from the passed data
+                    document.getElementById("modal_id").value = data.id;
+                    document.getElementById("modal_firstname").value = data.firstname;
+                    document.getElementById("modal_surname").value = data.surname;
+                    document.getElementById("modal_address").value = data.address;
+                    document.getElementById("modal_born").value = data.born;
+                    document.getElementById("modal_died").value = data.died;
+                    document.getElementById("modal_plot").value = data.plot;
+                    document.getElementById("modal_block").value = data.block;
+                    document.getElementById("modal_funeralday").value = data.funeralday;
 
-                            // Ensure the time is correctly formatted
-                            if (data.time) {
-                                var formattedTime = data.time.replace(" ", "T");
-                                document.getElementById("modal_time").value = formattedTime;
-                            }
+                    // Ensure the time is correctly formatted
+                    if (data.time) {
+                         var formattedTime = data.time.replace(" ", "T");
+                         document.getElementById("modal_time").value = formattedTime;
+                    }
 
-                            updateModal.style.display = "block";
-                        }
+                    updateModal.style.display = "block";
+                    }
 
 
 
@@ -417,53 +438,53 @@ if (isset($pdo)) {
                         });
 
                         document.addEventListener("DOMContentLoaded", function () {
-    // When block changes, fetch available plots for the add modal
-    document.getElementById("add_block").addEventListener("change", function () {
-        var block = this.value;
-        fetchAvailablePlots(block, "add_plot");
-    });
+                        // When block changes, fetch available plots for the add modal
+                        document.getElementById("add_block").addEventListener("change", function () {
+                            var block = this.value;
+                            fetchAvailablePlots(block, "add_plot");
+                        });
 
-    // When block changes, fetch available plots for the update modal
-    document.getElementById("modal_block").addEventListener("change", function () {
-        var block = this.value;
-        fetchAvailablePlots(block, "modal_plot");
-    });
-});
+                        // When block changes, fetch available plots for the update modal
+                        document.getElementById("modal_block").addEventListener("change", function () {
+                            var block = this.value;
+                            fetchAvailablePlots(block, "modal_plot");
+                        });
+                    });
 
-// Function to fetch available plots based on selected block
-function fetchAvailablePlots(block, plotDropdownId, selectedPlot = null) {
-    if (block) {
-        var xhr = new XMLHttpRequest();
-        xhr.open("GET", "get_plots.php?block=" + block, true);
-        xhr.onload = function () {
-            if (this.status === 200) {
-                var plots = JSON.parse(this.responseText);
-                var plotDropdown = document.getElementById(plotDropdownId);
-                plotDropdown.innerHTML = '<option value="" disabled>Select Plot</option>'; // Clear previous options
+                    // Function to fetch available plots based on selected block
+                    function fetchAvailablePlots(block, plotDropdownId, selectedPlot = null) {
+                        if (block) {
+                            var xhr = new XMLHttpRequest();
+                            xhr.open("GET", "get_plots.php?block=" + block, true);
+                            xhr.onload = function () {
+                                if (this.status === 200) {
+                                    var plots = JSON.parse(this.responseText);
+                                    var plotDropdown = document.getElementById(plotDropdownId);
+                                    plotDropdown.innerHTML = '<option value="" disabled>Select Plot</option>'; // Clear previous options
 
-                // Populate the dropdown with available plots
-                plots.forEach(function (plot) {
-                    var option = document.createElement("option");
-                    option.value = plot;
-                    option.textContent = "Plot " + plot;
-                    plotDropdown.appendChild(option);
-                });
+                                    // Populate the dropdown with available plots
+                                    plots.forEach(function (plot) {
+                                        var option = document.createElement("option");
+                                        option.value = plot;
+                                        option.textContent = "Plot " + plot;
+                                        plotDropdown.appendChild(option);
+                                    });
 
-                // If there's a selected plot, add it back to the dropdown
-                if (selectedPlot) {
-                    var oldOption = document.createElement("option");
-                    oldOption.value = selectedPlot;
-                    oldOption.textContent = "Plot " + selectedPlot;
-                    plotDropdown.appendChild(oldOption);
-                    plotDropdown.value = selectedPlot; // Set the selected plot as the current value
-                }
-            } else {
-                console.error("Failed to load plots: " + this.status);
-            }
-        };
-        xhr.send();
-    }
-}
+                                    // If there's a selected plot, add it back to the dropdown
+                                    if (selectedPlot) {
+                                        var oldOption = document.createElement("option");
+                                        oldOption.value = selectedPlot;
+                                        oldOption.textContent = "Plot " + selectedPlot;
+                                        plotDropdown.appendChild(oldOption);
+                                        plotDropdown.value = selectedPlot; // Set the selected plot as the current value
+                                    }
+                                } else {
+                                    console.error("Failed to load plots: " + this.status);
+                                }
+                            };
+                            xhr.send();
+                        }
+                    }
 
                 </script>
             </div>

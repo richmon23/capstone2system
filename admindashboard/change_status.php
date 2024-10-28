@@ -61,7 +61,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id']) && isset($_POST
             } else {
                 // Commit the transaction for disapproved status
                 $pdo->commit();
-                header("Location: admindashboard.php?message=Status updated successfully");
+                header("Location: adminreservation.php?message=Status updated successfully");
                 exit;
             }
         } else {

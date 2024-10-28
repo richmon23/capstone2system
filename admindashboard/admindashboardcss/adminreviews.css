@@ -62,6 +62,7 @@ body {
   width: 250px;
   position: relative;
   padding: 1rem;
+  overflow-y: hidden;
 }
 
 .memoriallogo img {
@@ -78,15 +79,19 @@ body {
 }
 
 .adminprofile img {
-  width: 100px;
-  margin-top: 3rem;
-  padding-left: 30px;
+  width: 150px; /* Set the desired width */
+  height: 150px; /* Set the desired height */
+  border-radius: 50%; /* Make it circular */
+  object-fit: cover; /* Maintain aspect ratio and cover the entire area */
+  border: 2px solid #ddd; 
+  margin-top: 50px;
+  margin-left:20px;
+
 }
 
 .main {
   width: 100%;
   margin-top: 1rem;
-  margin-left: 50px;
 }
 
 .right-content1 {
@@ -170,10 +175,6 @@ body {
   right: 10px;
 }
 
-.adminprofile img {
-  border-radius: 50%;
-  width: 100px;
-}
 
 .adminprofile h2 {
   margin-top: 10px;
@@ -225,16 +226,17 @@ body {
   display: block;
 }
 
-/* Table Container */
+/* Scrollable Container for Cards */
 .table-container {
   margin-top: 5px;
   height: 60vh;
+  width: 130%;
   overflow-y: auto;
   margin-left: 20px;
-  width: 130%;
-  background-color: white;
+  background-color:#efefef;
   color: black;
-  border-radius: 20px;
+  border-radius: 10px;
+  padding: 20px;
   overflow-x: hidden;
 }
 
@@ -244,7 +246,7 @@ body {
 }
 
 .table-container::-webkit-scrollbar-thumb {
-  background-color: #18392b;
+  background-color:white;
   border-radius: 10px;
 }
 
@@ -252,32 +254,66 @@ body {
   background-color: #f1f1f1;
 }
 
-/* Table Styling */
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin: 20px 0;
-  font-size: 20px;
-  text-align: left;
-  color: rgba(0, 0, 0, 0.863);
-  margin-left: 20px;
-  padding: 10px;
+/* Card Styling */
+.card {
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  padding: 20px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-th, td {
-  padding: 13px;
-  border-bottom: 1px solid #ddd;
-  font-size: 15px;
+.card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
-th {
-  background-color: #18392b;
-  color: white;
+/* Card Header */
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
 }
 
-tr:hover {
-  background-color: #f5f5f5;
+.card-header h3 {
+  font-size: 1.2em;
+  color: #333;
 }
+
+.card-header .time {
+  font-size: 0.9em;
+  color: #888;
+}
+
+/* Card Body for Feedback */
+.card-body p {
+  font-size: 1em;
+  color: #555;
+  line-height: 1.6;
+}
+
+/* Card Footer for Ratings */
+.card-footer {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.card-footer .rating i {
+  color: gold;
+  margin-right: 5px;
+  font-size: 1.2em;
+}
+
+/* Responsive Design for Mobile */
+@media (max-width: 768px) {
+  .card {
+    width: 100%;
+  }
+}
+
 
 /* Star Rating */
 .fas.fa-star {

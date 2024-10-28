@@ -64,6 +64,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 }
 
+// Fetch user profile picture from the database
+$userId = $_SESSION['user_id'];
+$stmt = $conn->prepare("SELECT profile_pic FROM users WHERE id = :id");
+$stmt->bindParam(':id', $userId);
+$stmt->execute();
+$user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+// Check if user profile picture exists
+$profilePic = !empty($user['profile_pic']) ? $user['profile_pic'] : 'default.png'; // Use a default image if none is found
+   
+
+
 ?>
 
 <!DOCTYPE html>
@@ -79,9 +91,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     <div class="row">
     <div class="left-content col-3">
-                        <div class="adminprofile">
+    <div class="adminprofile">
                             <center>
-                                <img src="../images/female.png" alt="adminicon">
+                            <img src="../uploads/profile_pics/<?php echo $profilePic; ?>" alt="Profile Picture">
                                 <div class="dropdown">
                                     <button class="dropdown-btn">
                                         <?php echo "<h4> $firstname</h4>" ?> 
@@ -92,21 +104,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                         <button onclick="openModal('termsModal')">Terms and Conditions</button>
                                     </div> -->
                                 </div>
-                            </center>
-                        </div>
+                        </center>
+                    </div>
                         <br>
                         <div class="adminlinks">
                             <span><img src="../images/dashboard.png" alt="">&nbsp;&nbsp;&nbsp;<a href="customerDashboard.php">Dashboard</a></span> 
                             <!-- <span><img src="../images/deceased.png" alt="">&nbsp;&nbsp;&nbsp;<a href="customerDeceased.php">Deceased</a></span> -->
                             <span><img src="../images/reservation.png" alt="">&nbsp;&nbsp;&nbsp;<a href="customerreservation.php">Reservation</a></span>
                             <span><img src="../images/review.png" alt="">&nbsp;&nbsp;&nbsp;<a href="customerreviews.php">Reviews</a></span>
-                            <!-- <span><img src="../images/users.png" alt="">&nbsp;&nbsp;&nbsp;<a href="customerusers.php">User's</a></span> -->
+                            <span><img src="../images/plot.png" alt="">&nbsp;&nbsp;&nbsp;<a href="customerviewavailableplot.php">Available Plot & Block</a></span>
                             <span><img src="../images/payment.png" alt="">&nbsp;&nbsp;&nbsp;<a href="customerpayment.php">Payments</a></span>
                             <span><img src="../images/logout.png" alt="">&nbsp;&nbsp;&nbsp;<a href="../logout.php">Logout</a></span>
                         </div>
                         <br>
                     </div>
-            <div class="main">
+                    <div class="main">
             <div class="right-content1">
                 <br>
                 <br>
@@ -138,51 +150,44 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <!-- TODO: Reviews -->
             <div class="right-content-reviews">
                 <div class="table-container">
-                    <table id="myTable">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>NAME</th>
-                                <th>USER FEEDBACK</th>
-                                <th>RATING</th>
-                                <th>TIME</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                                $sql = "SELECT id, fullname, userfeedback, rating, time FROM reviews ORDER BY time DESC LIMIT 1000";  
-                                $stmt = $pdo->prepare($sql);
-                                $stmt->execute();
+                <div class="myTable">
+    <?php
+    $sql = "SELECT id, fullname, userfeedback, rating, time FROM reviews ORDER BY time DESC LIMIT 1000";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute();
 
-                                if ($stmt->rowCount() > 0) {
-                                    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                                        echo "<tr>
-                                                <td>" . htmlspecialchars($row["id"]). "</td>
-                                                <td>" . htmlspecialchars($row["fullname"]). "</td>
-                                                <td>" . htmlspecialchars($row["userfeedback"]). "</td>
-                                                <td>";
-                                                
-                                        // Display stars based on the rating
-                                        $rating = (int)$row['rating'];
-                                        for ($i = 1; $i <= 5; $i++) {
-                                            if ($i <= $rating) {
-                                                echo "<i class='fas fa-star'></i>"; // Filled star
-                                            } else {
-                                                echo "<i class='far fa-star'></i>"; // Empty star
-                                            }
-                                        }
+    if ($stmt->rowCount() > 0) {
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            echo "
+            <div class='card'>
+                <div class='card-header'>
+                    <h3>" . htmlspecialchars($row['fullname']) . "</h3>
+                    <span class='time'>" . htmlspecialchars($row['time']) . "</span>
+                </div>
+                <div class='card-body'>
+                    <p>" . htmlspecialchars($row['userfeedback']) . "</p>
+                </div>
+                <div class='card-footer'>
+                    <div class='rating'>";
+                    
+            // Display stars based on the rating
+            $rating = (int)$row['rating'];
+            for ($i = 1; $i <= 5; $i++) {
+                if ($i <= $rating) {
+                    echo "<i class='fas fa-star'></i>"; // Filled star
+                } else {
+                    echo "<i class='far fa-star'></i>"; // Empty star
+                }
+            }
 
-                                        echo "</td>
-                                                <td>" . htmlspecialchars($row["time"]). "</td>
-                                            </tr>";
-                                    }
-                                } else {
-                                    echo "<tr><td colspan='5'>No reviews available</td></tr>";
-                                }
-                            ?>
-                        </tbody>
-                    </table>   
-                </div>            
+            echo "</div></div></div>";
+        }
+    } else {
+        echo "<p>No reviews available.</p>";
+    }
+    ?>
+</div>
+    
                 <?php $pdo = null; // Closing the PDO connection ?>         
             </div>   
         </div>

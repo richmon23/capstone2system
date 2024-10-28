@@ -102,6 +102,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 } catch (PDOException $e) {
     echo "Error: " . $e->getMessage();
 }
+
+
+ // Fetch user profile picture from the database
+ $userId = $_SESSION['user_id'];
+ $stmt = $conn->prepare("SELECT profile_pic FROM users WHERE id = :id");
+ $stmt->bindParam(':id', $userId);
+ $stmt->execute();
+ $user = $stmt->fetch(PDO::FETCH_ASSOC);
+ 
+ // Check if user profile picture exists
+ $profilePic = !empty($user['profile_pic']) ? $user['profile_pic'] : 'default.png'; // Use a default image if none is found
+
  
 
 ?>
@@ -121,9 +133,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <div class="row">
     <div class="left-content col-3">
-                        <div class="adminprofile">
+    <div class="adminprofile">
                             <center>
-                                <img src="../images/female.png" alt="adminicon">
+                            <img src="../uploads/profile_pics/<?php echo $profilePic; ?>" alt="Profile Picture">
                                 <div class="dropdown">
                                     <button class="dropdown-btn">
                                         <?php echo "<h4> $firstname</h4>" ?> 
@@ -134,7 +146,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                         <button onclick="openModal('termsModal')">Terms and Conditions</button>
                                     </div> -->
                                 </div>
-                            </center>
+                        </center>
                         </div>
                         <br>
                         <div class="adminlinks">
@@ -142,7 +154,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <!-- <span><img src="../images/deceased.png" alt="">&nbsp;&nbsp;&nbsp;<a href="customerDeceased.php">Deceased</a></span> -->
                             <span><img src="../images/reservation.png" alt="">&nbsp;&nbsp;&nbsp;<a href="customerreservation.php">Reservation</a></span>
                             <span><img src="../images/review.png" alt="">&nbsp;&nbsp;&nbsp;<a href="customerreviews.php">Reviews</a></span>
-                            <!-- <span><img src="../images/users.png" alt="">&nbsp;&nbsp;&nbsp;<a href="customerusers.php">User's</a></span> -->
+                            <span><img src="../images/plot.png" alt="">&nbsp;&nbsp;&nbsp;<a href="customerviewavailableplot.php">Available Plot & Block</a></span>
                             <span><img src="../images/payment.png" alt="">&nbsp;&nbsp;&nbsp;<a href="customerpayment.php">Payments</a></span>
                             <span><img src="../images/logout.png" alt="">&nbsp;&nbsp;&nbsp;<a href="../logout.php">Logout</a></span>
                         </div>

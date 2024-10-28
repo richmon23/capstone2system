@@ -1,5 +1,5 @@
-<?php // Start the session
-
+<?php
+// Start the session
 session_start();
 
 if (!isset($_SESSION['user_id'])) {
@@ -13,7 +13,15 @@ $email = isset($_SESSION['email']) ? htmlspecialchars($_SESSION['email']) : '';
 // Include the database connection
 require_once '../connection/connection.php'; // Include your database connection file
 
+// Fetch user profile picture from the database
+$userId = $_SESSION['user_id'];
+$stmt = $conn->prepare("SELECT profile_pic FROM users WHERE id = :id");
+$stmt->bindParam(':id', $userId);
+$stmt->execute();
+$user = $stmt->fetch(PDO::FETCH_ASSOC);
 
+// Check if user profile picture exists
+$profilePic = !empty($user['profile_pic']) ? $user['profile_pic'] : 'default.png'; // Use a default image if none is found
 ?>
 
 
@@ -25,6 +33,16 @@ require_once '../connection/connection.php'; // Include your database connection
     <title>Customer Dashboard </title>
     <link rel="stylesheet" href="./customerdashboard_css/customerdashboard.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Add CSS to style the profile picture */
+        .profile-pic {
+            width: 150px; /* Set the desired width */
+            height: 150px; /* Set the desired height */
+            border-radius: 50%; /* Make it circular */
+            object-fit: cover; /* Maintain aspect ratio and cover the entire area */
+            border: 2px solid #ddd; /* Optional: Add a border */
+        }
+    </style>
 </head> 
 <body>
 
@@ -34,7 +52,7 @@ require_once '../connection/connection.php'; // Include your database connection
             <div class="left-content col-3">
                 <div class="adminprofile">
                             <center>
-                                <img src="../images/female.png" alt="adminicon">
+                            <img src="../uploads/profile_pics/<?php echo $profilePic; ?>" alt="Profile Picture">
                                 <div class="dropdown">
                                     <button class="dropdown-btn">
                                         <?php echo "<h4> $firstname</h4>" ?> <i class="fas fa-caret-down dropdown-icon"></i>
@@ -52,7 +70,7 @@ require_once '../connection/connection.php'; // Include your database connection
                             <!-- <span><img src="../images/deceased.png" alt="">&nbsp;&nbsp;&nbsp;<a href="customerDeceased.php">Deceased</a></span> -->
                             <span><img src="../images/reservation.png" alt="">&nbsp;&nbsp;&nbsp;<a href="customerreservation.php">Reservation</a></span>
                             <span><img src="../images/review.png" alt="">&nbsp;&nbsp;&nbsp;<a href="customerreviews.php">Reviews</a></span>
-                            <!-- <span><img src="../images/users.png" alt="">&nbsp;&nbsp;&nbsp;<a href="customerusers.php">User's</a></span> -->
+                            <span><img src="../images/plot.png" alt="">&nbsp;&nbsp;&nbsp;<a href="customerviewavailableplot.php">Available Plot & Block</a></span>
                             <span><img src="../images/payment.png" alt="">&nbsp;&nbsp;&nbsp;<a href="customerpayment.php">Payments</a></span>
                             <span><img src="../images/logout.png" alt="">&nbsp;&nbsp;&nbsp;<a href="../logout.php">Logout</a></span>
                         </div>
@@ -60,15 +78,15 @@ require_once '../connection/connection.php'; // Include your database connection
                 </div>
                 <div class="main">
                         <div class="right-content1">
-                                <div class="right-header col-9">
-                                    <span>CUSTOMER DASHBOARD</h2>
-                                    </span>
-                                    <!-- <div class="search-box">
-                                        <i class="fas fa-search search-icon"></i>
-                                        <input type="text" class="search-input" placeholder="Search">
-                                    </div> -->
-                                </div>
-                            </div>
+                        <div class="right-header col-9">
+                            <span>CUSTOMER DASHBOARD</span>
+                            <span class="button-container">
+                                <a href="customermapnavigation.php">
+                                    <button id="image-button" title="Map Navigation">Map Navigation</button>
+                                </a>
+                            </span>
+                        </div>
+                </div>
             <div class="right-content2">
                 <br>
                 <div class="rightsidebar-content">
@@ -146,7 +164,8 @@ require_once '../connection/connection.php'; // Include your database connection
                 </div>
             </div>
         </div>
-
+        <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+        <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
                 <script>
                     // Function to open a modal
                     function openModal(modalId) {
@@ -218,7 +237,8 @@ require_once '../connection/connection.php'; // Include your database connection
                         } else if (errorMessage) {
                             showAlert(errorMessage, 'error');
                         }
-
+                        
+                        
                 </script>
             </div>
         </div>

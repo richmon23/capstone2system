@@ -60,6 +60,7 @@ body {
   width: 250px; /* Fixed width for desktop */
   position: relative;
   padding: 1rem; /* Add padding inside the sidebar */
+  overflow-y: hidden;
 }
 
 
@@ -76,13 +77,6 @@ body {
   margin-top: 0.6rem;
 }
 
-.adminprofile img {
-  width: 100px;
-  margin-top: 3rem;
-  padding-left: 30px;
-
-
-}
 
 .memoriallogo img {
     width: 95px;
@@ -98,18 +92,21 @@ body {
   }
   
   .adminprofile img {
-    width: 100px;
-    margin-top: 3rem;
-    padding-left: 30px;
-  
-  
+    width: 150px; /* Set the desired width */
+    height: 150px; /* Set the desired height */
+    border-radius: 50%; /* Make it circular */
+    object-fit: cover; /* Maintain aspect ratio and cover the entire area */
+    border: 2px solid #ddd; 
+    margin-top: 50px;
+    margin-left:20px;
+
   }
 
 
 .main {
   width: 100%;
   margin-top: 1rem;
-  margin-left: 50px;
+ 
 }
 
 .right-content1 {
@@ -217,10 +214,7 @@ body {
   bottom: 40px;
   right: 10px;
 }
-.adminprofile img {
-  border-radius: 50%;
-  width: 100px;
-}
+
 .adminprofile h2 {
   margin-top: 10px;
 }
@@ -304,7 +298,7 @@ background-color: black;
   background-color: white;
   margin: 15% auto;
   padding: 20px;
-  border-radius: 5px;
+  border-radius: 20px;
   width: 30%;
   text-align: left;
   transform: scale(0.8);
@@ -343,10 +337,12 @@ background-color: black;
   width: 100%;
   padding: 8px;
   box-sizing: border-box;
+  border-radius: 20px;
 }
 
 .btn-primary {
-  background-color: #007bff;
+  background-color: #0056b3;
+  border-radius: 20px;
   color: white;
   padding: 10px 20px;
   border: none;
@@ -360,9 +356,36 @@ background-color: black;
 
 
 /* TODO: search bar dashboard  */
+/* .right-header {
+  display: flex;
+} */
 .right-header {
   display: flex;
+  align-items: center; /* Vertically align items */
 }
+
+.button-container {
+  margin-left: auto; /* Push the button fully to the right */
+}
+
+#image-button {
+  padding: 8px 15px;
+  border-radius: 5px;
+  border: none;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  margin-left: 200%;
+  width:130px;
+}
+
+
+#image-button:hover {
+  background-color: #0056b3;
+}
+
+
+
 
 .search-box {
   position: absolute;
@@ -482,3 +505,8 @@ background-color: black;
   width: 100px;
   height:80px;
 }
+
+.mapnavigation{
+  margin-left: 100%;
+}
+

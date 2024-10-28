@@ -60,6 +60,7 @@ body {
   width: 250px; /* Fixed width for desktop */
   position: relative;
   padding: 1rem; /* Add padding inside the sidebar */
+  overflow-y: hidden;
 }
 
 
@@ -77,13 +78,15 @@ body {
 }
 
 .adminprofile img {
-  width: 100px;
-  margin-top: 3rem;
-  padding-left: 30px;
-
+  width: 150px; /* Set the desired width */
+  height: 150px; /* Set the desired height */
+  border-radius: 50%; /* Make it circular */
+  object-fit: cover; /* Maintain aspect ratio and cover the entire area */
+  border: 2px solid #ddd; 
+  margin-top: 50px;
+  margin-left:20px;
 
 }
-
 .memoriallogo img {
     width: 95px;
     position: absolute;
@@ -97,19 +100,11 @@ body {
     margin-top: 0.6rem;
   }
   
-  .adminprofile img {
-    width: 100px;
-    margin-top: 3rem;
-    padding-left: 30px;
-  
-  
-  }
 
 
 .main {
   width: 100%;
   margin-top: 1rem;
-  margin-left: 50px;
 }
 
 .right-content1 {
@@ -138,7 +133,7 @@ body {
 
 
 .left-content1{
-  background-color:#18392b;
+  background-color:#efefef;
   color: white;
   border-radius: 25px;
   height: 73vh;
@@ -232,10 +227,7 @@ body {
     bottom: 40px;
     right: 10px;
   }
-  .adminprofile img {
-    border-radius: 50%;
-    width: 100px;
-  }
+
   .adminprofile h2 {
     margin-top: 10px;
   }
@@ -303,6 +295,7 @@ background-color: black;
   
   .search-box {
     position: absolute;
+    border-radius: 20px;
     margin-top: 10px;
     left: 70%;
     display: flex;
@@ -311,7 +304,6 @@ background-color: black;
     top: 15px;
     left:750px;
     width:250px;
-    border-radius: 20px;
    
    
   }
@@ -320,6 +312,7 @@ background-color: black;
     padding: 8px 8px 8px 30px; /* Add padding-left to make room for the icon */
     font-size: 14px;
     border: 1px solid #efefef;
+    border-radius: 20px;
 
   }
 
@@ -330,7 +323,7 @@ background-color: black;
     position: absolute;
     left: 10px; /* Position the icon inside the left corner */
     font-size: 16px;
-    color: green;
+    color: #18392b;
   }
   
   .search-icon::before {
@@ -362,7 +355,7 @@ table {
 
 /* Table header styling with sticky */
 thead th {
-  background-color: #4CAF50; /* Forest green for header */
+  background-color: #18392b; /* Forest green for header */
   color: white; /* White text color */
   padding: 15px; /* More padding for comfort */
   text-align: left;
@@ -400,14 +393,14 @@ th, td {
 }
 
 .table-container::-webkit-scrollbar-thumb {
-  background-color: forestgreen; /* Scrollbar color */
+  background-color:white; /* Scrollbar color */
   border-radius: 10px; /* Rounded scrollbar */
   border: 2px solid #f1f1f1; /* Optional border around the scrollbar thumb */
 }
 
 /* Custom Scrollbar Color for Firefox */
 .table-container {
-  scrollbar-color: forestgreen #f1f1f1;
+  scrollbar-color: #f1f1f1;
   scrollbar-width: thin;
 }
 
@@ -611,7 +604,36 @@ input[type="email"]:focus {
       width: 90%; /* Adjust modal width on smaller screens */
   }
 }
+.search-box {
+  position: absolute;
+  margin-top: 10px;
+  left: 45%;
+  display: flex;
+  align-items: center;
+  position: absolute;
+  top: 15px;
+  left:750px;
+}
 
+
+.search-input {
+  padding: 8px 8px 8px 30px; /* Add padding-left to make room for the icon */
+  font-size: 14px;
+  border: 1px solid #efefef;
+  border-radius: 20px;
+  width: 250px;
+}
+
+.search-icon {
+  position: absolute;
+  left: 10px; /* Position the icon inside the left corner */
+  font-size: 16px;
+  color: #666;
+}
+
+.search-icon::before {
+  content: '\f002'; /* Font Awesome search icon */
+}
 
 
 

@@ -131,7 +131,21 @@ if (isset($pdo)) {
 } else {
     echo 'Database connection failed. Please try again later.';
     exit();
+
+ 
 }
+
+
+    // Fetch user profile picture from the database
+    $userId = $_SESSION['user_id'];
+    $stmt = $conn->prepare("SELECT profile_pic FROM users WHERE id = :id");
+    $stmt->bindParam(':id', $userId);
+    $stmt->execute();
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+    // Check if user profile picture exists
+    $profilePic = !empty($user['profile_pic']) ? $user['profile_pic'] : 'default.png'; // Use a default image if none is found
+       
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -141,21 +155,22 @@ if (isset($pdo)) {
     <title>  Admin Dashboard </title>
     <link rel="stylesheet" href="./admindashboardcss/admindashboard.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
 </head>
 <body>
     <!-- <a href="logout.php">Logout</a> -->
         <div class="row">
             <div class="left-content col-3"> 
-                 <div class="adminprofile">
+            <div class="adminprofile">
                             <center>
-                                <img src="../images/female.png" alt="adminicon">
+                            <img src="../uploads/profile_pics/<?php echo $profilePic; ?>" alt="Profile Picture">
                                 <div class="dropdown">
                                     <button class="dropdown-btn">
                                         <?php echo "<h4> $firstname</h4>" ?> <i class="fas fa-caret-down dropdown-icon"></i>
                                     </button>
                                     <div class="dropdown-content">
                                         <button onclick="openModal('changePasswordModal')">Change Password</button>
-                                        <!-- <button onclick="openModal('termsModal')">Terms and Conditions</button> -->
+                                        <button onclick="openModal('termsModal')">Terms and Conditions</button>
                                     </div>
                                 </div>
                             </center>
@@ -172,21 +187,25 @@ if (isset($pdo)) {
                         </div>
                         <br>
                 </div>
-                <div class="main">
+                        <div class="main">
                             <div class="right-content1">
-                                <div class="right-header col-9">
-                                    <span>
-                                        <h2>ADMIN DASHBOARD</h2>
-                                    </span>
-                                    <!-- <div class="search-box">
-                                        <i class="fas fa-search search-icon"></i>
-                                        <input type="text" class="search-input" placeholder="Search">
-                                    </div> -->
-                                </div>
+                            <div class="right-header col-9">
+                            <span>ADMIN DASHBOARD</span>
+                        </div>
+
                             </div>
                         <div class="right-content2">
                             <br>
                             <h3 class="todaydata">Today's  Data </h3>
+                            <span class="button-container">
+                                <a href="adminviewavailableplot.php">
+                                    <button id="image-button" title="View Available Plots">View  Plots</button>
+                                </a>
+                                <a href="adminmapnavigation.php">
+                                    <button id="image-button" title="Map Navigation">Map Navigation</button>
+                                </a>
+                            </span>
+                            <br>
                             <br>
                             <br>
                             <div class="rightsidebar-content">
@@ -248,21 +267,21 @@ if (isset($pdo)) {
         </div>
 
         <!-- Terms and Conditions Modal -->
-        <!-- <div id="termsModal" class="modal">
+        <div id="termsModal" class="modal">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5>Terms and Conditions</h5>
                     <button class="close-btn" onclick="closeModal('termsModal')">&times;</button>
                 </div>
                 <div class="modal-body">
-                    <p> -->
-                        <!-- Terms and conditions content goes here -->
-                        <!-- Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla porttitor accumsan tincidunt.
+                    <p> 
+                         Terms and conditions content goes here 
+                         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla porttitor accumsan tincidunt.
                         Curabitur arcu erat, accumsan id imperdiet et, porttitor at sem. Proin eget tortor risus.
                     </p>
                 </div>
             </div>
-        </div> -->
+        </div> 
 
 </body>
     <script>

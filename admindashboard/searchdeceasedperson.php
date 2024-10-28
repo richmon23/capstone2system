@@ -6,7 +6,7 @@ if (isset($_POST['query'])) {
     $search = "%" . $_POST['query'] . "%";
     
     // Prepare the SQL query to only search by 'fullname'
-    $sql = "SELECT * FROM deceasedpersoninfo WHERE fullname LIKE :search";
+    $sql = "SELECT * FROM deceasedpersoninfo WHERE firstname LIKE :search";
     
     $stmt = $pdo->prepare($sql);
     $stmt->bindParam(':search', $search, PDO::PARAM_STR);
@@ -23,7 +23,8 @@ if (count($reservations) > 0) {
     foreach ($reservations as $reservation) {
         echo '
 <tr>
-    <td>' . htmlspecialchars($reservation["fullname"]) . '</td>
+    <td>' . htmlspecialchars($reservation["firstname"]) . '</td>
+     <td>' . htmlspecialchars($reservation["surname"]) . '</td>
     <td>' . htmlspecialchars($reservation["address"]) . '</td>
     <td>' . htmlspecialchars($reservation["born"]) . '</td>
     <td>' . htmlspecialchars($reservation["died"]) . '</td>
@@ -43,6 +44,6 @@ if (count($reservations) > 0) {
 
     }
 } else {
-    echo '<tr><td colspan="8">No reservations found.</td></tr>';
+    echo '<tr><td colspan="8">No Information found.</td></tr>';
 }
 ?>
