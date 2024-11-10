@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Address Form</title>
+    <style>
+        /* Basic Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 60%;
+            max-width: 800px;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .form-row {
+            display: flex;
+        }
+
+        .form-column {
+            flex: 1;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Button to trigger the modal -->
+<button onclick="openAddModal()">Add New</button>
+
+<!-- The Modal -->
+<div id="updateModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">×</span>
+        <div class="modal-header">
+            <h2>Update Address Details</h2>
+        </div>
+        <div class="modal-body">
+            <form id="updateForm" method="post">
+                <input type="hidden" name="id" id="modal_id">
+                <input type="hidden" name="action" value="update" class="form-element">
+
+                <!-- Province, Municipality, and Barangay -->
+                <div class="form-row">
+                    <div class="form-column">
+                        <label for="updateProvince">Province</label>
+                        <select id="updateProvince" name="province" onchange="loadMunicipalitiesForUpdate(this.value)">
+                            <!-- Provinces will be dynamically loaded here -->
+                        </select>
+                    </div>
+                    <div class="form-column">
+                        <label for="updateMunicipality">Municipality</label>
+                        <select id="updateMunicipality" name="municipality" onchange="loadBarangaysForUpdate(this.value)">
+                            <!-- Municipalities will be dynamically loaded here -->
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-column">
+                        <label for="updateBarangay">Barangay</label>
+                        <select id="updateBarangay" name="barangay">
+                            <!-- Barangays will be dynamically loaded here -->
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Other form fields as needed -->
+                <button type="submit">Update Address</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+// Helper function to fetch data from an API endpoint
+async function fetchAPI(url) {
+    const response = await fetch(url);
+    if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    return await response.json();
+}
+
+// Function to open the modal and load the data
+function openModal(data) {
+    document.getElementById('modal_id').value = data.id;
+    loadProvincesForUpdate(data.province_code, data.municipality_code, data.barangay_code);
+    document.getElementById('updateModal').style.display = "block";
+}
+
+// Function to close the modal
+function closeModal() {
+    document.getElementById('updateModal').style.display = "none";
+}
+
+// Function to load provinces for the update modal
+async function loadProvincesForUpdate(provinceCode, municipalityCode, barangayCode) {
+    const provinceDropdown = document.getElementById('updateProvince');
+
+    try {
+        const provinces = await fetchAPI('https://psgc.gitlab.io/api/provinces/');
+        provinceDropdown.innerHTML = '<option value="">Select Province</option>';
+
+        provinces.forEach(province => {
+            const option = document.createElement('option');
+            option.value = province.code;
+            option.textContent = province.name;
+            provinceDropdown.appendChild(option);
+        });
+
+        if (provinceCode) {
+            provinceDropdown.value = provinceCode;
+            loadMunicipalitiesForUpdate(provinceCode, municipalityCode, barangayCode);
+        }
+    } catch (error) {
+        console.error("Error loading provinces:", error);
+    }
+}
+
+// Function to load municipalities for the update modal
+async function loadMunicipalitiesForUpdate(provinceCode, municipalityCode, barangayCode) {
+    const municipalityDropdown = document.getElementById('updateMunicipality');
+    if (!provinceCode) return;
+
+    try {
+        const municipalities = await fetchAPI(`https://psgc.gitlab.io/api/provinces/${provinceCode}/cities-municipalities/`);
+        municipalityDropdown.innerHTML = '<option value="">Select Municipality</option>';
+
+        municipalities.forEach(municipality => {
+            const option = document.createElement('option');
+            option.value = municipality.code;
+            option.textContent = municipality.name;
+            municipalityDropdown.appendChild(option);
+        });
+
+        if (municipalityCode) {
+            municipalityDropdown.value = municipalityCode;
+            loadBarangaysForUpdate(municipalityCode, barangayCode);
+        }
+    } catch (error) {
+        console.error("Error loading municipalities:", error);
+    }
+}
+
+// Function to load barangays for the update modal
+async function loadBarangaysForUpdate(municipalityCode, barangayCode) {
+    const barangayDropdown = document.getElementById('updateBarangay');
+    if (!municipalityCode) return;
+
+    try {
+        const barangays = await fetchAPI(`https://psgc.gitlab.io/api/cities-municipalities/${municipalityCode}/barangays/`);
+        barangayDropdown.innerHTML = '<option value="">Select Barangay</option>';
+
+        barangays.forEach(barangay => {
+            const option = document.createElement('option');
+            option.value = barangay.code;
+            option.textContent = barangay.name;
+            barangayDropdown.appendChild(option);
+        });
+
+        if (barangayCode) {
+            barangayDropdown.value = barangayCode;
+        }
+    } catch (error) {
+        console.error("Error loading barangays:", error);
+    }
+}
+
+// Event listener for form submission
+document.getElementById('updateForm').addEventListener('submit', async function(e) {
+    e.preventDefault(); // Prevent default form submission
+    const formData = new FormData(this);
+
+    try {
+        const response = await fetch('/your-api-endpoint', {
+            method: 'POST',
+            body: formData
+        });
+
+        if (response.ok) {
+            alert('Address updated successfully!');
+            closeModal(); // Close modal after successful update
+        } else {
+            throw new Error('Failed to update address');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+    }
+});
+
+// Example usage with sample data
+let sampleData = {
+    id: 1,
+    firstname: "John",
+    province_code: "015500000",  // Example province code (Ilocos Norte)
+    municipality_code: "015518000",  // Example municipality code (Laoag City)
+    barangay_code: "015518014"  // Example barangay code (Barangay 32)
+};
+
+// Uncomment below to open modal with sample data
+// openModal(sampleData);
+</script>
+
+</body>
+</html>

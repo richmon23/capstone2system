@@ -624,6 +624,27 @@ position: relative;
   margin-top: 10px;
 }
 
+.name-info {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+}
+
+.or-number-info {
+  font-size: 15px;
+  padding-top: 10px;
+
+}
+
+.name-client{
+  font-size: 15px;
+  text-transform: capitalize;
+
+}
+
+/* TODO: Upload prof of payment */
+
 .upload-container {
   background-color: white;
   padding: 20px;

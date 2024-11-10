@@ -56,10 +56,13 @@ if (count($reservations) > 0) {
                 <?php endif; ?>
 
                 <!-- Payment button with inline style -->
-                <button class="button payment" title="payment" onclick='openPaymentModal(<?= json_encode($reservation, JSON_HEX_APOS | JSON_HEX_QUOT); ?>)'
-                    style="background-color: teal; border: none; color: white; padding: 10px 15px; border-radius: 5px; cursor: pointer;">
-                    <i class="fas fa-money-bill" style="color: white;"></i>
-                </button>
+                <button class="button payment" title="payment"
+    onclick="openPaymentModal(<?= $reservation['id'] ?>, '<?= htmlspecialchars($reservation['firstname'], ENT_QUOTES) ?>', '<?= htmlspecialchars($reservation['surname'], ENT_QUOTES) ?>', '<?= htmlspecialchars($reservation['package'], ENT_QUOTES) ?>', '<?= htmlspecialchars($reservation['blocknumber'], ENT_QUOTES) ?>', '<?= htmlspecialchars($reservation['plotnumber'], ENT_QUOTES) ?>')"
+    style="background-color: teal; border: none; color: white; padding: 10px 15px; border-radius: 5px; cursor: pointer;">
+    <i class="fas fa-money-bill" style="color: white;"></i>
+</button>
+
+
             </td>
         </tr>
         <?php

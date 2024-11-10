@@ -36,8 +36,10 @@ if (isset($pdo)) {
                 // Check if all required fields are present
                 if (!empty($_POST['firstname']) && !empty($_POST['surname']) && !empty($_POST['package']) && !empty($_POST['plotnumber']) && !empty($_POST['blocknumber']) && !empty($_POST['email']) && !empty($_POST['contact'])) {
                     // Insert reservation
-                    $stmt = $pdo->prepare("INSERT INTO reservation (firstname,surname, package, plotnumber, blocknumber, email, contact) VALUES (?,?, ?, ?, ?, ?, ?)");
-                    $stmt->execute([$_POST['firstname'],$_POST['surname'], $_POST['package'], $_POST['plotnumber'], $_POST['blocknumber'], $_POST['email'], $_POST['contact']]);
+                    // $stmt = $pdo->prepare("INSERT INTO reservation (firstname,surname, package, plotnumber, blocknumber, email, contact,province,municipality,completeaddress) VALUES (?,?, ?, ?, ?, ?, ?,?,?,?)");
+                    // $stmt->execute([$_POST['firstname'],$_POST['surname'], $_POST['package'], $_POST['plotnumber'], $_POST['blocknumber'], $_POST['email'], $_POST['contact'],$_POST['province'], $_POST['municipality'], $_POST['completeaddress']]);
+                    $stmt = $pdo->prepare("INSERT INTO reservation (firstname, surname, package, plotnumber, blocknumber, email, contact, province, municipality, completeaddress) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                    $stmt->execute([$_POST['firstname'], $_POST['surname'], $_POST['package'], $_POST['plotnumber'], $_POST['blocknumber'], $_POST['email'], $_POST['contact'], $_POST['province_name'], $_POST['municipality_name'], $_POST['completeaddress']]);
 
                     // Mark the plot as unavailable
                     $updatePlot = $pdo->prepare("UPDATE plots SET is_available = 0 WHERE plot_number = ? AND block = ?");
@@ -46,16 +48,19 @@ if (isset($pdo)) {
                     echo "All fields are required.";
                 }
             } elseif ($action == 'update') {
-                if (!empty($_POST['id']) && !empty($_POST['firstname']) && !empty($_POST['surname']) && !empty($_POST['package']) && !empty($_POST['plotnumber']) && !empty($_POST['blocknumber']) && !empty($_POST['email']) && !empty($_POST['contact'])) {
+                if (!empty($_POST['id']) && !empty($_POST['firstname']) && !empty($_POST['surname']) && !empty($_POST['package']) && !empty($_POST['plotnumber']) && !empty($_POST['blocknumber']) && !empty($_POST['email']) && !empty($_POST['contact']) && !empty($_POST['province']) &&!empty($_POST['municipality']) &&!empty($_POST['completeaddress'])) {
                     // First, check if the plot number is changing
                     $reservationStmt = $pdo->prepare("SELECT plotnumber, blocknumber FROM reservation WHERE id = ?");
                     $reservationStmt->execute([$_POST['id']]);
                     $oldReservation = $reservationStmt->fetch(PDO::FETCH_ASSOC);
                     
                     // Update the reservation
-                    $stmt = $pdo->prepare("UPDATE reservation SET firstname = ?, surname = ?, package = ?, plotnumber = ?, blocknumber = ?, email = ?, contact = ? WHERE id = ?");
-                    $stmt->execute([$_POST['firstname'],$_POST['surname'], $_POST['package'], $_POST['plotnumber'], $_POST['blocknumber'], $_POST['email'], $_POST['contact'],$_POST['id']]);
+                    // $stmt = $pdo->prepare("UPDATE reservation SET firstname = ?, surname = ?, package = ?, plotnumber = ?, blocknumber = ?, email = ?, contact = ?, province = ?,municipality, completeaddress = ? = ? WHERE id = ?");
+                    // $stmt->execute([$_POST['firstname'],$_POST['surname'], $_POST['package'], $_POST['plotnumber'], $_POST['blocknumber'], $_POST['email'], $_POST['contact'],$_POST['province'],$_POST[' municipality'],$_POST['completeaddress'],$_POST['id']]);
                     
+                    $stmt = $pdo->prepare("UPDATE reservation SET firstname = ?, surname = ?, package = ?, plotnumber = ?, blocknumber = ?, email = ?, contact = ?, province = ?, municipality = ?, completeaddress = ? WHERE id = ?");
+                    $stmt->execute([$_POST['firstname'], $_POST['surname'], $_POST['package'], $_POST['plotnumber'], $_POST['blocknumber'], $_POST['email'], $_POST['contact'], $_POST['province_name'], $_POST['municipality_name'], $_POST['completeaddress'], $_POST['id']]);
+
                     // If the plot number has changed, mark the old plot as available and the new one as unavailable
                     if ($oldReservation['plotnumber'] != $_POST['plotnumber']) {
                         // Mark old plot as available
@@ -112,6 +117,7 @@ if (isset($pdo)) {
  $profilePic = !empty($user['profile_pic']) ? $user['profile_pic'] : 'default.png'; // Use a default image if none is found
     
  
+
 
 
 ?>
@@ -236,21 +242,56 @@ if (isset($pdo)) {
                                                 <option value="4">4</option>
                                             </select><br><br>
                                             
-                                            <!-- Email -->
-                                            <label for="email">Email:</label><br>
-                                            <input type="email" id="add_email" name="email" required class="form-element"><br><br>
-                                        </div>
-                                        
-                                        <div class="form-column">
-                                            <!-- Plot Selection -->
+                                               <!-- Plot Selection -->
                                             <label for="plot">Plot #:</label><br>
                                             <select id="add_plot" name="plotnumber" required class="form-element">
                                                 <option value="" disabled selected>Select Plot</option>
                                             </select><br><br>
+                                        </div>
+                                        
+                                        <div class="form-column">
+                                          
+
+                                            <!-- Email -->
+                                            <label for="email">Email:</label><br>
+                                            <input type="email" id="add_email" name="email" required class="form-element"><br><br> 
 
                                             <!-- Contact -->
                                             <label for="contact">Contact:</label><br>
                                             <input type="text" id="add_contact" name="contact" required class="form-element"><br><br>
+
+                                            <div class="address">
+                                                <div class="province">
+                                                    <label for="Select Province">Select Province</label>
+                                                    <select id="province" name="province" class="form-element" onchange="loadMunicipalities()">
+                                                        <option value="">Province</option>
+                                                    </select>
+                                                </div>
+                                                <br>
+                                                <div class="municipality">
+                                                    <label for="Select Municipality">Select Municipality</label>
+                                                    <br>
+                                                    <select id="municipality" name="municipality" class="form-element" onchange="toggleAddressFields()">
+                                                        <option value=""> Select Municipality</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <br>
+                                            <div class="barangay" id="barangayDropdown" name="completeaddress" style="display: none;">
+                                                <select id="barangay" name="barangay_code" class="form-element" onchange="setAddressFields()">
+                                                <!-- Barangay options will be populated here -->
+                                                </select>
+                                            </div>
+                                            <!-- <div class="form-group" id="addressInput" style="display: none;"> -->
+                                                <label for="address">Complete Address</label>
+                                                <input type="text" id="address" name="completeaddress" maxlength="100" class="form-element" placeholder="">
+                                            <!-- </div> -->
+
+                                            <!-- Hidden inputs for province and municipality names -->
+                                            <input type="hidden" id="province_name" name="province_name">
+                                            <input type="hidden" id="municipality_name" name="municipality_name">
+                                            <input type="hidden" id="barangay_name" name="barangay_name">
+              
                                         </div>
                                     </div>
                                 </form>
@@ -261,150 +302,195 @@ if (isset($pdo)) {
                         </div>
                     </div>
 
+ 
 
 
                     <div id="updateModal" class="modal">
-                        <div class="modal-content">
-                            <span class="close" onclick="closeModal()">&times;</span>
-                            <div class="modal-header">
-                                <h2>Update Details</h2>
-                            </div>
-                            <div class="modal-body">
-                                <form id="updateForm" method="post">
-                                    <input type="hidden" name="id" id="modal_id">
-                                    <input type="hidden" name="action" value="update" class="form-element">
-                                    
-                                    <div class="form-row">
-                                        <div class="form-column">
-                                            <!-- Full Name -->
-                                            <label for="firstname">Firstname:</label><br>
-                                            <input type="text" id="modal_firstname" name="firstname" class="form-element"><br><br>
-
-                                            <label for="surname">Surname:</label><br>
-                                            <input type="text" id="modal_surname" name="surname" class="form-element"><br><br>
-                                            
-                                            <!-- Package -->
-                                            <label for="package">Package:</label><br>
-                                            <select id="modal_package" name="package" class="form-element">
-                                                <option value="">Select Package</option>
-                                                <option value="garden">Garden</option>
-                                                <option value="family_state">Family State</option>
-                                                <option value="lawn">Lawn</option>
-                                            </select>
-                                            <br><br>
-                                            
-                                            <!-- Block Selection -->
-                                            <label for="block">Block #:</label><br>
-                                            <select id="modal_block" name="blocknumber" class="form-element" required>
-                                                <option value="" disabled selected>Select Block</option>
-                                                <option value="1">1</option>
-                                                <option value="2">2</option>
-                                                <option value="3">3</option>
-                                                <option value="4">4</option>
-                                            </select><br><br>
-                                        </div>
-                                        <div class="form-column">
-                                            <!-- Plot Selection -->
-                                            <label for="plot">Plot #:</label><br>
-                                            <select id="modal_plot" name="plotnumber" class="form-element" required>
-                                                <option value="" disabled selected>Select Plot</option>
-                                            </select><br><br>
-
-                                            <!-- Email -->
-                                            <label for="email">Email:</label><br>
-                                            <input type="email" id="modal_email" name="email" class="form-element"><br><br>
-                                            
-                                            <!-- Contact -->
-                                            <label for="contact">Contact:</label><br>
-                                            <input type="text" id="modal_contact" name="contact" class="form-element"><br><br>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                            <div class="modal-footer">
-                                <button class="button update" onclick="document.getElementById('updateForm').submit()">Save</button>
-                            </div>
+                    <div class="modal-content">
+                        <span class="close" onclick="closeModal()">&times;</span>
+                        <div class="modal-header">
+                            <h2>Update Details</h2>
                         </div>
-                    </div>
+                        <div class="modal-body">
+                            <form id="updateForm" method="post">
+                                <input type="hidden" name="id" id="modal_id">
+                                <input type="hidden" name="action" value="update" class="form-element">
+                                
+                                <div class="form-row">
+                                    <div class="form-column">
+                                        <!-- Full Name -->
+                                        <label for="firstname">Firstname:</label><br>
+                                        <input type="text" id="modal_firstname" name="firstname" class="form-element"><br><br>
 
-
-
-                    <!-- The  Payment Modal -->
-                    <div id="paymentModal" class="modal">
-                        <div class="modal-content">
-                            <span class="close" onclick="closePaymentModal()">&times;</span>
-                            <div class="modal-header-payment">Payment</div>
-                            <form action="#" method="post">
-                             <div class="total-amount1">
-                                <p> Total Payment:</p>
-                                <p><?php echo "&#x20B1; $sampletotal.00" ?></p>
-                             </div> 
-                             <br>
-                              <div class="name-info">
-                                <div class="name-client">
-                                    <?php echo "<p> $firstname #00$sampleid </p>" ?>
-                                    <br>
-                                    Lawn
-                                    <br>
-                                    Block 4
-                                    <br>
-                                    Plot 1
-                                </div>
-                                <div class="total-amount">
-                                <?php echo "" . date("Y/m/d") ?>
-                                <p>Payment Status: Paid</p>
-                                </div>
-                              </div>
-                                <div class="modal-content">
-                                <!-- <div class="modal-header"></div> -->
-                                <form action="#" method="post">
-                                    <!-- Dropdown for selecting payment method -->
-                                   <div class="payment-option">
-                                   <label for="payment-method">Select Payment Method:</label>
-                                    <select id="payment-method" class="form-input" name="payment_method" required>
-                                        <option value="cash">Cash</option>
-                                        <option value="gcash">GCash</option>
-                                    </select>
-
-                                   </div>
-                                    <!-- Input fields (can be optional based on selected payment method) -->
-                                    <div id="gcash-info" style="display: none;">
-                                        <!-- <input type="text" class="form-input" name="gcash_name" placeholder="Enter GCash Name" required>
-                                        <br>
-                                        <input type="text" class="form-input" name="gcash_number" placeholder="Enter GCash Number" required> -->
-                                        <p> Desiree Leal</p>
-                                        <p> 09653384884</p>
-                                         <br>
-                                        <input type="file" id="file-upload" name="payment_proof" class="upload-container "  title="upload your prof of payment">
+                                        <label for="surname">Surname:</label><br>
+                                        <input type="text" id="modal_surname" name="surname" class="form-element"><br><br>
+                                        
+                                        <!-- Package -->
+                                        <label for="package">Package:</label><br>
+                                        <select id="modal_package" name="package" class="form-element">
+                                            <option value="">Select Package</option>
+                                            <option value="garden">Garden</option>
+                                            <option value="family_state">Family State</option>
+                                            <option value="lawn">Lawn</option>
+                                        </select>
+                                        <br><br>
+                                        
+                                        <!-- Block Selection -->
+                                        <label for="block">Block #:</label><br>
+                                        <select id="modal_block" name="blocknumber" class="form-element" required>
+                                            <option value="" disabled selected>Select Block</option>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                        </select><br><br>
+                                        
+                                        <!-- Plot Selection -->
+                                        <label for="plot">Plot #:</label><br>
+                                        <select id="modal_plot" name="plotnumber" class="form-element" required>
+                                            <option value="" disabled selected>Select Plot</option>
+                                        </select><br><br>
                                     </div>
-                                    <div class="payment-radio">
-                                        <br>
-                                        <input type="radio" id="cash-radio" name="payment_method" value="cash" checked>
-                                        <label for="cash-radio">Fullpayment</label>
-                                        <br>
-                                        <input type="radio" id="gcash-radio" name="payment_method" value="gcash">
-                                        <label for="gcash-radio">Installment</label>
-                                    </div>
-                                    </div>
-                                    <div class="radio-term">
-                                        <div class="radio-group">
-                                            <label>
-                                                <input type="radio" name="duration" value="6months" required>
-                                               3,400   x6 Months
-                                            </label>
-                                            <label>
-                                                <input type="radio" name="duration" value="9months">
-                                              5,000  x9 Months
-                                            </label>
+                                    <div class="form-column">
+                                    
+
+                                        <!-- Email -->
+                                        <label for="email">Email:</label><br>
+                                        <input type="email" id="modal_email" name="email" class="form-element"><br><br>
+                                        
+                                        <!-- Contact -->
+                                        <label for="contact">Contact:</label><br>
+                                        <input type="text" id="modal_contact" name="contact" class="form-element"><br><br>
+
+                                        <div class="address">
+                                            <div class="province">
+                                                <!-- Unique ID for the update modal province dropdown -->
+                                                <label for="updateProvince">Select Province</label>
+                                                <select id="updateProvince" name="province" class="form-element" onchange="loadMunicipalitiesForUpdate()">
+                                                    <option value="">Select Province</option>
+                                                </select>
+                                            </div>
+                                            <br>
+                                            <div class="municipality">
+                                                <!-- Unique ID for the update modal municipality dropdown -->
+                                                <label for="updateMunicipality">Select Municipality</label>
+                                                <br>
+                                                <select id="updateMunicipality" name="municipality" class="form-element" onchange="toggleAddressFieldsForUpdate()">
+                                                    <option value="">Select Municipality</option>
+                                                </select>
+                                            </div>
                                         </div>
+                                        <br>
+                                        <div class="barangay" id="updateBarangayDropdown" name="completeaddress" style="display: none;">
+                                            <select id="updateBarangay" name="barangay_code" class="form-element" onchange="setAddressFieldsForUpdate()">
+                                            <!-- Barangay options will be populated here -->
+                                            </select>
+                                        </div>
+                                    
+                                        <!-- <div class="form-group" id="updateAddressInput" style="display: none;"> -->
+                                            <label for="updateAddress">Complete Address</label>
+                                            <input type="text" id="updateAddress" name="completeaddress" maxlength="100" class="form-element" placeholder="">  
+                                        
+
+                                        <!-- Hidden inputs for province and municipality names -->
+                                       <!-- Hidden inputs for province and municipality names and codes -->
+                                        <input type="hidden" id="updateProvinceName" name="province_name">
+                                        <input type="hidden" id="updateMunicipalityName" name="municipality_name">
+                                        <input type="hidden" id="updateProvinceCode" name="province_code">
+                                        <input type="hidden" id="updateMunicipalityCode" name="municipality_code">
                                     </div>
-                                     <!-- Submit button -->
-                                   <div class="payment-button">
-                                   <button type="submit" class="form-payment-button">Proceed to Payment</button>
-                                   </div>
+                                </div>
                             </form>
                         </div>
+                        <div class="modal-footer">
+                            <button class="button update" onclick="document.getElementById('updateForm').submit()">Save</button>
+                        </div>
                     </div>
+                </div>
+
+                <!-- TODO:Payment Modal and Payment Proof Upload -->
+                <div id="paymentModal" class="modal">
+                    <div class="modal-content">
+                        <span class="close" onclick="closePaymentModal()">&times;</span>
+                        <div class="modal-header-payment">Payment</div>
+                        <form action="process_payment.php" method="post" enctype="multipart/form-data">
+                            <div class="total-amount1">
+                                <p>Total Payment:</p>
+                                <p id="modal-price">&#x20B1; 0.00</p> <!-- Placeholder for dynamic price -->
+                            </div>
+                            <br>
+                            <div class="name-info">
+                                <div class="name-client" id="client-name"></div>
+                                <div class="client-id" id="client-id" style="float: right;"></div> <!-- ID with float right -->
+                                <div class="or-number-info">
+                                    <p><span id="or-number"></span></p>
+                                </div>
+                            </div>  
+                            <div class="client-info">
+                                <div class="client-package" id="client-package"></div>
+                                <div class="client-block" id="client-block"></div>
+                                <div class="client-plot" id="client-plot"></div>
+                            </div>
+                            <div class="total-amount">
+                                <?php echo date("Y/m/d"); ?>
+                                <p id="payment-status">Payment Status: Not Paid</p>
+                            </div>
+
+                            <!-- Hidden inputs for reservation data -->
+                            <input type="hidden" name="reservation_id" id="reservation-id">
+                            <input type="hidden" name="firstname" id="firstname">
+                            <input type="hidden" name="surname" id="surname">
+                            <input type="hidden" name="package" id="package">
+                            <input type="hidden" name="block" id="block">
+                            <input type="hidden" name="plot" id="plot">
+
+                            <div class="payment-option">
+                                <label for="payment-method">Select Payment Method:</label>
+                                <select name="payment_method" id="payment-method" class="form-input" required onchange="toggleGcashInfo()">
+                                    <option value="cash">Cash</option>
+                                    <option value="gcash">GCash</option>
+                                </select>
+                            </div>
+                            
+                            <!-- GCash Information -->
+                            <div id="gcash-info" style="display: none;">
+                                <p>Desiree Leal</p>
+                                <p>09653384884</p>
+                                <br>
+                                <input type="file" id="file-upload" name="payment_proof" class="upload-container" title="Upload proof of payment">
+                            </div>
+
+                            <div class="payment-radio">
+                                <br>
+                                <input type="radio" id="cash-radio" name="installment_plan" value="fullpayment" checked>
+                                <label for="cash-radio">Full Payment</label>
+                                <br>
+                                <input type="radio" id="gcash-radio" name="installment_plan" value="installment">
+                                <label for="gcash-radio">Installment</label>
+                            </div>
+                            
+                            <div class="radio-term" style="display: none;">
+                                <div class="radio-group">
+                                    <label>
+                                        <input type="radio" name="duration" value="6months">
+                                        6 Months - <span id="installment-price-6">₱ 0.00</span>
+                                    </label>
+                                    <br>
+                                    <label>
+                                        <input type="radio" name="duration" value="9months">
+                                        9 Months - <span id="installment-price-9">₱ 0.00</span>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="payment-button">
+                                <button type="submit" class="form-payment-button">Proceed to Payment</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+
 
 
                     <!-- TODO: Status modal for changing reservation status -->
@@ -429,7 +515,10 @@ if (isset($pdo)) {
                             </form>
                         </div>
                     </div>
+
+
                     <script>
+
                         var addModal = document.getElementById("addModal");
                         var updateModal = document.getElementById("updateModal");
 
@@ -442,37 +531,42 @@ if (isset($pdo)) {
                         }
 
                         function openModal(data) {
-                            document.getElementById("modal_id").value = data.id;
-                            document.getElementById("modal_firstname").value = data.firstname;
-                            document.getElementById("modal_surname").value = data.surname;
-                            document.getElementById("modal_package").value = data.package;
-                            document.getElementById("modal_plot").value = data.plotnumber;
-                            document.getElementById("modal_block").value = data.blocknumber;
-                            document.getElementById("modal_email").value = data.email;
-                            document.getElementById("modal_contact").value = data.contact;
+                                document.getElementById("modal_id").value = data.id;
+                                document.getElementById("modal_firstname").value = data.firstname;
+                                document.getElementById("modal_surname").value = data.surname;
+                                document.getElementById("modal_package").value = data.package;
+                                document.getElementById("modal_plot").value = data.plotnumber;
+                                document.getElementById("modal_block").value = data.blocknumber;
+                                document.getElementById("modal_email").value = data.email;
+                                document.getElementById("modal_contact").value = data.contact;
+                                
+                                // Set province and municipality values
+                                document.getElementById("province").value = data.province;
+                                document.getElementById("municipality").value = data.municipality;
+                                
+                                // You might need to manually trigger the events to load the municipality and barangay dropdowns.
+                                loadMunicipalities();  // This will populate the municipalities based on the province
+                                loadBarangays(); // This will populate barangays based on the municipality
 
-                            // Ensure the time is correctly formatted
-                            // if (data.time) {
-                            //     var formattedTime = data.time.replace(" ", "T");
-                            //     document.getElementById("modal_time").value = formattedTime;
-                            // }
+                                 // Set the province and municipality values
+                                document.getElementById("updateProvince").value = data.province_code; // Set province code to the dropdown
+                                document.getElementById("updateMunicipality").value = data.municipality_code; // Set municipality code to the dropdown
 
-                            updateModal.style.display = "block";
-                        }
+                                // Ensure the selected options are highlighted
+                                document.getElementById("address").value = data.completeaddress;
 
 
-                        function closeModal() {
-                            updateModal.style.display = "none";
-                        }
-
-                        window.onclick = function(event) {
-                            if (event.target == addModal) {
-                                closeAddModal();
+                                // Load provinces and set province and municipality
+                                loadProvincesForUpdate(data.province_code, data.municipality_code);
+                                
+                                // Set complete address input if provided
+                                document.getElementById("completeAddress").value = data.completeaddress || '';
+                                
+                                
+                                updateModal.style.display = "block";
                             }
-                            if (event.target == updateModal) {
-                                closeModal();
-                            }
-                        }
+                            
+                            
 
                          // TODO: CONFIRM TO DELETE BUTTON
                         function confirmDelete() {
@@ -507,6 +601,14 @@ if (isset($pdo)) {
                             }
                         });
                         
+                          // TODO: update button close the modal
+                          function closeModal() {
+                                const updateModal = document.getElementById("updateModal");
+                                if (updateModal) {
+                                    updateModal.style.display = "none";
+                                }
+                            }
+
 
                         document.addEventListener("DOMContentLoaded", function () {
                         // When block changes, fetch available plots for the add modal
@@ -562,37 +664,103 @@ if (isset($pdo)) {
                     }
 
                     // TODO: payment modal functionality
+                    function openPaymentModal(reservationId, firstname, surname, package, block, plot) {
+                        // Set the values in the modal
+                        document.getElementById('reservation-id').value = reservationId;
+                        document.getElementById('firstname').value = firstname;
+                        document.getElementById('surname').value = surname;
+                        document.getElementById('package').value = package;
+                        document.getElementById('block').value = block;
+                        document.getElementById('plot').value = plot;
+                        
+                        // Set the modal text content for display (can be customized)
+                        document.getElementById('client-name').textContent = `${firstname} ${surname}`;
+                        document.getElementById('client-package').textContent = `Package: ${package}`;
+                        document.getElementById('client-block').textContent = `Block: ${block}`;
+                        document.getElementById('client-plot').textContent = `Plot: ${plot}`;
+                        
+                        // Set the OR number (reservation ID)
+                        document.getElementById('or-number').textContent = `OR-${reservationId}`;
+                        
+                        // Define the package prices
+                        let price = 0;
+                        switch(package.toLowerCase()) {
+                            case 'lawn':
+                                price = 20000;
+                                break;
+                            case 'garden':
+                                price = 30000;
+                                break;
+                            case 'family_state':
+                                price = 50000;
+                                break;
+                            default:
+                                price = 0; // Default case in case the package is not recognized
+                        }
 
-                     // Function to open the Payment modal
-                    function openPaymentModal() {
-                        document.getElementById("paymentModal").style.display = "flex";
+                        // Set the total price for full payment
+                        document.getElementById('modal-price').textContent = '₱ ' + price.toFixed(2);
+                        
+                        // Show or hide installment options based on full payment selection
+                        const installmentRadio = document.querySelector('input[name="installment_plan"][value="installment"]');
+                        const fullPaymentRadio = document.querySelector('input[name="installment_plan"][value="fullpayment"]');
+
+                        if (fullPaymentRadio.checked) {
+                            // If "Full Payment" is selected, show the full amount
+                            document.getElementById('modal-price').textContent = '₱ ' + price.toFixed(2);
+                        }
+
+                        // Open the modal
+                        document.getElementById('paymentModal').style.display = 'block';
                     }
 
-                    // Function to close the modal
+                    document.querySelectorAll('input[name="installment_plan"]').forEach(radio => {
+                        radio.addEventListener('change', function() {
+                            if (this.value === 'installment') {
+                                // Show installment options
+                                document.querySelector('.radio-term').style.display = 'block';
+                            } else {
+                                // Hide installment options for full payment
+                                document.querySelector('.radio-term').style.display = 'none';
+                            }
+                        });
+                    });
+
+
+                    document.querySelectorAll('input[name="duration"]').forEach(radio => {
+                        radio.addEventListener('change', function() {
+                            let months = this.value === '6months' ? 6 : 9;
+                            let monthlyAmount = price / months;
+                            
+                            // Display the installment price for selected duration
+                            document.getElementById(`installment-price-${months}`).textContent = `₱ ${monthlyAmount.toFixed(2)} per month`;
+                        });
+                    });
+
+
+                    // TODO: function to display the gcash info
+                     // Function to show/hide GCash info based on payment method selection
+                    function toggleGcashInfo() {
+                        var paymentMethod = document.getElementById("payment-method").value;
+                        var gcashInfo = document.getElementById("gcash-info");
+
+                        if (paymentMethod === "gcash") {
+                            gcashInfo.style.display = "block"; // Show GCash info
+                        } else {
+                            gcashInfo.style.display = "none"; // Hide GCash info
+                        }
+                    }
+
+                    // Function to close the payment modal
                     function closePaymentModal() {
                         document.getElementById("paymentModal").style.display = "none";
                     }
 
-                    // Close modal when clicking outside of the modal content
-                    window.onclick = function(event) {
-                        var modal = document.getElementById("paymentModal");
-                        if (event.target === modal) {
-                            modal.style.display = "none";
-                        }
-                    }
+                    // If the modal is already open and GCash is selected, show the GCash info
+                    window.onload = function() {
+                        toggleGcashInfo(); // Call to ensure correct display on page load
+                    };
 
-                    // TODO: payment modalcash and gcash
-                    const paymentMethodDropdown = document.getElementById('payment-method');
-                    const gcashInfo = document.getElementById('gcash-info');
-
-                    // Show GCash fields only when GCash is selected
-                    paymentMethodDropdown.addEventListener('change', function() {
-                        if (this.value === 'gcash') {
-                            gcashInfo.style.display = 'block'; // Show GCash input
-                        } else {
-                            gcashInfo.style.display = 'none'; // Hide GCash input
-                        }
-                    });
 
 
                     // TODO: upload file functionality
@@ -606,6 +774,117 @@ if (isset($pdo)) {
                             fileName.textContent = 'No file chosen';
                         }
                     });
+
+                    // TODO: ADDRESS API
+// Main dropdown elements
+const provinceDropdown = document.getElementById('province');
+const municipalityDropdown = document.getElementById('municipality');
+const barangayDropdown = document.getElementById('barangay');
+const addressInput = document.getElementById('addressInput');
+
+// Hidden inputs for address names
+const provinceNameInput = document.getElementById('province_name');
+const municipalityNameInput = document.getElementById('municipality_name');
+const barangayNameInput = document.getElementById('barangay_name');
+
+// Update modal elements
+const updateProvinceDropdown = document.getElementById('updateProvince');
+const updateMunicipalityDropdown = document.getElementById('updateMunicipality');
+const updateProvinceNameInput = document.getElementById('updateProvinceName'); // Hidden input for province name
+const updateMunicipalityNameInput = document.getElementById('updateMunicipalityName'); // Hidden input for municipality name
+
+// Helper function to fetch data from API
+async function fetchAPI(url) {
+    try {
+        const response = await fetch(url);
+        if (!response.ok) throw new Error('Network response was not ok');
+        return await response.json();
+    } catch (error) {
+        console.error('Fetch error:', error);
+        return [];
+    }
+}
+
+// Function to load provinces for main form and update modal
+async function loadProvinces(dropdown, selectedCode = null) {
+    const provinces = await fetchAPI('https://psgc.gitlab.io/api/provinces/');
+    dropdown.innerHTML = '<option value="">Select Province</option>';
+    provinces.forEach(province => {
+        const option = document.createElement('option');
+        option.value = province.code;
+        option.textContent = province.name;
+        dropdown.appendChild(option);
+    });
+    if (selectedCode) dropdown.value = selectedCode;
+}
+
+// Load municipalities based on selected province
+async function loadMunicipalities(dropdown, provinceDropdown, provinceNameInput, selectedCode = null, municipalityNameInput = null) {
+    const provinceCode = provinceDropdown.value;
+    provinceNameInput.value = provinceDropdown.options[provinceDropdown.selectedIndex]?.text || ''; // Set province name
+    if (!provinceCode) return;
+
+    const municipalities = await fetchAPI(`https://psgc.gitlab.io/api/provinces/${provinceCode}/cities-municipalities/`);
+    dropdown.innerHTML = '<option value="">Select Municipality</option>';
+    municipalities.forEach(municipality => {
+        const option = document.createElement('option');
+        option.value = municipality.code;
+        option.textContent = municipality.name;
+        dropdown.appendChild(option);
+    });
+    if (selectedCode) dropdown.value = selectedCode;
+
+    // Set the municipality name if municipalityNameInput is provided (for update modal)
+    if (municipalityNameInput && selectedCode) {
+        municipalityNameInput.value = dropdown.options[dropdown.selectedIndex]?.text || '';
+    }
+}
+
+// Function to load provinces in the update modal
+async function loadProvincesForUpdate(provinceCode, municipalityCode) {
+    await loadProvinces(updateProvinceDropdown, provinceCode); // Load provinces with selected province
+    if (provinceCode) {
+        await loadMunicipalities(updateMunicipalityDropdown, updateProvinceDropdown, updateProvinceNameInput, municipalityCode, updateMunicipalityNameInput); // Load municipalities with selected municipality
+    }
+}
+
+// Event listeners for dropdowns
+provinceDropdown.addEventListener('change', () => loadMunicipalities(municipalityDropdown, provinceDropdown, provinceNameInput));
+updateProvinceDropdown.addEventListener('change', () => loadMunicipalities(updateMunicipalityDropdown, updateProvinceDropdown, updateProvinceNameInput, null, updateMunicipalityNameInput));
+
+// Update the municipality name for the update modal when the municipality is selected
+updateMunicipalityDropdown.addEventListener('change', () => {
+    updateMunicipalityNameInput.value = updateMunicipalityDropdown.options[updateMunicipalityDropdown.selectedIndex]?.text || '';
+});
+
+// Open modal function to set initial values
+function openModal(data) {
+    document.getElementById("modal_id").value = data.id;
+    document.getElementById("modal_firstname").value = data.firstname;
+    document.getElementById("modal_surname").value = data.surname;
+    document.getElementById("modal_package").value = data.package;
+    document.getElementById("modal_plot").value = data.plotnumber;
+    document.getElementById("modal_block").value = data.blocknumber;
+    document.getElementById("modal_email").value = data.email;
+    document.getElementById("modal_contact").value = data.contact;
+    
+    // Load provinces and municipalities for the update modal
+    loadProvincesForUpdate(data.province_code, data.municipality_code);
+    
+    // Set address input if provided
+    document.getElementById("updateAddress").value = data.completeaddress || '';
+    
+    // Display the update modal
+    updateModal.style.display = "block";
+}
+
+// Initialize provinces on page load
+document.addEventListener("DOMContentLoaded", () => {
+    loadProvinces(provinceDropdown);
+});
+
+
+
                     </script>
                 </div>
             </div>

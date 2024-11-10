@@ -154,16 +154,16 @@
     width: 90%;
     height: 70vh;
     margin-top: 2.8rem;
-    background-color:#18392b;
+    /* background-color:#18392b; */
     color: forestgreen;
     border-radius: 20px;
     padding: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); */
   }
   
   .rightsidebar-content h1{
     padding-left: 20px;
-    text-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);
+    /* text-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5); */
   }
   .rightsidebar-content2{
     padding-left: 20px;
@@ -171,16 +171,15 @@
   }
   .uppersidebar-content{
   display: flex;
-  gap: 40px;
   padding-top: 50px;
   
   }
   .uppersidebar-content>div{
-    width:250px;
-    height:70px;
-    background-color: #e5e1e1;
+    width:100px;
+    height:10px;
+    /* background-color: #e5e1e1; */
     margin-left: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); */
     border-radius:10px;
     font-size: .8rem;
     color: black;
@@ -211,7 +210,54 @@
   .other p{
     padding-left: 40px;
   }
-  
+  .content h3{
+    font-size:25px;
+  }
+
+
+/* TODO: paymenty installment details */
+.installment-details {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px;
+  color: black;
+}
+
+.detail-header, .detail-row {
+  display: contents;
+}
+
+.detail-header .month,
+.detail-header .recommended-paydate,
+.detail-header .amount-due {
+  font-weight: bold;
+  /* border-bottom: 1px solid black; */
+}
+
+.detail-row .month,
+.detail-row .recommended-paydate,
+.detail-row .amount-due {
+  padding: 5px 10px;
+}
+.circle-btn {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: forestgreen;
+  color: white;
+  border: none;
+  font-size: 14px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.circle-btn:hover {
+  background-color: #2e8b57; /* Darker shade for hover effect */
+}
+
+
   .creditcardinfo-header{
     padding-left: 20px;
     padding-top: 20px;
@@ -231,7 +277,10 @@
      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     
   }
-  
+  .transactionheader{
+    color: black;
+    font-size: 25px;
+  }
   
   
   .content {

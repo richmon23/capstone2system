@@ -230,7 +230,9 @@ if (isset($pdo)) {
                             <div class="div">
                                 <h5>Available Plots</h5>
                             </div>
-                            <!-- <div class="div">Payment History</div> -->
+                            <div class="div">
+                               <h5>Pending Payments</h5> 
+                            </div>
                         </div>
                     </div>
                 </div>
