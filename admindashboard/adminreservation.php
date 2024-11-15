@@ -393,7 +393,7 @@ if (isset($pdo)) {
                                         
 
                                         <!-- Hidden inputs for province and municipality names -->
-                                       <!-- Hidden inputs for province and municipality names and codes -->
+                                        <!-- Hidden inputs for province and municipality names and codes -->
                                         <input type="hidden" id="updateProvinceName" name="province_name">
                                         <input type="hidden" id="updateMunicipalityName" name="municipality_name">
                                         <input type="hidden" id="updateProvinceCode" name="province_code">
@@ -776,115 +776,112 @@ if (isset($pdo)) {
                     });
 
                     // TODO: ADDRESS API
-// Main dropdown elements
-const provinceDropdown = document.getElementById('province');
-const municipalityDropdown = document.getElementById('municipality');
-const barangayDropdown = document.getElementById('barangay');
-const addressInput = document.getElementById('addressInput');
+                    // Main dropdown elements
+                    const provinceDropdown = document.getElementById('province');
+                    const municipalityDropdown = document.getElementById('municipality');
+                    const barangayDropdown = document.getElementById('barangay');
+                    const addressInput = document.getElementById('addressInput');
 
-// Hidden inputs for address names
-const provinceNameInput = document.getElementById('province_name');
-const municipalityNameInput = document.getElementById('municipality_name');
-const barangayNameInput = document.getElementById('barangay_name');
+                    // Hidden inputs for address names
+                    const provinceNameInput = document.getElementById('province_name');
+                    const municipalityNameInput = document.getElementById('municipality_name');
+                    const barangayNameInput = document.getElementById('barangay_name');
 
-// Update modal elements
-const updateProvinceDropdown = document.getElementById('updateProvince');
-const updateMunicipalityDropdown = document.getElementById('updateMunicipality');
-const updateProvinceNameInput = document.getElementById('updateProvinceName'); // Hidden input for province name
-const updateMunicipalityNameInput = document.getElementById('updateMunicipalityName'); // Hidden input for municipality name
+                    // Update modal elements
+                    const updateProvinceDropdown = document.getElementById('updateProvince');
+                    const updateMunicipalityDropdown = document.getElementById('updateMunicipality');
+                    const updateProvinceNameInput = document.getElementById('updateProvinceName'); // Hidden input for province name
+                    const updateMunicipalityNameInput = document.getElementById('updateMunicipalityName'); // Hidden input for municipality name
 
-// Helper function to fetch data from API
-async function fetchAPI(url) {
-    try {
-        const response = await fetch(url);
-        if (!response.ok) throw new Error('Network response was not ok');
-        return await response.json();
-    } catch (error) {
-        console.error('Fetch error:', error);
-        return [];
-    }
-}
+                    // Helper function to fetch data from API
+                    async function fetchAPI(url) {
+                        try {
+                            const response = await fetch(url);
+                            if (!response.ok) throw new Error('Network response was not ok');
+                            return await response.json();
+                        } catch (error) {
+                            console.error('Fetch error:', error);
+                            return [];
+                        }
+                    }
 
-// Function to load provinces for main form and update modal
-async function loadProvinces(dropdown, selectedCode = null) {
-    const provinces = await fetchAPI('https://psgc.gitlab.io/api/provinces/');
-    dropdown.innerHTML = '<option value="">Select Province</option>';
-    provinces.forEach(province => {
-        const option = document.createElement('option');
-        option.value = province.code;
-        option.textContent = province.name;
-        dropdown.appendChild(option);
-    });
-    if (selectedCode) dropdown.value = selectedCode;
-}
+                    // Function to load provinces for main form and update modal
+                    async function loadProvinces(dropdown, selectedCode = null) {
+                        const provinces = await fetchAPI('https://psgc.gitlab.io/api/provinces/');
+                        dropdown.innerHTML = '<option value="">Select Province</option>';
+                        provinces.forEach(province => {
+                            const option = document.createElement('option');
+                            option.value = province.code;
+                            option.textContent = province.name;
+                            dropdown.appendChild(option);
+                        });
+                        if (selectedCode) dropdown.value = selectedCode;
+                    }
 
-// Load municipalities based on selected province
-async function loadMunicipalities(dropdown, provinceDropdown, provinceNameInput, selectedCode = null, municipalityNameInput = null) {
-    const provinceCode = provinceDropdown.value;
-    provinceNameInput.value = provinceDropdown.options[provinceDropdown.selectedIndex]?.text || ''; // Set province name
-    if (!provinceCode) return;
+                    // Load municipalities based on selected province
+                    async function loadMunicipalities(dropdown, provinceDropdown, provinceNameInput, selectedCode = null, municipalityNameInput = null) {
+                        const provinceCode = provinceDropdown.value;
+                        provinceNameInput.value = provinceDropdown.options[provinceDropdown.selectedIndex]?.text || ''; // Set province name
+                        if (!provinceCode) return;
 
-    const municipalities = await fetchAPI(`https://psgc.gitlab.io/api/provinces/${provinceCode}/cities-municipalities/`);
-    dropdown.innerHTML = '<option value="">Select Municipality</option>';
-    municipalities.forEach(municipality => {
-        const option = document.createElement('option');
-        option.value = municipality.code;
-        option.textContent = municipality.name;
-        dropdown.appendChild(option);
-    });
-    if (selectedCode) dropdown.value = selectedCode;
+                        const municipalities = await fetchAPI(`https://psgc.gitlab.io/api/provinces/${provinceCode}/cities-municipalities/`);
+                        dropdown.innerHTML = '<option value="">Select Municipality</option>';
+                        municipalities.forEach(municipality => {
+                            const option = document.createElement('option');
+                            option.value = municipality.code;
+                            option.textContent = municipality.name;
+                            dropdown.appendChild(option);
+                        });
+                        if (selectedCode) dropdown.value = selectedCode;
 
-    // Set the municipality name if municipalityNameInput is provided (for update modal)
-    if (municipalityNameInput && selectedCode) {
-        municipalityNameInput.value = dropdown.options[dropdown.selectedIndex]?.text || '';
-    }
-}
+                        // Set the municipality name if municipalityNameInput is provided (for update modal)
+                        if (municipalityNameInput && selectedCode) {
+                            municipalityNameInput.value = dropdown.options[dropdown.selectedIndex]?.text || '';
+                        }
+                    }
 
-// Function to load provinces in the update modal
-async function loadProvincesForUpdate(provinceCode, municipalityCode) {
-    await loadProvinces(updateProvinceDropdown, provinceCode); // Load provinces with selected province
-    if (provinceCode) {
-        await loadMunicipalities(updateMunicipalityDropdown, updateProvinceDropdown, updateProvinceNameInput, municipalityCode, updateMunicipalityNameInput); // Load municipalities with selected municipality
-    }
-}
+                    // Function to load provinces in the update modal
+                    async function loadProvincesForUpdate(provinceCode, municipalityCode) {
+                        await loadProvinces(updateProvinceDropdown, provinceCode); // Load provinces with selected province
+                        if (provinceCode) {
+                            await loadMunicipalities(updateMunicipalityDropdown, updateProvinceDropdown, updateProvinceNameInput, municipalityCode, updateMunicipalityNameInput); // Load municipalities with selected municipality
+                        }
+                    }
 
-// Event listeners for dropdowns
-provinceDropdown.addEventListener('change', () => loadMunicipalities(municipalityDropdown, provinceDropdown, provinceNameInput));
-updateProvinceDropdown.addEventListener('change', () => loadMunicipalities(updateMunicipalityDropdown, updateProvinceDropdown, updateProvinceNameInput, null, updateMunicipalityNameInput));
+                    // Event listeners for dropdowns
+                    provinceDropdown.addEventListener('change', () => loadMunicipalities(municipalityDropdown, provinceDropdown, provinceNameInput));
+                    updateProvinceDropdown.addEventListener('change', () => loadMunicipalities(updateMunicipalityDropdown, updateProvinceDropdown, updateProvinceNameInput, null, updateMunicipalityNameInput));
 
-// Update the municipality name for the update modal when the municipality is selected
-updateMunicipalityDropdown.addEventListener('change', () => {
-    updateMunicipalityNameInput.value = updateMunicipalityDropdown.options[updateMunicipalityDropdown.selectedIndex]?.text || '';
-});
+                    // Update the municipality name for the update modal when the municipality is selected
+                    updateMunicipalityDropdown.addEventListener('change', () => {
+                        updateMunicipalityNameInput.value = updateMunicipalityDropdown.options[updateMunicipalityDropdown.selectedIndex]?.text || '';
+                    });
 
-// Open modal function to set initial values
-function openModal(data) {
-    document.getElementById("modal_id").value = data.id;
-    document.getElementById("modal_firstname").value = data.firstname;
-    document.getElementById("modal_surname").value = data.surname;
-    document.getElementById("modal_package").value = data.package;
-    document.getElementById("modal_plot").value = data.plotnumber;
-    document.getElementById("modal_block").value = data.blocknumber;
-    document.getElementById("modal_email").value = data.email;
-    document.getElementById("modal_contact").value = data.contact;
-    
-    // Load provinces and municipalities for the update modal
-    loadProvincesForUpdate(data.province_code, data.municipality_code);
-    
-    // Set address input if provided
-    document.getElementById("updateAddress").value = data.completeaddress || '';
-    
-    // Display the update modal
-    updateModal.style.display = "block";
-}
+                    // Open modal function to set initial values
+                    function openModal(data) {
+                        document.getElementById("modal_id").value = data.id;
+                        document.getElementById("modal_firstname").value = data.firstname;
+                        document.getElementById("modal_surname").value = data.surname;
+                        document.getElementById("modal_package").value = data.package;
+                        document.getElementById("modal_plot").value = data.plotnumber;
+                        document.getElementById("modal_block").value = data.blocknumber;
+                        document.getElementById("modal_email").value = data.email;
+                        document.getElementById("modal_contact").value = data.contact;
+                        
+                        // Load provinces and municipalities for the update modal
+                        loadProvincesForUpdate(data.province_code, data.municipality_code);
+                        
+                        // Set address input if provided
+                        document.getElementById("updateAddress").value = data.completeaddress || '';
+                        
+                        // Display the update modal
+                        updateModal.style.display = "block";
+                    }
 
-// Initialize provinces on page load
-document.addEventListener("DOMContentLoaded", () => {
-    loadProvinces(provinceDropdown);
-});
-
-
-
+                    // Initialize provinces on page load
+                    document.addEventListener("DOMContentLoaded", () => {
+                        loadProvinces(provinceDropdown);
+                    });
                     </script>
                 </div>
             </div>

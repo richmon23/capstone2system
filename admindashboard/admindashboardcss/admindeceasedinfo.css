@@ -289,9 +289,9 @@ background-color: black;
     max-height: 310px; /* Set a fixed height for the container */
     overflow-y: auto; /* Enable vertical scrolling */
     overflow-x: hidden; /* Disable horizontal scrolling */
-    width: 97%; /* Ensure wrapper takes the full width */
+    width: 99%; /* Ensure wrapper takes the full width */
     margin-top: 10px;
-    margin-left: 15px;
+    margin-left: 10px;
   }
   
   /* Adjust table styling */
