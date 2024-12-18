@@ -55,7 +55,7 @@ if (!isset($_SESSION['user_id'])) {
  $profilePic = !empty($user['profile_pic']) ? $user['profile_pic'] : 'default.png'; // Use a default image if none is found
 
 
-    ?>
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -67,6 +67,24 @@ if (!isset($_SESSION['user_id'])) {
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.css" />
     <link rel="stylesheet" href="customeravailableplot.css">
+    <style>
+         .map-container2{
+            display: flex;
+            gap:15px;
+            margin-left:7%;
+            color: white;
+        }
+        .availalble{
+            background-color: blue;
+            width: 100px;
+            height: 15px;
+        }
+        .notavailable {
+            background-color: red;
+            width: 100px;
+            height: 15px;
+        }
+    </style>
 </head>
 <body>
 
@@ -92,13 +110,13 @@ if (!isset($_SESSION['user_id'])) {
                     </div>
                         <br>
                         <div class="adminlinks">
-                            <span><img src="../images/dashboard.png" alt="">&nbsp;&nbsp;&nbsp;<a href="customerDashboard.php">Dashboard</a></span> 
-                            <!-- <span><img src="../images/deceased.png" alt="">&nbsp;&nbsp;&nbsp;<a href="customerDeceased.php">Deceased</a></span> -->
-                            <span><img src="../images/reservation.png" alt="">&nbsp;&nbsp;&nbsp;<a href="customerreservation.php">Reservation</a></span>
-                            <span><img src="../images/review.png" alt="">&nbsp;&nbsp;&nbsp;<a href="customerreviews.php">Reviews</a></span>
-                            <span><img src="../images/plot.png" alt="">&nbsp;&nbsp;&nbsp;<a href="customerviewavailableplot.php">Available Plot & Block</a></span>
-                            <span><img src="../images/payment.png" alt="">&nbsp;&nbsp;&nbsp;<a href="customerpayment.php">Payments</a></span>
-                            <span><img src="../images/logout.png" alt="">&nbsp;&nbsp;&nbsp;<a href="../logout.php">Logout</a></span>
+                        <span><img src="../images/dashboard.png" alt="">&nbsp;&nbsp;&nbsp;<a href="customerDashboard.php">Dashboard</a></span> 
+                        <!-- <span><img src="../images/deceased.png" alt="">&nbsp;&nbsp;&nbsp;<a href="customerDeceased.php">Deceased</a></span> -->
+                        <span><img src="../images/reservation.png" alt="">&nbsp;&nbsp;&nbsp;<a href="customerreservation.php">Reservation</a></span>
+                        <span><img src="../images/payment.png" alt="">&nbsp;&nbsp;&nbsp;<a href="customerpayment.php">Transaction</a></span>
+                        <span><img src="../images/plot.png" alt="">&nbsp;&nbsp;&nbsp;<a href="customerviewavailableplot.php">Available Plot & Block</a></span>
+                        <span><img src="../images/review.png" alt="">&nbsp;&nbsp;&nbsp;<a href="customerreviews.php">Reviews</a></span>
+                        <span><img src="../images/logout.png" alt="">&nbsp;&nbsp;&nbsp;<a href="../logout.php">Logout</a></span>
                         </div>
                         <br>
                     </div>
@@ -115,13 +133,17 @@ if (!isset($_SESSION['user_id'])) {
                    
                    </div>
                 </div>
+                
                 <div class="right-content2">
-                        <div class="right-header col-9">
-                           <div id="map"></div>
-                        </div>  
+                    <div class="map-container2">
+                        Available: <div class="availalble"></div>
+                        Not Available:<div class="notavailable"></div>
                     </div>
-            
-        </div>
+                    <div class="right-header col-9">
+                        <div id="map"></div>
+                    </div>  
+               </div>
+            </div>
         <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
     <script>

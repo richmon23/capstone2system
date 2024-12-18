@@ -6,9 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Plot Availability Map with Voice Navigation</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-<link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.css" />
-<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-<script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
 
     <style>
         #map {
@@ -19,6 +20,7 @@
         #search-box {
             margin: 20px;
             text-align: center;
+            width:100%;
         }
 
         h3 {
@@ -44,6 +46,32 @@
 
         button:hover {
             background-color: #0056b3;
+        } 
+
+        .map-container1{
+            display: flex;
+            margin-top: 10px;
+            gap:10px;
+            width: 100%;
+           
+        }
+        .map-container2{
+            display: flex;
+            gap:15px;
+            margin-left:7%;
+        }
+        .availalble{
+            background-color: blue;
+            width: 100px;
+            height: 15px;
+        }
+        .notavailable {
+            background-color: red;
+            width: 100px;
+            height: 15px;
+        }
+        .button-back{
+           margin-right:200px;
         }
     </style>
 </head>
@@ -54,8 +82,18 @@
         <input type="text" id="block-number" placeholder="Enter Block (1-4)">
         <input type="number" id="plot-number" placeholder="Enter Plot Number (1-50)">
         <button onclick="locatePlot()">Locate Plot</button>
-        <button> BACK TO DASHBOARD </button>
+       <div class="map-container1">
+        <div class="button-back">
+                <a href="adminDashboard.php"><button><i class="fas fa-arrow-left"></i> Back to Main</button></a>    
+            </div>
+            <div class="map-container2">
+                Available: <div class="availalble"></div>
+                Not Available:<div class="notavailable"></div>
+            </div>
+         </div>
+        
     </div>
+
     <div id="map"></div>
 
     <?php

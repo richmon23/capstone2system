@@ -95,7 +95,12 @@ if (isset($pdo)) {
                 }
             }
         }
+
+
+        
     }
+
+    
 
     // Fetch data from the database
     $stmt = $pdo->prepare("SELECT * FROM reservation");
@@ -117,6 +122,8 @@ if (isset($pdo)) {
  $profilePic = !empty($user['profile_pic']) ? $user['profile_pic'] : 'default.png'; // Use a default image if none is found
     
  
+ 
+
 
 
 
@@ -155,9 +162,11 @@ if (isset($pdo)) {
                             <span><img src="../images/dashboard.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminDashboard.php">Dashboard</a></span> 
                             <span><img src="../images/deceased.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminDeceased.php">Deceased</a></span>
                             <span><img src="../images/reservation.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminreservation.php">Reservation</a></span>
+                            <span><img src="../images/payment.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminpayment.php">Transaction</a></span>
+                            <!-- <span><img src="../images/reservation.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminreservation.php">Transaction</a></span> -->
+                            <span><img src="../images/users.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminusers.php">User's</a></span>  
                             <span><img src="../images/review.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminreviews.php">Reviews</a></span>
-                            <span><img src="../images/users.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminusers.php">User's</a></span>
-                            <span><img src="../images/payment.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminpayment.php">Payments</a></span>
+                            <br>
                             <span><img src="../images/logout.png" alt="">&nbsp;&nbsp;&nbsp;<a href="../logout.php">Logout</a></span>
                         </div>
                         <br>
@@ -249,9 +258,7 @@ if (isset($pdo)) {
                                             </select><br><br>
                                         </div>
                                         
-                                        <div class="form-column">
-                                          
-
+                                        <div class="form-column">                                         
                                             <!-- Email -->
                                             <label for="email">Email:</label><br>
                                             <input type="email" id="add_email" name="email" required class="form-element"><br><br> 

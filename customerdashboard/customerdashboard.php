@@ -13,7 +13,7 @@ $email = isset($_SESSION['email']) ? htmlspecialchars($_SESSION['email']) : '';
 // Include the database connection
 require_once '../connection/connection.php'; // Include your database connection file
 
-// Fetch user profile picture from the database
+// Fetch user profile picture from the database  
 $userId = $_SESSION['user_id'];
 $stmt = $conn->prepare("SELECT profile_pic FROM users WHERE id = :id");
 $stmt->bindParam(':id', $userId);
@@ -22,6 +22,77 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
 // Check if user profile picture exists
 $profilePic = !empty($user['profile_pic']) ? $user['profile_pic'] : 'default.png'; // Use a default image if none is found
+
+
+
+// TODO: fetch the reservation status from the database
+// User ID (replace this with the actual session user ID)
+$user_id = $_SESSION['user_id'];
+
+try {
+    // Query to check the reservation status
+    $sql = "SELECT status FROM reservation WHERE user_id = :user_id";
+    $stmt = $pdo->prepare($sql); // Assuming $pdo is defined in your connection file
+    $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+    $stmt->execute();
+
+    // Fetch result
+    if ($stmt->rowCount() > 0) {
+        // User has a reservation
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        $reservation_status = $row['status'];
+    } else {
+        // User does not have a reservation
+        $reservation_status = "Don't have reservation";
+    }
+} catch (PDOException $e) {
+    // Handle potential errors
+    die("Database error: " . $e->getMessage());
+}
+
+
+// TODO: display the available Plot
+try {
+    // Query to get the total available plots per block
+    $sql = "SELECT block, COUNT(*) as available_plots FROM plots WHERE is_available = 1 GROUP BY block";
+    $stmt = $pdo->prepare($sql); // Assuming $pdo is defined in your connection file
+    $stmt->execute();
+
+    // Fetch the results
+    $available_plots_by_block = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    // Check if the query returns any results
+    if (empty($available_plots_by_block)) {
+        echo "No available plots found in the database.";
+    }
+
+} catch (PDOException $e) {
+    // Handle potential errors
+    die("Database error: " . $e->getMessage());
+}
+
+// Initialize counts for each block
+$available_block1 = 0;
+$available_block2 = 0;
+$available_block3 = 0;
+$available_block4 = 0;
+
+// Process the results
+foreach ($available_plots_by_block as $plot) {
+    // Debugging to check the block and available plots values
+    // echo "Block: " . $plot['block'] . " - Available Plots: " . $plot['available_plots'] . "<br>";
+
+    if ($plot['block'] == 'BLOCK1') {
+        $available_block1 = $plot['available_plots'];
+    } elseif ($plot['block'] == 'BLOCK2') {
+        $available_block2 = $plot['available_plots'];
+    } elseif ($plot['block'] == 'BLOCK3') {
+        $available_block3 = $plot['available_plots'];
+    } elseif ($plot['block'] == 'BLOCK4') {
+        $available_block4 = $plot['available_plots'];
+    }
+}
+
 ?>
 
 
@@ -33,16 +104,6 @@ $profilePic = !empty($user['profile_pic']) ? $user['profile_pic'] : 'default.png
     <title>Customer Dashboard </title>
     <link rel="stylesheet" href="./customerdashboard_css/customerdashboard.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-        /* Add CSS to style the profile picture */
-        .profile-pic {
-            width: 150px; /* Set the desired width */
-            height: 150px; /* Set the desired height */
-            border-radius: 50%; /* Make it circular */
-            object-fit: cover; /* Maintain aspect ratio and cover the entire area */
-            border: 2px solid #ddd; /* Optional: Add a border */
-        }
-    </style>
 </head> 
 <body>
 
@@ -59,7 +120,7 @@ $profilePic = !empty($user['profile_pic']) ? $user['profile_pic'] : 'default.png
                                     </button>
                                     <div class="dropdown-content">
                                         <button onclick="openModal('changePasswordModal')">Change Password</button>
-                                        <button onclick="openModal('termsModal')">Terms and Conditions</button>
+                                        <!-- <button onclick="openModal('termsModal')">Terms and Conditions</button> -->
                                     </div>
                                 </div>
                             </center>
@@ -69,9 +130,9 @@ $profilePic = !empty($user['profile_pic']) ? $user['profile_pic'] : 'default.png
                             <span><img src="../images/dashboard.png" alt="">&nbsp;&nbsp;&nbsp;<a href="customerDashboard.php">Dashboard</a></span> 
                             <!-- <span><img src="../images/deceased.png" alt="">&nbsp;&nbsp;&nbsp;<a href="customerDeceased.php">Deceased</a></span> -->
                             <span><img src="../images/reservation.png" alt="">&nbsp;&nbsp;&nbsp;<a href="customerreservation.php">Reservation</a></span>
-                            <span><img src="../images/review.png" alt="">&nbsp;&nbsp;&nbsp;<a href="customerreviews.php">Reviews</a></span>
+                            <span><img src="../images/payment.png" alt="">&nbsp;&nbsp;&nbsp;<a href="customerpayment.php">Transaction</a></span>
                             <span><img src="../images/plot.png" alt="">&nbsp;&nbsp;&nbsp;<a href="customerviewavailableplot.php">Available Plot & Block</a></span>
-                            <span><img src="../images/payment.png" alt="">&nbsp;&nbsp;&nbsp;<a href="customerpayment.php">Payments</a></span>
+                            <span><img src="../images/review.png" alt="">&nbsp;&nbsp;&nbsp;<a href="customerreviews.php">Reviews</a></span>
                             <span><img src="../images/logout.png" alt="">&nbsp;&nbsp;&nbsp;<a href="../logout.php">Logout</a></span>
                         </div>
                         <br>
@@ -80,39 +141,86 @@ $profilePic = !empty($user['profile_pic']) ? $user['profile_pic'] : 'default.png
                         <div class="right-content1">
                         <div class="right-header col-9">
                             <span>CUSTOMER DASHBOARD</span>
-                            <span class="button-container">
+                            <!-- <span class="button-container">
                                 <a href="customermapnavigation.php">
                                     <button id="image-button" title="Map Navigation">Map Navigation</button>
                                 </a>
-                            </span>
+                            </span> -->
                         </div>
                 </div>
             <div class="right-content2">
                 <br>
                 <div class="rightsidebar-content">
-                    <div class="div">Reservation Status</div>
-                    <div class="div">Available Plots</div>
-                   
+                <div class="div" style="font-size:20px;padding-top:20px;">Reservation Status: 
+                <br>
+                <br>
+                    <!-- TODO: status of the reservation (e.g., pending, confirmed, cancelled) -->
+                    <span style="color:dodgerblue;font-weight:bold"><?php echo htmlspecialchars($reservation_status); ?>
+                    
+                </div>
+                </span>
+
+                <!-- TODO: display the available plots in the park -->
+                <div class="div" style="font-size:20px;padding-top:20px;">Available <br> Plots: 
+                <br>
+                <br>
+                <?php
+                    try {
+                        // Query to get the total available plots
+                        $sql = "SELECT COUNT(*) as total_available_plots FROM plots WHERE is_available = 1";
+                        $stmt = $pdo->prepare($sql); // Assuming $pdo is defined in your connection file
+                        $stmt->execute();
+
+                        // Fetch the result
+                        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+                        $total_available_plots = $result['total_available_plots'] ?? 0;
+
+                            // Display the total available plots
+                        echo "<p style='color: dodgerblue;'><strong>$total_available_plots</strong></p>";
+                        } catch (PDOException $e) {
+                            // Handle potential errors
+                            echo "Database error: " . $e->getMessage();
+                        }
+                        ?>
+                    </div>
+                    </span>
+                    
                  </div>
-                 <div class="navigation-content">nav</div>
+                 <div class="navigation-content">
+                    <center><h2> Map Navigation</h2></center>
+                    <br>
+                    <p>To successfully navigate this map, take note of the clearly marked routes and key landmarks in the area, ensuring you stay oriented by checking your position frequently and adjusting your path as needed.</p>
+                    <br>
+                    <img src="/images/bogomap.png" alt="bogomap">
+                    <div class="location">
+                         Click here to Navigate 
+                     <a href="customermapnavigation.php">
+                        <img src="/images/location.png" alt="location">
+                    </a>
+                    </div>
+                 </div>
                  <br>
-                 <h4> WHAT'S NEW</h4>
+                 <div class="right_content_div1">
+                 <br>
+                 <br>
+                 <h1> WHAT'S NEW</h1>   
+                 <br>              
+                 <p>Our memorial park features plot packages that honor loved ones in serene settings. We also offer promotional deals for families, helping create lasting tributes in a peaceful environment.</p>
+                 </div>
                     <div class="right-content3">
-                            <p>Our memorial park features plot packages that honor loved ones in serene settings. We also offer promotional deals for families, helping create lasting tributes in a peaceful environment.</p>
                         <br>
                         <br>
                         <div class="right_content3-div">
-                        <div class="div1"><img src="../images/memorialparkpic.jpg" alt=""></div>
-                        <div class="div2"><img src="../images/memorialparkpic.jpg" alt=""></div>
-                        <div class="div3"><img src="../images/memorialparkpic.jpg" alt=""></div>
+                        <div class="div1"><img src="../images/cemetery.jpg" alt="customerdashboardpic"></div>
+                        <div class="div2"><img src="../images/family.jpg" alt="customerdashboardpic"></div>
+                        <div class="div3"><img src="../images/memorialparkpic.jpg" alt="customerdashboardpic"></div>
                         </div>
                         <div class="right_content-div2">
+                            <div><p>The Standard Package includes a landscaped plot with maintenance. The Deluxe Package features enhanced landscaping and a personalized marker. The Ultimate Package offers a premium plot with custom features and regular upkeep.</p></div>
                             <br>
-                            <div>The Standard Package includes a landscaped plot with maintenance. The Deluxe Package features enhanced landscaping and a personalized marker. The Ultimate Package offers a premium plot with custom features and regular upkeep.</div>
+                            <div><p>The Family Package provides multiple adjoining plots for loved ones with coordinated landscaping. The Memorial Tribute Package includes a plot, a personalized marker, and a custom tribute bench for remembrance.</p></div>
                             <br>
-                            <div>The Family Package provides multiple adjoining plots for loved ones with coordinated landscaping. The Memorial Tribute Package includes a plot, a personalized marker, and a custom tribute bench for remembrance.</div>
-                            <br>
-                            <div>The Family Package offers adjoining plots for loved ones with unified landscaping. The Tribute Package includes a plot, personalized marker, and a commemorative bench for remembrance.</div>
+                            <div class="content-3"><p>The Family Package offers adjoining plots for loved ones with unified landscaping. The Tribute Package includes a plot,personalized marker, and a commemorative bench for remembrance.</p></div>
                         </div>
                  </div>
             </div>
@@ -237,8 +345,7 @@ $profilePic = !empty($user['profile_pic']) ? $user['profile_pic'] : 'default.png
                         } else if (errorMessage) {
                             showAlert(errorMessage, 'error');
                         }
-                        
-                        
+                              
                 </script>
             </div>
         </div>

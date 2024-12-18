@@ -17,6 +17,8 @@ if (isset($_POST['query'])) {
     $stmt = $pdo->prepare($sql);
 }
 
+// $sql = "SELECT * FROM deceasedpersoninfo ORDER BY datecreated ASC";
+
 $stmt->execute();
 $reservations = $stmt->fetchAll(PDO::FETCH_ASSOC);
 

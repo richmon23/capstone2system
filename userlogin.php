@@ -47,7 +47,7 @@ if (isset($_SESSION['message'])) {
                             </button>
                         </div>
                         <br>
-                        <button type="submit" class="button-29" role="button">Login</button>
+                        <button type="submit" class="login" role="button">Login</button>
                         </center>  
                         <br>
                         <center>Don't have an account?<a href="register.php" class="loginbtnsignup"> Sign Up</a></center>

@@ -78,8 +78,8 @@ body {
 }
 
 .adminprofile img {
-  width: 150px; /* Set the desired width */
-  height: 150px; /* Set the desired height */
+  width: 100px; /* Set the desired width */
+  height: 100px; /* Set the desired height */
   border-radius: 50%; /* Make it circular */
   object-fit: cover; /* Maintain aspect ratio and cover the entire area */
   border: 2px solid #ddd; 
@@ -117,7 +117,8 @@ body {
   background-color:#18392b;
   color: white;
   border-radius: 10px;
-  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2)
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
+position: relative;
 }
 
 .right-content2 {
@@ -378,6 +379,15 @@ h5 {
   background-color: #0056b3;
 }
 
+.header{
+  /* background-color: orange; */
+  width:70%;
+}
+.header p{
+  font-size: 20px;
+  font-weight: bold;
+ 
+}
 
 /* TODO: search bar dashboard  */
 /* .right-header {
@@ -386,21 +396,33 @@ h5 {
 } */
 .right-header {
   display: flex;
-  align-items: center; /* Vertically align items */
+  justify-content: space-between;
+  
 }
 
 .button-container {
   display: flex; /* Align buttons next to each other */
   gap: 5px; /* Space between the two buttons */
-
-  float: right;
+  /* margin-left:00px; */
+  position: absolute;
+  left: 80%;
+ 
 }
 
-#image-button {
+#image-button1 {
   padding: 8px 15px;
   border-radius: 5px;
   border: none;
-  background-color: #007bff;
+  background-color:dodgerblue;
+  color: white;
+  cursor: pointer;
+  width: 130px;
+}
+#image-button2 {
+  padding: 8px 15px;
+  border-radius: 5px;
+  border: none;
+  background-color: dodgerblue;
   color: white;
   cursor: pointer;
   width: 130px;

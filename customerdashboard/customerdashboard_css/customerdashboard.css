@@ -92,8 +92,8 @@ body {
   }
   
   .adminprofile img {
-    width: 150px; /* Set the desired width */
-    height: 150px; /* Set the desired height */
+    width: 100px; /* Set the desired width */
+    height: 100px; /* Set the desired height */
     border-radius: 50%; /* Make it circular */
     object-fit: cover; /* Maintain aspect ratio and cover the entire area */
     border: 2px solid #ddd; 
@@ -435,8 +435,6 @@ background-color: black;
 }
 
 .navigation-content{
- background-color: black;
- color: black;
  position: absolute;
   width:25%;
   left: 67%;
@@ -444,42 +442,30 @@ background-color: black;
   border-radius: 20px;
   padding: 15px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  height: 65vh;
+  height: 70vh;
   padding: 0;
-  bottom:6%;
+  bottom:15%;
 
 }
 
 .right-content3{
   /* background-color: #0056b3; */
-  height:37vh;
+  height:48vh;
   color: black;
   width:60%;
   margin-left: 3px;
+ 
 }
-.right-content3 p{
-  font-size:10px;
-}
-/* .right-content3>div{
-  width: 250px;
-  height: 200px;
-  background-color: white;
-  margin-right: 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 20px;
-  margin-bottom: 10px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  border: 1px solid black;
+ .right_content_div1{
+  padding-left: 10px;
+  line-height: 16px;
+  width:60%;
+  font-size:12px;
+ }
+ .right_content_div1 p{
+  font-size: 15px;
+ }
 
-  &:hover{
-    background-color: #004d94;
-    color: white;
-    border: 1px solid #004d94;
-  }
-} */
 .right_content-div2{
   width: 100%;
   height: auto;
@@ -490,23 +476,74 @@ background-color: black;
   margin-bottom: 50px;
   padding:5px;
 }
+.right_content-div2 p{
+  line-height: 16px;
+  font-size: 15px;
+
+}
+
+.content-3{
+  padding-left: 10px;
+}
+.content-3 p{
+  padding-left: 20px;
+}
 .right_content3-div{
   display: flex;
-  justify-content: space-around;
+  gap:230px;
   align-items: center;
   flex-wrap: wrap;
+
 }
 .right_content3-div>div{
   width:100px;
   height:auto;
-  background-color:black;
+  /* background-color:black; */
 }
 .right_content3-div img{
-  width: 100px;
-  height:80px;
+  width:300px;
+  height:200px;
+  padding-left: 30px;
+ 
+  
 }
 
 .mapnavigation{
   margin-left: 100%;
 }
 
+.total-available-plot{
+  width:400px;
+  background-color: orange;
+}
+
+/* 
+TODO:navigation content */
+
+.navigation-content h2{
+ text-align: center;
+ padding-top: 20px;
+ font-size: 30px;
+}
+
+.navigation-content p{
+ font-size:15px;
+ margin-bottom: 20px;
+ line-height: 20px;
+ text-align: center;
+}
+.navigation-content img{
+width:29rem;
+height: 40vh;
+padding-left: 20px;
+object-fit: cover;
+}
+.location{
+  padding-top: 20px;
+  padding-left: 80px;
+}
+
+.location img{
+  width:70px;
+  height:50px;
+}

@@ -165,9 +165,10 @@ if (isset($pdo)) {
                     <span><img src="../images/dashboard.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminDashboard.php">Dashboard</a></span> 
                     <span><img src="../images/deceased.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminDeceased.php">Deceased</a></span>
                     <span><img src="../images/reservation.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminreservation.php">Reservation</a></span>
+                    <span><img src="../images/payment.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminpayment.php">Transaction</a></span>
+                    <!-- <span><img src="../images/reservation.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminreservation.php">Transaction</a></span> -->
+                    <span><img src="../images/users.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminusers.php">User's</a></span>  
                     <span><img src="../images/review.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminreviews.php">Reviews</a></span>
-                    <span><img src="../images/users.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminusers.php">User's</a></span>
-                    <span><img src="../images/payment.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminpayment.php">Payments</a></span>
                     <br>
                     <span><img src="../images/logout.png" alt="">&nbsp;&nbsp;&nbsp;<a href="../logout.php">Logout</a></span>
                  </div>
@@ -332,31 +333,12 @@ if (isset($pdo)) {
                                         <!-- FirstName -->
                                         <label for="firstname">Firstname:</label><br>
                                         <input type="text" id="modal_firstname" name="firstname" required class="form-element"><br>
-                                    </div>
-                                    <div class="form-column">
+                                    
+                                        <br>
                                         <!-- SurName -->
                                         <label for="surname">Surname:</label><br>
                                         <input type="text" id="modal_surname" name="surname" required class="form-element"><br>
-                                    </div>
-                                   
-                                </div>
-
-                                <div class="form-row">
-                                    <div class="form-column">
-                                        <!-- Born -->
-                                        <label for="born">Born:</label><br>
-                                        <input type="date" id="modal_born" name="born" required class="form-element"><br>
-                                    </div>
-                                    <div class="form-column">
-                                        <!-- Died -->
-                                        <label for="died">Died:</label><br>
-                                        <input type="date" id="modal_died" name="died" required class="form-element"><br>
-                                    </div>
-                                </div>
-
-                                <div class="form-row">
-                                    <div class="form-column">
-                                        <!-- Block Selection -->
+                                        <br>
                                         <label for="block">Block #:</label><br>
                                         <select id="modal_block" name="block" required class="form-element">
                                             <option value="" disabled selected >Select Block</option>
@@ -364,34 +346,34 @@ if (isset($pdo)) {
                                             <option value="2">2</option>
                                             <option value="3">3</option>
                                             <option value="4">4</option>
-                                        </select><br>
-                                    </div>
-                                    <div class="form-column">
-                                        <!-- Plot Selection -->
+                                        </select><br><br>
+
                                         <label for="plot">Plot #:</label><br>
                                         <select id="modal_plot" name="plot" required class="form-element">
                                             <option value="" disabled selected>Select Plot</option>
-                                        </select><br>
-                                    </div>
-                                </div>
+                                        </select><br><br>
 
-                                <div class="form-row">
-                                    <div class="form-column">
-                                        <!-- Funeral Day -->
-                                        <label for="funeralday">Funeral Day:</label><br>
-                                        <input type="date" id="modal_funeralday" name="funeralday" required class="form-element"><br>
+                                        <label for="born">Born:</label><br>
+                                        <input type="date" id="modal_born" name="born" required class="form-element"><br>
+
                                     </div>
                                     
-                                </div>
-                                <div class="address">
+                                    <div class="form-column">
+                                        <label for="died">Died:</label><br>
+                                        <input type="date" id="modal_died" name="died" required class="form-element"><br>
+                                        <br>
+                                        <label for="funeralday">Funeral Day:</label><br>
+                                        <input type="date" id="modal_funeralday" name="funeralday" required class="form-element"><br>
+                                        <br>
+                                        <div class="address">
                                             <div class="province">
                                                 <!-- Unique ID for the update modal province dropdown -->
                                                 <label for="updateProvince">Select Province</label>
                                                 <select id="updateProvince" name="province" class="form-element" onchange="loadMunicipalitiesForUpdate()">
                                                     <option value="">Select Province</option>
-                                                </select>
+                                                </select><br>
                                             </div>
-                                            <br>
+                                                <br>
                                             <div class="municipality">
                                                 <!-- Unique ID for the update modal municipality dropdown -->
                                                 <label for="updateMunicipality">Select Municipality</label>
@@ -415,7 +397,9 @@ if (isset($pdo)) {
                                         <input type="hidden" id="updateMunicipalityName" name="municipality_name">
                                         <input type="hidden" id="updateProvinceCode" name="province_code">
                                         <input type="hidden" id="updateMunicipalityCode" name="municipality_code">
-                                    </div>
+                                    </div>   
+                                    
+                                </div>
                             </form>
                       
                         <div class="modal-footer">

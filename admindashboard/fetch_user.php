@@ -1,6 +1,7 @@
+
 <?php
 session_start();
-require_once '../connection/connection.php'; // Include your database connection
+require_once '../connection/connection.php';
 
 if (isset($_GET['id'])) {
     $userId = $_GET['id'];
@@ -10,7 +11,7 @@ if (isset($_GET['id'])) {
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
         // Prepare the select statement
-        $sql = "SELECT * FROM users WHERE id = :id";
+        $sql = "SELECT id, firstname, surname, contact, email, address, profile_pic FROM users WHERE id = :id";
         $stmt = $conn->prepare($sql);
         $stmt->bindParam(':id', $userId, PDO::PARAM_INT);
         $stmt->execute();
@@ -22,7 +23,6 @@ if (isset($_GET['id'])) {
         } else {
             echo json_encode([]);
         }
-
     } catch (PDOException $e) {
         echo "Error: " . $e->getMessage();
     }

@@ -4,13 +4,12 @@
   box-sizing: border-box;
   font-family: Arial, sans-serif;
 }
-
 body {
-  background-color: #efefef; 
- 
+  background-color: #e5e1e1;
+  position: relative;
 }
 
-/* Responsive Design */
+/* media queries breakpoints - responsive design*/
 .row::after {
   content: "";
   clear: both;
@@ -22,34 +21,57 @@ body {
   padding: 15px;
 }
 
-/* For Desktop */
-.col-1 { width: 8.33%; }
-.col-2 { width: 16.66%; }
-.col-3 { width: 25%; }
-.col-4 { width: 33.33%; }
-.col-5 { width: 41.66%; }
-.col-6 { width: 50%; }
-.col-7 { width: 58.33%; }
-.col-8 { width: 66.66%; }
-.col-9 { width: 75%; }
-.col-10 { width: 83.33%; }
-.col-11 { width: 91.66%; }
-.col-12 { width: 100%; }
+/* For desktop: */
+.col-1 {
+  width: 8.33%;
+}
+.col-2 {
+  width: 16.66%;
+}
+.col-3 {
+  width: 25%;
+}
+.col-4 {
+  width: 33.33%;
+}
+.col-5 {
+  width: 41.66%;
+}
+.col-6 {
+  width: 50%;
+}
+.col-7 {
+  width: 58.33%;
+}
+.col-8 {
+  width: 66.66%;
+}
+.col-9 {
+  width: 75%;
+}
+.col-10 {
+  width: 83.33%;
+}
+.col-11 {
+  width: 91.66%;
+}
+.col-12 {
+  width: 100%;
+}
 
 @media only screen and (max-width: 768px) {
-  .left-content {
-    width: 100%; /* Full width on mobile screens */
-    margin: 0; /* Remove margins on mobile */
-    height: auto; /* Adjust height based on content */
+  /* For mobile phones: */
+  [class*="col-"] {
+    width: 100%;
   }
 }
+/* responsive design media queries breakpoints */
 
 .row {
   width: 100%;
   height: 100vh;
   display: flex;
 }
-
 .left-content {
   background-color:#18392b;
   color: black;
@@ -61,7 +83,7 @@ body {
   width: 250px; /* Fixed width for desktop */
   position: relative;
   padding: 1rem; /* Add padding inside the sidebar */
-  overflow-y: hidden;
+  overflow-y:hidden;
 }
 
 
@@ -80,8 +102,8 @@ body {
 
 
 .adminprofile img {
-  width: 150px; /* Set the desired width */
-  height: 150px; /* Set the desired height */
+  width: 100px; /* Set the desired width */
+  height: 100px; /* Set the desired height */
   border-radius: 50%; /* Make it circular */
   object-fit: cover; /* Maintain aspect ratio and cover the entire area */
   border: 2px solid #ddd; 
@@ -102,18 +124,18 @@ body {
     float: right;
     margin-top: 0.6rem;
   }
-  
+
 
 
 .main {
   width: 100%;
   margin-top: 1rem;
+
  
 }
-
 .right-content1 {
   margin-left: 1px;
-  padding-top: 1px;
+  padding-top: 12px;
   width: 97%;
   height: 5rem;
   background-color:#18392b;
@@ -121,505 +143,245 @@ body {
   border-radius: 10px;
   box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2)
 }
+.paymenthistory {
+  padding-left: 58rem;
+  padding-top: 0rem; /* Set top padding to 0 */
+  padding-bottom: 0rem;
+}
 
 .right-content2 {
-  margin-left: 1px;
-  width: 97%;
-  height: 77vh;
-  margin-top: 1rem;
-  /* background-color: #f1f1f1; */
-  color: rgb(0, 0, 0);
-  border-radius: 10px;
-
-}
-
-
-
-.left-content1{
-  background-color:#efefef;
-  color: white;
-  border-radius: 25px;
-  height: 73vh;
-  margin-top: 0.6rem;
-  margin-left: 0.7rem;
-  width: 700px; /* Fixed width for desktop */
-  position: relative;
-  padding: 1rem; /* Add padding inside the sidebar */
-}
-
-.right-content{
-  background-color: #18392b;
-  color: white;
-  border-radius: 25px;
-  height: 73vh;
-  margin-top: 0.6rem;
-  margin-left: 0.7rem;
-  width: 300px; /* Fixed width for desktop */
-  position: relative;
-  padding: 1rem; /* Add padding inside the sidebar */
-
-}
-
-.right-header2 {
-  display:flex;
-  width: 100%;
-}
-
-  .adminlinks {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem; /* Spacing between each link */
-    align-items: flex-start; /* Aligns all links to the left */
-    margin-left: 10px;
-    margin-top: 1px;
-  }
-  
-  .adminlinks span {
-    display: flex;
-    align-items: center; /* Align icons and text vertically */
-    width: 100%; /* Ensure the full span takes up the width */
-  }
-  
-  .adminlinks img {
-    width: 25px;
-    margin-right: 5px; /* Space between icon and text */
-  }
-  
-  .adminlinks a {
-    text-decoration: none;
-    color: white;
-    font-size: 12px; /* Adjust font size for better readability */
-    display: inline-block;
-    transition: color 0.3s, background-color 0.3s; /* Smooth transition for hover */
-  }
-  
-  .adminlinks a:hover {
-    color: white; /* Change text color on hover */
-    background-color: #18392b; /* Add background color on hover */
-    padding: 5px 10px; /* Optional: Add some padding for hover effect */
-    border-radius: 20px; /* Optional: Add border radius */
-    
-  }
-  
-  .adminlinks .logout-link {
-    width: 50%;
-    padding: 1px 0; /* Add padding to align with other links */
-  }
-  
-  .adminlinks span:last-child {
-    margin-top: 2.1rem; /* Adjust margin to move the logout button up */
-    margin-bottom: 5rem;
-  }
-  .adminlinks a:hover {
-    color: rgb(0, 0, 0); /* Change text color on hover */
-    background-color: #00ff95; /* Add background color on hover */
-    padding: 5px 10px; /* Optional: Add some padding for hover effect */
-    border-radius: 20px; /* Optional: Add border radius */
-    
-  }
-  .adminlinks a:hover i, .adminlinks a:hover svg {
-    color: rgb(0, 0, 0); /* Change icon color on hover */
-}
-
-   /* Admin Profile Styling */
-   .adminprofile {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    bottom: 40px;
-    right: 10px;
-  }
-
-  .adminprofile h2 {
-    margin-top: 10px;
-  }
-
-  /* Dropdown Styling */
-  .dropdown {
-    position: relative;
-    display: inline-block;
-    margin-left: 20px; /* Adjust margin for spacing */
-  }
-
-  .dropdown-btn {
-    background-color: transparent;
-    color: rgb(255, 255, 255);
-    padding: 10px 20px;
-    border: none;
-    /* cursor: pointer; */
-    display: flex;
-    align-items: center;
-    gap: 8px; /* Adds spacing between name and icon */
-    font-size: 16px;
-  }
-
-
-  .dropdown-icon {
-  font-size: 18px;
-  }
-
-  /* .dropdown-btn:hover {
-  background-color: black;
-  } */
-
-  .dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #000000;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
-    left: 50%; /* Position the dropdown to the right of the button */
-    top: 70%; /* Align the top of the dropdown with the button */
-  }
-
-  .dropdown-content button {
-    background-color: black;
-    color: rgb(255, 255, 255);
-    padding: 12px 16px;
-    text-align: left;
-    border: none;
-    width: 100% ;
-    /* cursor: pointer; */
-  }
-
-  .dropdown-content button:hover {
-    background-color: #3b3b3b;
-  }
-
-  .dropdown:hover .dropdown-content {
-    display: block;
-  }
-
-   
-    /* TODO: search bar dashboard  */
-.right-header {
-  position: relative;
-  
-  
-  }
-  
-  .search-box {
-    position: absolute;
-    margin-top: 10px;
-    left: 45%;
-    display: flex;
-    align-items: center;
-    position: absolute;
-    top: 15px;
-    left:750px;
-  }
-  
-  .search-input {
-    padding: 8px 8px 8px 30px; /* Add padding-left to make room for the icon */
-    font-size: 14px;
-    border: 1px solid #efefef;
-    border-radius: 20px;
-    width: 250px;
-  }
-  
-  .search-icon {
-    position: absolute;
-    left: 10px; /* Position the icon inside the left corner */
-    font-size: 16px;
-    color: green;
-  }
-  
-  .search-icon::before {
-    content: '\f002'; /* Font Awesome search icon */
-  }
-  
-
-   /* TODO: table */
-
-/* Table container to make it scrollable with a custom scrollbar */
-.table-container {
-  width: 100%; /* Adjust width for a better layout */
-  max-height: 390px; /* Height limit for scrollability */
-  overflow-y: auto; /* Enable vertical scroll */
-  border: 1px solid #ddd; /* Subtle border for the container */
-  border-radius: 10px; /* Rounded corners */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a soft shadow effect */
-}
-
-/* Styling the table */
-table {
-  width: 100%; /* Full width inside the container */
-  border-collapse: collapse;
-  font-family: 'Arial', sans-serif;
-  background-color: #f9f9f9; /* Light background */
-}
-
-/* Table header styling with sticky */
-thead th {
-  background-color: #4CAF50; /* Forest green for header */
-  color: white; /* White text color */
-  padding: 15px; /* More padding for comfort */
-  text-align: left;
-  border-bottom: 1px solid #ddd; /* Subtle bottom border */
-  position: sticky; /* Make the header sticky */
-  top: 0; /* Stick to the top of the table container */
-  z-index: 1; /* Ensure the header stays on top when scrolling */
-}
-
-/* Alternate row colors */
-tbody tr:nth-child(even) {
-  background-color: #f2f2f2;
-}
-
-/* Hover effect for rows */
-tbody tr:hover {
-  background-color: #d1e7dd; /* Light green on hover */
-  cursor: pointer;
-}
-
-th, td {
-  padding: 15px; /* Padding for table cells */
-  color:black;
-  text-align: left; /* Align text to the left */
-  border-bottom: 1px solid #ddd; /* Subtle border for all cells */
-}
-
-/* Custom Scrollbar Styles for WebKit Browsers (Chrome, Safari, Edge) */
-.table-container::-webkit-scrollbar {
-  width: 10px; /* Width of the scrollbar */
-}
-
-.table-container::-webkit-scrollbar-track {
-  background: #f1f1f1; /* Background of the scrollbar track */
-}
-
-.table-container::-webkit-scrollbar-thumb {
-  background-color: forestgreen; /* Scrollbar color */
-  border-radius: 10px; /* Rounded scrollbar */
-  border: 2px solid #f1f1f1; /* Optional border around the scrollbar thumb */
-}
-
-/* Custom Scrollbar Color for Firefox */
-.table-container {
-  scrollbar-color: forestgreen #f1f1f1;
-  scrollbar-width: thin;
-}
-
-
-/* TODO: user details  */
-
-/* Container for the image */
-#userDisplay {
-  text-align: center; /* Center all content */
-  margin-bottom: 20px;
-}
-
-/* Styling for the user image */
-#userImage {
-  width: 100px;
-  height: 100px;
-  object-fit: cover; /* Ensure the image fits without distortion */
-  border-radius: 50%; /* Circular image */
-  margin: 0 auto; /* Center the image horizontally */
-  display: block;
-  padding: 0; /* Remove padding */
-  /* box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); */
-}
-
-#userDetails {
-  /* background: #fff; */
-  padding: 40px;
-  border-radius: 8px;
-  /* box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); */
-  margin-bottom: 20px;
-  height: 61.5vh;
-}
-
-/* User row layout */
-.user-row {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 15px;
-}
-
-/* Align labels and spans nicely */
-label {
-  font-size: 15px;
-  color: #ffffff;
-  flex: 1; /* Ensure label takes one part of the space */
-  text-align: right; /* Align label text to the right */
-  padding-right: 10px; /* Space between label and value */
-}
-
-span {
-  color: #ffffff;
-  flex: 2; /* Ensure span takes twice the space of the label */
-  text-align: left; /* Align span text to the left */
-}
-
-/* Buttons styling */
-button {
-  background-color: #4CAF50; /* Green */
-  color: white;
-  border: none;
-  padding: 10px 15px;
-  margin: 5px 0;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-  font-size: 14px;
-  font-weight: bold;
-}
-
-button:hover {
-  background-color: #45a049; /* Darker green */
-}
-
-.btn-danger {
-  background-color: #f44336; /* Red */
-}
-
-.btn-danger:hover {
-  background-color: #e53935; /* Darker red */
-}
-
-/* Responsive layout */
-@media (max-width: 600px) {
-  #userDetails {
-    padding: 15px;
-  }
-
-  button {
-    width: 100%;
-    margin: 3px 0;
-    margin-bottom: 20px;
-  }
-
-  .user-row {
-    flex-direction: column;
-  }
-
-  label, span {
-    flex: none;
-    text-align: left;
-  }
-
-  #userImage {
-    width: 80px;
-    height: 80px;
-  }
-}
-
-
-/* Modal container */
-.modal {
-  display: none; /* Hidden by default */
-  position: fixed; 
-  z-index: 1; 
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* Dark background */
-  overflow: auto;
-  transition: all 0.3s ease; /* Smooth fade-in effect */
-}
-
-/* Modal content box */
-.modal-content {
-  background: linear-gradient(135deg, #f3f4f7, #e0e0e0); /* Gradient background */
-  margin: 10% auto;
-  padding: 30px;
-  border-radius: 10px;
-  width: 400px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Soft shadow */
-  position: relative; /* Important for positioning the close button */
-  transition: transform 0.3s ease-in-out;
-}
-
-/* Close button (X) */
-.close {
-  color: #ff4d4d;
-  font-size: 32px;
-  font-weight: bold;
-  position: absolute;
-  top: 10px;
-  right: 20px;
-  cursor: pointer;
-  transition: color 0.3s ease;
-}
-
-.close:hover {
-  color: #ff1a1a; /* Hover color */
-}
-
-/* Modal Header */
-.modal-content h2 {
-  font-size: 24px;
-  font-weight: 600;
-  margin-bottom: 20px;
-  color: #333;
-  text-align: center;
-}
-
-/* Form input styles */
-.modal-body {
-  margin-bottom: 20px;
-}
-
-.form-group {
-  margin-bottom: 15px;
-}
-
-.form-group label {
-  font-size: 14px;
-  font-weight: 500;
-  color: #555;
-}
-
-.form-group input {
-  width: 100%;
+  margin-left: 20px;
+  width: 90%;
+  height: 70vh;
+  margin-top: 2.8rem;
+  /* background-color:#18392b; */
+  color: forestgreen;
+  border-radius: 20px;
   padding: 10px;
-  margin-top: 5px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  font-size: 16px;
-  transition: border-color 0.3s ease;
+  /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); */
 }
 
-.form-group input:focus {
-  border-color: #4CAF50; /* Focused input color */
-  outline: none;
+.rightsidebar-content h1{
+  padding-left: 20px;
+  /* text-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5); */
+}
+.rightsidebar-content2{
+  padding-left: 20px;
+  color: black;
+}
+.uppersidebar-content{
+display: flex;
+padding-top: 50px;
+
+}
+.uppersidebar-content>div{
+  width:100px;
+  height:10px;
+  /* background-color: #e5e1e1; */
+  margin-left: 20px;
+  /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); */
+  border-radius:10px;
+  font-size: .8rem;
+  color: black;
 }
 
-button[type="submit"] {
+.transactionheader{
+  color: black;
+  font-size: 25px;
+}
+
+
+
+/* TODO: payment installment details */
+.installment-details {
+display: grid;
+grid-template-columns: 1fr 1fr 1fr;
+gap: 10px;
+color: black;
+}
+
+.detail-header, .detail-row {
+display: contents;
+}
+
+.detail-header .month,
+.detail-header .recommended-paydate,
+.detail-header .amount-due {
+font-weight: bold;
+/* border-bottom: 1px solid black; */
+}
+
+.detail-row .month,
+.detail-row .recommended-paydate,
+.detail-row .amount-due {
+padding: 5px 10px;
+}
+.circle-btn {
+width: 20px;
+height: 20px;
+border-radius: 50%;
+background-color: forestgreen;
+color: white;
+border: none;
+font-size: 14px;
+cursor: pointer;
+display: inline-flex;
+align-items: center;
+justify-content: center;
+}
+
+.circle-btn:hover {
+background-color: #2e8b57; /* Darker shade for hover effect */
+}
+
+
+  
+.adminlinks {
+display: flex;
+flex-direction: column;
+gap: 1rem; /* Spacing between each link */
+align-items: flex-start; /* Aligns all links to the left */
+margin-left: 10px;
+margin-top: 0px;
+}
+
+.adminlinks span {
+display: flex;
+align-items: center; /* Align icons and text vertically */
+width: 100%; /* Ensure the full span takes up the width */
+}
+
+.adminlinks img {
+width: 25px;
+margin-right: 5px; /* Space between icon and text */
+}
+
+.adminlinks a {
+text-decoration: none;
+color: white;
+font-size: 12px; /* Adjust font size for better readability */
+display: inline-block;
+transition: color 0.3s, background-color 0.3s; /* Smooth transition for hover */
+}
+
+.adminlinks a:hover,
+.adminlinks a.active {
+color: rgb(0, 0, 0); /* Change text color */
+background-color: #00ff95; /* Add background color */
+padding: 5px 10px; /* Optional: Add some padding */
+border-radius: 20px; /* Add border radius */
+}
+
+.adminlinks a:hover i, .adminlinks a:hover svg {
+color: rgb(0, 0, 0); /* Change icon color on hover */
+}
+
+.adminlinks .logout-link {
+width: 50%;
+padding: 1px 0; /* Add padding to align with other links */
+}
+
+.adminlinks span:last-child {
+margin-top: 2.1rem; /* Adjust margin to move the logout button up */
+margin-bottom: 5rem;
+}
+
+
+/* Admin Profile Styling */
+.adminprofile {
+display: flex;
+align-items: center;
+justify-content: center;
+position: relative;
+bottom: 40px;
+right: 10px;
+}
+
+.adminprofile h2 {
+margin-top: 10px;
+}
+
+
+  
+/* Dropdown Styling */
+.dropdown {
+position: relative;
+display: inline-block;
+margin-left: 20px; /* Adjust margin for spacing */
+}
+
+.dropdown-btn {
+background-color: transparent;
+color: rgb(255, 255, 255);
+padding: 10px 20px;
+border: none;
+/* cursor: pointer; */
+display: flex;
+align-items: center;
+gap: 8px; /* Adds spacing between name and icon */
+font-size: 16px;
+}
+
+
+.dropdown-icon {
+font-size: 18px;
+}
+
+/* .dropdown-btn:hover {
+background-color: black;
+} */
+
+.dropdown-content {
+display: none;
+position: absolute;
+background-color: #000000;
+box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+z-index: 1;
+left: 50%; /* Position the dropdown to the right of the button */
+top: 70%; /* Align the top of the dropdown with the button */
+}
+
+.dropdown-content button {
+background-color: black;
+color: rgb(255, 255, 255);
+padding: 12px 16px;
+text-align: left;
+border: none;
+width: 100% ;
+/* cursor: pointer; */
+}
+
+.dropdown-content button:hover {
+background-color: #3b3b3b;
+}
+
+.dropdown:hover .dropdown-content {
+display: block;
+}
+
+
+/* TODO: table for all transaction */
+
+table {
   width: 100%;
-  padding: 12px;
-  background-color: #4CAF50; /* Green */
-  border: none;
-  color: white;
-  font-size: 16px;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+  border-collapse: collapse;
+  margin: 20px 0;
+}
+table, th, td {
+  border: 1px solid #ddd;
+}
+th, td {
+  padding: 10px;
+  text-align: left;
+
+
+}
+th {
+  background-color: #f4f4f4;
+  color:black;
+}
+td{
+  color:black;
 }
 
-button[type="submit"]:hover {
-  background-color: #45a049; /* Darker green on hover */
-}
-
-.modal-footer {
-  text-align: right;
-}
-
-/* Animation to show modal */
-.modal.show {
-  display: block;
-  animation: fadeIn 0.5s ease-in-out;
-}
-
-@keyframes fadeIn {
-  from {
-      opacity: 0;
-  }
-  to {
-      opacity: 1;
-  }
-}
 

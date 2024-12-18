@@ -7,9 +7,11 @@
     <title>Plot Availability Map with Voice Navigation</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     <style>
         #map {
-            height: 600px;
+            margin-top: 5px;
+            height: 500px;
             width: 100%;
         }
 
@@ -42,16 +44,46 @@
         button:hover {
             background-color: #0056b3;
         }
+        #map-container1{
+           width: 100%;
+           display: flex;
+        }
+        .map-container2{
+          display: flex;
+          margin-left:27%;
+          gap:15px;
+        }
+        .availalble {
+            background-color: blue;
+            width:100px;
+            height: 15px;
+        }
+        .notavailable {
+            background-color: red;
+            width:100px;
+            height: 15px;
+        }
+        button{
+          cursor: pointer;
+        }
     </style>
 </head>
 
 <body>
-    <!-- <h3>Plot Availability Map with Voice Navigation</h3>
-    <div id="search-box">
-        <input type="text" id="block-number" placeholder="Enter Block (1-4)">
-        <input type="number" id="plot-number" placeholder="Enter Plot Number (1-50)">
-        <button onclick="locatePlot()">Locate Plot</button>
-    </div> -->
+    <center><h2>View Available Plots and Block </h2></center>
+    <div id="map-container1">
+        <!-- <input type="text" id="block-number" placeholder="Enter Block (1-4)">
+        <input type="number" id="plot-number" placeholder="Enter Plot Number (1-50)"> -->
+        <!-- <button onclick="locatePlot()">Locate Plot</button>  -->
+        <div class="button">
+           <a href="adminDashboard.php"><button><i class="fas fa-arrow-left"></i> Back to Main</button></a>
+        </div>
+       <div class="map-container2">
+        Available: <div class="availalble"> > </div>
+        Not Available:<div class="notavailable"></div>
+       </div>
+
+    </div>
     <div id="map"></div>
 
     <?php

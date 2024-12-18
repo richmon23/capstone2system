@@ -63,35 +63,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     echo "Amount Paid: " . $amount_paid . "<br>";
 
     // Handle file upload for payment proof (only for GCash)
-    if ($payment_method == 'gcash' && isset($_FILES['payment_proof'])) {
-        // Check if the file was uploaded successfully
-        if ($_FILES['payment_proof']['error'] == 0) {
-            // Set the file destination
-            $upload_dir = 'uploads/';
-            $file_name = basename($_FILES['payment_proof']['name']);
-            $file_path = $upload_dir . $file_name;
-
-            // Move the uploaded file to the desired directory
-            if (move_uploaded_file($_FILES['payment_proof']['tmp_name'], $file_path)) {
-                $payment_proof = $file_path;
-            } else {
-                // Handle file upload error
-                echo "Error uploading payment proof file.";
-                exit;
-            }
-        } else {
-            // Handle file upload error
-            echo "Error with payment proof file upload.";
-            exit;
-        }
-    }
-
-    // Set payment status if paid
-    if ($payment_method == 'cash') {
+    if ($payment_method == 'gcash') {
+        // GCash payment is considered automatically paid
         $payment_status = 'paid';
+        $amount_paid = $fullpayment_amount; // For GCash, set to the full payment amount
+    } elseif ($payment_method == 'cash') {
+        $payment_status = 'paid'; // Cash payment is also automatically marked as paid
         $amount_paid = $fullpayment_amount; // Full amount for cash payments
-    } elseif ($payment_method == 'gcash' && $amount_paid == 0.00) {
-        $amount_paid = $fullpayment_amount; // For GCash, full payment if no installments
     }
 
     // Prepare the SQL query to insert payment details
@@ -121,6 +99,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Execute the statement
         $stmt->execute();
 
+        // Update the reservation status if payment is completed
+        if ($payment_status == 'paid') {
+            $updateReservationStatus = $conn->prepare("UPDATE reservation SET status = 'success' WHERE id = :reservation_id");
+            $updateReservationStatus->bindParam(':reservation_id', $reservation_id, PDO::PARAM_INT);
+            $updateReservationStatus->execute();
+        }
+
         // Commit the transaction
         $conn->commit();
 
@@ -135,7 +120,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $conn->rollBack();
         echo "Error: " . $e->getMessage();
     }
-} else {
-    // Handle case where the form is not submitted
-    echo "Invalid request.";
 }

@@ -27,8 +27,9 @@
             </ul>
         </nav>
         <div class="login">  
-        <a href="userlogin.php" class="login-logo">
-        <img src="images/account.png" alt="Login Logo" title="login">
+        <a href="userlogin.php" class="login-logo" title="Login">
+            Log in
+        <!-- <img src="images/account.png" alt="Login Logo" title="login">Log in -->
         </a>      
       
         </div>  

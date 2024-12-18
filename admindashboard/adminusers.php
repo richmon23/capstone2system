@@ -37,7 +37,9 @@ try {
  
  // Check if user profile picture exists
  $profilePic = !empty($user['profile_pic']) ? $user['profile_pic'] : 'default.png'; // Use a default image if none is found
-    
+  
+ 
+ 
 
 ?>
 <!DOCTYPE html>
@@ -74,9 +76,9 @@ try {
                             <span><img src="../images/dashboard.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminDashboard.php">Dashboard</a></span> 
                             <span><img src="../images/deceased.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminDeceased.php">Deceased</a></span>
                             <span><img src="../images/reservation.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminreservation.php">Reservation</a></span>
-                            <span><img src="../images/review.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminreviews.php">Reviews</a></span>
+                            <span><img src="../images/payment.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminpayment.php">Transaction</a></span>
                             <span><img src="../images/users.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminusers.php">User's</a></span>
-                            <span><img src="../images/payment.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminpayment.php">Payments</a></span>
+                            <span><img src="../images/review.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminreviews.php">Reviews</a></span>
                             <span><img src="../images/logout.png" alt="">&nbsp;&nbsp;&nbsp;<a href="../logout.php">Logout</a></span>
                         </div>
                         <br>
@@ -85,7 +87,7 @@ try {
                 <div class="right-content1">
                     <div class="right-header col-10">
                         <br>
-                        <span><h2>CUSTOMER DATA</h2></span>
+                        <h2>USERS DATA</h2>
                         <div class="search-box">
                             <i class="fas fa-search search-icon"></i>
                             <!-- <input type="text" class="search-input" placeholder="Search"> -->
@@ -124,11 +126,13 @@ try {
                         </table>
                     </div>
                 </div>
+                <!-- TODO: transaction modal -->
                 <div class="right-content">
                 <div id="userDisplay">
-                    <div id="userDetails">
-                    <img id="userImage" src="../images/female.png" alt="User Image">
-                    <br>
+                    <div id="userDetails" style="display: none;">
+                        <center>
+                        <img id="userImage" src="../images/default-profile.png" alt="Profile Picture">
+                        <br>
                         <div class="user-row">
                             <label>FirstName:</label>
                             <span id="labelFirstname">John</span>
@@ -147,10 +151,13 @@ try {
                         </div>
                         <div class="user-row">
                             <label>Address:</label>
-                            <span id="labelAddress"> Bogo City</span>
+                            <span id="labelAddress">Bogo City</span>
                         </div>
-                        <button onclick="openUpdateModal()">Edit</button>
-                        <button class="btn-danger" onclick="deleteUser()">Delete</button>
+                        <div class="buttons">
+                            <button onclick="openUpdateModal()">Transaction</button>
+                            <button class="btn-danger" onclick="deleteUser()">Delete</button>
+                        </div>
+                        </center>
                     </div>
                 </div>  
             </div>
@@ -161,35 +168,14 @@ try {
                     <span class="close" onclick="closeModal()">&times;</span>
                     <h2>Update User</h2>
                     <br>
-                    <form id="userForm">
-                        <input type="hidden" id="userId" name="userId">
-                        <div class="form-group">
-                            <label for="firstname"  class="modallabel">First Name:</label>
-                            <input type="text" id="firstname" name="firstname" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="surname" class="modallabel">Surname:</label>
-                            <input type="text" id="surname" name="surname" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="contact" class="modallabel">Contact:</label>
-                            <input type="text" id="contact" name="contact" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="email" class="modallabel">Email:</label>
-                            <input type="email" id="email" name="email" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="address" class="modallabel">Address:</label>
-                            <input type="text" id="address" name="address" required>
-                        </div>
-                        <button type="button" onclick="updateUser()" class="btn-update">Update</button>
-                    </form>
+                    <input type="hidden" id="userId" name="userId">
+                    
                 </div>
             </div>
 
 
             <script>
+                // TODO: fetch the user details
                 function fetchUserDetails(userId) {
                     const xhr = new XMLHttpRequest();
                     xhr.open('GET', 'fetch_user.php?id=' + userId, true);
@@ -197,12 +183,22 @@ try {
                         if (this.status === 200) {
                             const user = JSON.parse(this.responseText);
                             if (user && user.id) {
+                                // Update user details
                                 document.getElementById("userId").value = user.id;
                                 document.getElementById("labelFirstname").textContent = user.firstname;
                                 document.getElementById("labelSurname").textContent = user.surname;
                                 document.getElementById("labelContact").textContent = user.contact;
                                 document.getElementById("labelEmail").textContent = user.email;
                                 document.getElementById("labelAddress").textContent = user.address;
+
+                                // Update profile picture
+                                const userImage = document.getElementById("userImage");
+                                if (user.profile_pic) {
+                                    userImage.src = `../uploads/profile_pics/${user.profile_pic}`;
+                                } else {
+                                    userImage.src = "../images/default-profile.png"; // Fallback image
+                                }
+
                                 document.getElementById("userDetails").style.display = 'block';
                             } else {
                                 console.error("No user data found");
@@ -213,6 +209,7 @@ try {
                     };
                     xhr.send();
                 }
+
 
                 // Function to open the update modal and populate form fields
             function openUpdateModal() {

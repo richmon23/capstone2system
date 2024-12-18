@@ -78,8 +78,8 @@ body {
 }
 
 .adminprofile img {
-  width: 150px; /* Set the desired width */
-  height: 150px; /* Set the desired height */
+  width: 100px; /* Set the desired width */
+  height: 100px; /* Set the desired height */
   border-radius: 50%; /* Make it circular */
   object-fit: cover; /* Maintain aspect ratio and cover the entire area */
   border: 2px solid #ddd; 
@@ -122,8 +122,8 @@ body {
 
 .right-content2 {
   margin-left: 1px;
-  width: 97%;
-  height: 77vh;
+  width: 100%;
+  height: 90vh;
   margin-top: 1rem;
   background-color: #f1f1f1;
   color: rgb(0, 0, 0);
@@ -136,7 +136,7 @@ body {
   background-color:#efefef;
   color: white;
   border-radius: 25px;
-  height: 73vh;
+  height: 80vh;
   margin-top: 0.6rem;
   margin-left: 0.7rem;
   width: 700px; /* Fixed width for desktop */
@@ -145,15 +145,16 @@ body {
 }
 
 .right-content{
-  background-color: #18392b;
-  color: white;
+  background-color:white;
+  color: black;
   border-radius: 25px;
-  height: 73vh;
+  height: 80vh;
   margin-top: 0.6rem;
   margin-left: 0.7rem;
-  width: 300px; /* Fixed width for desktop */
+  width: 500px; /* Fixed width for desktop */
   position: relative;
   padding: 1rem; /* Add padding inside the sidebar */
+  text-align: center;
 
 }
 
@@ -297,14 +298,13 @@ background-color: black;
     position: absolute;
     border-radius: 20px;
     margin-top: 10px;
-    left: 70%;
+    left: 95%;
     display: flex;
     align-items: center;
     position: absolute;
     top: 15px;
-    left:750px;
     width:250px;
-   
+   margin-left:35%;
    
   }
   
@@ -317,7 +317,7 @@ background-color: black;
   }
 
   #search{
-    padding-left: 40px;
+    padding-left: 60px;
   }
   .search-icon {
     position: absolute;
@@ -338,7 +338,7 @@ background-color: black;
 /* Table container to make it scrollable with a custom scrollbar */
 .table-container {
   width: 100%; /* Adjust width for a better layout */
-  max-height: 390px; /* Height limit for scrollability */
+  max-height:750px; /* Height limit for scrollability */
   overflow-y: auto; /* Enable vertical scroll */
   border: 1px solid #ddd; /* Subtle border for the container */
   border-radius: 10px; /* Rounded corners */
@@ -440,24 +440,34 @@ th, td {
   display: flex;
   justify-content: space-between;
   margin-bottom: 15px;
+  text-align: center;
 }
 
 /* Align labels and spans nicely */
 label {
   font-size: 15px;
-  color: #ffffff;
+  color: black;
   flex: 1; /* Ensure label takes one part of the space */
-  text-align: right; /* Align label text to the right */
-  padding-right: 10px; /* Space between label and value */
+  /* text-align: right; Align label text to the right */
+  /* padding-right: 10px; Space between label and value */
+  padding-left: 50px;
 }
 
 span {
-  color: #ffffff;
+  color: black;
   flex: 2; /* Ensure span takes twice the space of the label */
   text-align: left; /* Align span text to the left */
 }
 
 /* Buttons styling */
+.buttons{
+  width:100%;
+  display: flex;
+  gap:5px;
+  padding-left: 20%;
+
+}
+
 button {
   background-color: #4CAF50; /* Green */
   color: white;
@@ -469,6 +479,7 @@ button {
   transition: background-color 0.3s;
   font-size: 14px;
   font-weight: bold;
+
 }
 
 button:hover {
@@ -633,8 +644,16 @@ input[type="email"]:focus {
 
 .search-icon::before {
   content: '\f002'; /* Font Awesome search icon */
+} 
+
+
+.userDetails img{
+  width: 100px; /* Set the desired width */
+  height: 100px; /* Set the desired height */
+  border-radius: 50%; /* Make it circular */
+  object-fit: cover; /* Maintain aspect ratio and cover the entire area */
+  border: 2px solid #ddd; 
+  margin-top: 50px;
+  margin-left:20px;
 }
-
-
-
 

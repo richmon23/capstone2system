@@ -22,24 +22,26 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
 // Check if user profile picture exists
 $profilePic = !empty($user['profile_pic']) ? $user['profile_pic'] : 'default.png'; // Use a default image if none is found
 
-// Set installment details
-$totalMonths = 6;
-$amountDue = 100; // Change this to the actual monthly payable amount
-$currentMonth = date("F"); // Get the current month
-
-// Generate an array of the next 6 months from the current month
-$months = [];
-for ($i = 0; $i < $totalMonths; $i++) {
-    $months[] = date("F", strtotime("+$i month"));
-}
+// Fetch payment data for the user
+$query = $conn->prepare("
+    SELECT payment_id, total_amount, payment_method, payment_date, payment_status
+    FROM payment 
+    WHERE reservation_id IN (
+        SELECT id FROM reservation WHERE user_id = :user_id
+    )
+");
+$query->bindParam(':user_id', $userId, PDO::PARAM_INT);
+$query->execute();
+$payments = $query->fetchAll(PDO::FETCH_ASSOC);
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Payment</title>
+    <title>Transaction</title>
     <link rel="stylesheet" href="/customerdashboard/customerdashboard_css/customerpayment.css">
 </head> 
 <body>
@@ -58,12 +60,13 @@ for ($i = 0; $i < $totalMonths; $i++) {
         </div>
         <br>
         <div class="adminlinks">
-            <span><img src="../images/dashboard.png" alt="">&nbsp;&nbsp;&nbsp;<a href="customerDashboard.php">Dashboard</a></span> 
-            <span><img src="../images/reservation.png" alt="">&nbsp;&nbsp;&nbsp;<a href="customerreservation.php">Reservation</a></span>
-            <span><img src="../images/review.png" alt="">&nbsp;&nbsp;&nbsp;<a href="customerreviews.php">Reviews</a></span>
-            <span><img src="../images/plot.png" alt="">&nbsp;&nbsp;&nbsp;<a href="customerviewavailableplot.php">Available Plot & Block</a></span>
-            <span><img src="../images/payment.png" alt="">&nbsp;&nbsp;&nbsp;<a href="customerpayment.php">Payments</a></span>
-            <span><img src="../images/logout.png" alt="">&nbsp;&nbsp;&nbsp;<a href="../logout.php">Logout</a></span>
+        <span><img src="../images/dashboard.png" alt="">&nbsp;&nbsp;&nbsp;<a href="customerDashboard.php">Dashboard</a></span> 
+        <!-- <span><img src="../images/deceased.png" alt="">&nbsp;&nbsp;&nbsp;<a href="customerDeceased.php">Deceased</a></span> -->
+        <span><img src="../images/reservation.png" alt="">&nbsp;&nbsp;&nbsp;<a href="customerreservation.php">Reservation</a></span>
+        <span><img src="../images/payment.png" alt="">&nbsp;&nbsp;&nbsp;<a href="customerpayment.php">Transaction</a></span>
+        <span><img src="../images/plot.png" alt="">&nbsp;&nbsp;&nbsp;<a href="customerviewavailableplot.php">Available Plot & Block</a></span>
+        <span><img src="../images/review.png" alt="">&nbsp;&nbsp;&nbsp;<a href="customerreviews.php">Reviews</a></span>
+        <span><img src="../images/logout.png" alt="">&nbsp;&nbsp;&nbsp;<a href="../logout.php">Logout</a></span>
         </div>
         <br>
     </div>
@@ -79,110 +82,100 @@ for ($i = 0; $i < $totalMonths; $i++) {
                 <h2 class="transactionheader">Your Transactions</h2>
                 <div class="uppersidebar-content">
                     <br>
-                    <div class="banktransfer">
-                        <a href="#creditcard" onclick="showContent('content1')"><p>All</p></a>
+                    <div class="all">
+                        <a href="#all" onclick="showContent('content1')"><p>All</p></a>
                     </div>
                     <div class="cash">
                         <a href="#cash" onclick="showContent('content2')"><p>Cash</p></a>
                     </div>
-                    <div class="cash">
-                        <a href="#cash" onclick="showContent('content2')"><p>Wired</p></a>
+                    <div class="wired">
+                        <a href="#wired" onclick="showContent('content3')"><p>Wired</p></a>
                     </div>
-                    <div class="other">
-                        <a href="#installment" onclick="showContent('installment')"><p>Installment</p></a>
+                    <div class="installment">
+                        <a href="#installment" onclick="showContent('content4')"><p>Installment</p></a>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="right-content2">
-            <div class="right-header col-9">
-                <div id="content1" class="content">
-                    <form action="">
-                        <p>Card Information</p>
-                        <label for="Card Holder Name">Card Holder Name</label><br>
-                        <input type="text" class="input1" required><br><br>
-                        <label for="Cardnumber">Cardnumber</label><br>
-                        <input type="text" class="input1" required><br><br>
-                        <div class="Expiry">
-                            <div class="expiry1">
-                                <label for="Expiry Date">Expiry Date</label><br>
-                                <input type="text" class="input2" required>
-                            </div>
-                            <div class="security">
-                                <label for="Security Code">Security Code</label><br>
-                                <input type="text" class="input2" required>
-                            </div>
-                        </div>
-                        <br><br>
-                        <button type="submit" class="confirmbtn">Confirm Payment</button>
-                    </form>
-                </div>
+            <div class="right-content2">
+                <div class="right-header col-9">
 
-                <div id="installment" class="installment">
-                    <center><h3>Installment Payment - 6 Months</h3></center>
-                    <br>
-                    <div class="installment-details">
-                        <div class="detail-header">
-                            <div class="month">Month</div>
-                            <div class="recommended-paydate">Recommended Date Payable</div>
-                            <div class="amount-due">Amount Due</div>
-                        </div>
-                        <div class="detail-row">
-                            <div class="month">
-                            <button class="circle-btn"></button>
-                                January  
-                            </div>
-                            <div class="recommended-paydate">01/15/2024</div>
-                            <div class="amount-due">$100</div>
-                        </div>
-                        <div class="detail-row">
-                            <div class="month">
-                            <button class="circle-btn"></button>
-                                February
-                            </div>
-                            <div class="recommended-paydate">02/15/2024</div>
-                            <div class="amount-due">$100</div>
-                        </div>
-                        <div class="detail-row">
-                            <div class="month">
-                            <button class="circle-btn"></button>
-                                March  
-                            </div>
-                            <div class="recommended-paydate">03/15/2024</div>
-                            <div class="amount-due">$100</div>
-                        </div>
-                        <div class="detail-row">
-                            <div class="month">
-                            <button class="circle-btn"></button>
-                                April
-                            </div>
-                            <div class="recommended-paydate">04/15/2024</div>
-                            <div class="amount-due">$100</div>
-                        </div>
-                        <div class="detail-row">
-                            <div class="month">
-                            <button class="circle-btn"></button>
-                                May
-                            </div>
-                            <div class="recommended-paydate">05/15/2024</div>
-                            <div class="amount-due">$100</div>
-                        </div>
-                        <div class="detail-row">
-                            <div class="month">
-                            <button class="circle-btn"></button>
-                                June
-                            </div>
-                            <div class="recommended-paydate">06/15/2024</div>
-                            <div class="amount-due">$100</div>
-                        </div>
+                    <!-- TODO:all -->
+                    <div id="content1" class="content" style="display: none;">
+                        <br>
+                        <table>
+                        <tr>
+                            <th>Payment ID</th>
+                            <th>Total Amount</th>
+                            <th>Payment Method</th>
+                            <th>Payment Status</th>
+                            <th>Date</th>
+                        </tr>
+                        <?php foreach ($payments as $payment): ?>
+                        <tr>
+                            <td><?php echo htmlspecialchars($payment['payment_id']); ?></td>
+                            <td>$<?php echo htmlspecialchars($payment['total_amount']); ?></td>
+                            <td><?php echo htmlspecialchars($payment['payment_method']); ?></td>
+                            <td><?php echo htmlspecialchars($payment['payment_status']); ?></td>
+                            <td><?php echo htmlspecialchars($payment['payment_date']); ?></td>
+                        </tr>
+                        <?php endforeach; ?>
+                    </table>
+                        <br>
+                    </div> 
+                    <div id="content2" class="content" style="display: none;">
+                        <!-- Cash payment data will be dynamically loaded here -->
                     </div>
-                </div>
-            </div>  
+                    <div class="wired">
+                        <!-- <a href="#wired" onclick="showContent('content3')"><p>Wired</p></a> -->
+                    </div>
+                    <div class="installment">
+                            <!-- <a href="#installment" onclick="showContent('content4')"><p>Installment</p></a> -->
+                    </div>
+                </div>  
+            </div>
         </div>
     </div>
-</div>
+<script>
+            function showContent(contentId) {
+    // Hide all content elements
+    const allContents = document.querySelectorAll('.content');
+    allContents.forEach(content => {
+        content.style.display = 'none';
+    });
 
-<script src="./customerdashboardjs/customerpayment.js"></script>
+    // Show the selected content and fetch data if necessary
+    const selectedContent = document.getElementById(contentId);
+    if (selectedContent) {
+        if (selectedContent.style.display === "none" || selectedContent.style.display === "") {
+            selectedContent.style.display = "block";
+
+            // Check if fetching cash payments is required (specific to `content2`)
+            if (contentId === "content2") {
+                const xhr = new XMLHttpRequest();
+                xhr.open("POST", "fetch_cash_payments.php", true);
+                xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+                xhr.onload = function () {
+                    if (this.status === 200) {
+                        selectedContent.innerHTML = this.responseText;
+                    } else {
+                        console.error("Error fetching cash payments.");
+                        selectedContent.innerHTML = "<p>Error loading data.</p>";
+                    }
+                };
+
+                // Send request
+                xhr.send("payment_method=cash");
+            }
+        }
+    }
+}
+
+
+</script>
+
+<!-- <script src="./customerdashboardjs/customerpayment.js"></script> -->
 </body>
 </html>

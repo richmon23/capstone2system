@@ -78,8 +78,8 @@ body {
 }
 
 .adminprofile img {
-  width: 150px; /* Set the desired width */
-  height: 150px; /* Set the desired height */
+  width: 100px; /* Set the desired width */
+  height: 100px; /* Set the desired height */
   border-radius: 50%; /* Make it circular */
   object-fit: cover; /* Maintain aspect ratio and cover the entire area */
   border: 2px solid #ddd; 
@@ -513,7 +513,7 @@ position: relative;
   align-items: center;
   position: absolute;
   top: 15px;
-  left:750px;
+  left:95%;
 }
 
 

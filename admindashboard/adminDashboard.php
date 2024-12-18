@@ -170,7 +170,7 @@ if (isset($pdo)) {
                                     </button>
                                     <div class="dropdown-content">
                                         <button onclick="openModal('changePasswordModal')">Change Password</button>
-                                        <button onclick="openModal('termsModal')">Terms and Conditions</button>
+                                        <!-- <button onclick="openModal('termsModal')">Terms and Conditions</button> -->
                                     </div>
                                 </div>
                             </center>
@@ -180,9 +180,10 @@ if (isset($pdo)) {
                             <span><img src="../images/dashboard.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminDashboard.php">Dashboard</a></span> 
                             <span><img src="../images/deceased.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminDeceased.php">Deceased</a></span>
                             <span><img src="../images/reservation.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminreservation.php">Reservation</a></span>
+                            <span><img src="../images/payment.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminpayment.php">Transaction</a></span>
+                            <!-- <span><img src="../images/reservation.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminreservation.php">Transaction</a></span> -->
+                            <span><img src="../images/users.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminusers.php">User's</a></span>  
                             <span><img src="../images/review.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminreviews.php">Reviews</a></span>
-                            <span><img src="../images/users.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminusers.php">User's</a></span>
-                            <span><img src="../images/payment.png" alt="">&nbsp;&nbsp;&nbsp;<a href="adminpayment.php">Payments</a></span>
                             <span><img src="../images/logout.png" alt="">&nbsp;&nbsp;&nbsp;<a href="../logout.php">Logout</a></span>
                         </div>
                         <br>
@@ -190,21 +191,23 @@ if (isset($pdo)) {
                         <div class="main">
                             <div class="right-content1">
                             <div class="right-header col-9">
-                            <span>ADMIN DASHBOARD</span>
+                            <div class="header">
+                            <span><h2>ADMIN DASHBOARD</h2></span>
+                            </div>
+                            <span class="button-container">
+                                <a href="adminviewavailableplot.php">
+                                    <button id="image-button1" title="View Available Plots">View  Plots</button>
+                                </a>
+                                <a href="adminmapnavigation.php">
+                                    <button id="image-button2" title="Map Navigation">Map Navigation</button>
+                                </a>
+                            </span>
                         </div>
 
                             </div>
                         <div class="right-content2">
                             <br>
                             <h3 class="todaydata">Today's  Data </h3>
-                            <span class="button-container">
-                                <a href="adminviewavailableplot.php">
-                                    <button id="image-button" title="View Available Plots">View  Plots</button>
-                                </a>
-                                <a href="adminmapnavigation.php">
-                                    <button id="image-button" title="Map Navigation">Map Navigation</button>
-                                </a>
-                            </span>
                             <br>
                             <br>
                             <br>
