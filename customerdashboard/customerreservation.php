@@ -121,7 +121,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 //  echo "<pre>";
 //  var_dump($reservations);
 //  echo "</pre>";
- 
+ // Package prices (you can fetch these from the database instead)
+
 
 ?>
 
@@ -134,43 +135,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="stylesheet" href="./customerdashboard_css/customerreservation.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head> 
-<style>
-    .modal {
-    display: none;
-    position: fixed;
-    z-index: 1000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0, 0, 0, 0.4);
-}
 
-.modal-content {
-    background-color: #fff;
-    margin: 15% auto;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 60%;
-    border-radius: 8px;
-}
-
-.close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-.close:hover, .close:focus {
-    color: #000;
-    text-decoration: none;
-    cursor: pointer;
-}
-
-</style>
 <body>
 
     <!-- <a href="logout.php">Logout</a> -->
@@ -239,9 +204,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                             <p><strong>Status:</strong> <?php echo htmlspecialchars($reservation['status']); ?></p>
 
                                             <!-- Display "Add Payment" button if status is 'approved' -->
+                                            <!-- ADD PAYMENT Button -->
                                             <?php if (strtolower($reservation['status']) === 'approved'): ?>
-                                                <button class="add-payment-btn" data-reservation-id="<?php echo $reservation['id']; ?>">ADD PAYMENT</button>
+                                                <button class="button payment" title="payment"
+                                            onclick="openPaymentModal(<?= $reservation['id'] ?>, '<?= htmlspecialchars($reservation['firstname'], ENT_QUOTES) ?>', '<?= htmlspecialchars($reservation['surname'], ENT_QUOTES) ?>', '<?= htmlspecialchars($reservation['package'], ENT_QUOTES) ?>', '<?= htmlspecialchars($reservation['blocknumber'], ENT_QUOTES) ?>', '<?= htmlspecialchars($reservation['plotnumber'], ENT_QUOTES) ?>')"
+                                            style="background-color: teal; border: none; color: white; padding: 10px 15px; border-radius: 5px; cursor: pointer;">
+                                            <i class="fas fa-money-bill" style="color: white;"></i>
+                                            </button>
                                             <?php endif; ?>
+                                           
                                         </div>
                                     <?php endforeach; ?>
                                 <?php else: ?>
@@ -302,92 +273,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
     </div> 
 
-                   <!-- Payment Modal -->
-<div id="paymentModal" class="modal">
-    <div class="modal-content">
-        <div class="modal-header-payment">Payment</div>
-        <span class="close" id="closeModal">&times;</span>
-        <form action="process_payment.php" method="post" enctype="multipart/form-data">
-            <div class="total-amount1">
-                <p>Total Payment:</p>
-                <p id="modal-price">&#x20B1; 0.00</p>
-            </div>
-            <br>
-            <div class="name-info">
-                <div class="name-client" id="client-name"></div>
-                <div class="client-id" id="client-id" style="float: right;"></div>
-                <div class="or-number-info">
-                    <p><span id="or-number"></span></p>
-                </div>
-            </div>
-            <div class="client-info">
-                <div class="client-package" id="client-package"></div>
-                <div class="client-block" id="client-block"></div>
-                <div class="client-plot" id="client-plot"></div>
-            </div>
-            <div class="total-amount">
-                <?php echo date("Y/m/d"); ?>
-                <p id="payment-status">Payment Status: Not Paid</p>
-            </div>
-
-            <!-- Hidden inputs for reservation data -->
-            <input type="hidden" name="reservation_id" id="reservation-id">
-            <input type="hidden" name="firstname" id="firstname">
-            <input type="hidden" name="surname" id="surname">
-            <input type="hidden" name="package" id="package">
-            <input type="hidden" name="block" id="block">
-            <input type="hidden" name="plot" id="plot">
-
-            <div class="payment-option">
-                <label for="payment-method">Select Payment Method:</label>
-                <select name="payment_method" id="payment-method" class="form-input" required onchange="toggleGcashInfo()">
-                    <option value="cash">Cash</option>
-                    <option value="gcash">GCash</option>
-                </select>
-            </div>
-
-            <div id="gcash-info" style="display: none;">
-                <p>Desiree Leal</p>
-                <p>09653384884</p>
-                <br>
-                <input type="file" id="file-upload" name="payment_proof" class="upload-container" title="Upload proof of payment">
-            </div>
-
-            <div class="payment-radio">
-                <br>
-                <input type="radio" id="cash-radio" name="installment_plan" value="fullpayment" checked>
-                <label for="cash-radio">Full Payment</label>
-                <br>
-                <input type="radio" id="gcash-radio" name="installment_plan" value="installment">
-                <label for="gcash-radio">Installment</label>
-            </div>
-
-            <div class="radio-term" style="display: none;">
-                <div class="radio-group">
-                    <label>
-                        <input type="radio" name="duration" value="6months">
-                        6 Months - <span id="installment-price-6">₱ 0.00</span>
-                    </label>
-                    <br>
-                    <label>
-                        <input type="radio" name="duration" value="9months">
-                        9 Months - <span id="installment-price-9">₱ 0.00</span>
-                    </label>
-                </div>
-            </div>
-
-            <div class="payment-button">
-                <button type="submit" class="form-payment-button">Proceed to Payment</button>
-            </div>
-        </form>
-    </div>
-</div>
+                  
 
 
-                    <!-- TODO:Payment Modal and Payment Proof Upload -->
-                    <div id="paymentModal" class="modal">
+    <!-- TODO:Payment Modal and Payment Proof Upload -->
+    <div id="paymentModal" class="modal">
                     <div class="modal-content">
-                        <span class="close" onclick="closePaymentModal()">&times;</span>
+                        <span class="close" id="closeModal" onclick="closePaymentModal()">&times;</span>
                         <div class="modal-header-payment">Payment</div>
                         <form action="process_payment.php" method="post" enctype="multipart/form-data">
                             <div class="total-amount1">
@@ -428,12 +320,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 </select>
                             </div>
                             
-                            <!-- GCash Information -->
                             <div id="gcash-info" style="display: none;">
                                 <p>Desiree Leal</p>
                                 <p>09653384884</p>
                                 <br>
-                                <input type="file" id="file-upload" name="payment_proof" class="upload-container" title="Upload proof of payment">
+                                <input type="file" id="file-upload" name="payment_proof" class="upload-container" title="Upload proof of payment" required>
                             </div>
 
                             <div class="payment-radio">
@@ -496,136 +387,125 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
         }
 
-        function fetchAvailablePlots(block, plotDropdownId) {
-    console.log("Fetching plots for block: " + block); // Add this line
-    if (block) {
-        var xhr = new XMLHttpRequest();
-        xhr.open("GET", "customer_get_plots.php?block=" + block, true);
-        xhr.onload = function() {
-            console.log("AJAX Response: " + xhr.responseText); // Log AJAX response
-            if (xhr.status === 200) {
-                var plotDropdown = document.getElementById(plotDropdownId);
-                plotDropdown.innerHTML = ''; // Clear existing options
-                var plots = JSON.parse(xhr.responseText);
-                // Populate the dropdown with available plots
-                if (plots.length > 0) {
-                    plots.forEach(function(plot) {
-                        var option = document.createElement("option");
-                        option.value = plot.plot_number;
-                        option.textContent = plot.plot_number;
-                        plotDropdown.appendChild(option);
-                    });
-                } else {
-                    var option = document.createElement("option");
-                    option.value = "";
-                    option.textContent = "No plots available";
-                    plotDropdown.appendChild(option);
+                function fetchAvailablePlots(block, plotDropdownId) {
+            console.log("Fetching plots for block: " + block); // Add this line
+            if (block) {
+                var xhr = new XMLHttpRequest();
+                xhr.open("GET", "customer_get_plots.php?block=" + block, true);
+                xhr.onload = function() {
+                    console.log("AJAX Response: " + xhr.responseText); // Log AJAX response
+                    if (xhr.status === 200) {
+                        var plotDropdown = document.getElementById(plotDropdownId);
+                        plotDropdown.innerHTML = ''; // Clear existing options
+                        var plots = JSON.parse(xhr.responseText);
+                        // Populate the dropdown with available plots
+                        if (plots.length > 0) {
+                            plots.forEach(function(plot) {
+                                var option = document.createElement("option");
+                                option.value = plot.plot_number;
+                                option.textContent = plot.plot_number;
+                                plotDropdown.appendChild(option);
+                            });
+                        } else {
+                            var option = document.createElement("option");
+                            option.value = "";
+                            option.textContent = "No plots available";
+                            plotDropdown.appendChild(option);
+                        }
+                    }
                 }
+                xhr.send();
             }
-        }
-        xhr.send();
-    }
 
 
   
-// Function to open the payment modal
-function openPaymentModal(reservationId, firstname, surname, package, block, plot) {
-    // Set values in the modal
-    document.getElementById('reservation-id').value = reservationId;
-    document.getElementById('firstname').value = firstname;
-    document.getElementById('surname').value = surname;
-    document.getElementById('package').value = package;
-    document.getElementById('block').value = block;
-    document.getElementById('plot').value = plot;
+        // Function to open the payment modal
+        function openPaymentModal(reservationId, firstname, surname, package, block, plot) {
+            // Set values in the modal
+            document.getElementById('reservation-id').value = reservationId;
+            document.getElementById('firstname').value = firstname;
+            document.getElementById('surname').value = surname;
+            document.getElementById('package').value = package;
+            document.getElementById('block').value = block;
+            document.getElementById('plot').value = plot;
 
-    // Set the modal text content for display
-    document.getElementById('client-name').textContent = `${firstname} ${surname}`;
-    document.getElementById('client-package').textContent = `Package: ${package}`;
-    document.getElementById('client-block').textContent = `Block: ${block}`;
-    document.getElementById('client-plot').textContent = `Plot: ${plot}`;
-    
-    // Set the OR number (reservation ID)
-    document.getElementById('or-number').textContent = `OR-${reservationId}`;
+            // Set the modal text content for display
+            document.getElementById('client-name').textContent = `${firstname} ${surname}`;
+            document.getElementById('client-package').textContent = `Package: ${package}`;
+            document.getElementById('client-block').textContent = `Block: ${block}`;
+            document.getElementById('client-plot').textContent = `Plot: ${plot}`;
+            
+            // Set the OR number (reservation ID)
+            document.getElementById('or-number').textContent = `OR-${reservationId}`;
 
-    // Define the package prices
-    let price = 0;
-    switch(package.toLowerCase()) {
-        case 'lawn':
-            price = 20000;
-            break;
-        case 'garden':
-            price = 30000;
-            break;
-        case 'family_state':
-            price = 50000;
-            break;
-        default:
-            price = 0; // Default case in case the package is not recognized
-    }
+            // Define package prices
+            const packagePrices = {
+                lawn: 20000,
+                garden: 30000,
+                family_state: 50000
+            };
 
-    // Set the total price for full payment
-    document.getElementById('modal-price').textContent = '₱ ' + price.toFixed(2);
+            // Determine the price based on the package
+            const price = packagePrices[package.toLowerCase()] || 0;
 
-    // Show or hide installment options based on full payment selection
-    const installmentRadio = document.querySelector('input[name="installment_plan"][value="installment"]');
-    const fullPaymentRadio = document.querySelector('input[name="installment_plan"][value="fullpayment"]');
+            // Set the total price for full payment
+            document.getElementById('modal-price').textContent = '₱ ' + price.toLocaleString();
 
-    if (fullPaymentRadio.checked) {
-        // If "Full Payment" is selected, show the full amount
-        document.getElementById('modal-price').textContent = '₱ ' + price.toFixed(2);
-    }
+            // Update installment prices if needed
+            document.getElementById('installment-price-6').textContent = '₱ ' + (price / 6).toLocaleString();
+            document.getElementById('installment-price-9').textContent = '₱ ' + (price / 9).toLocaleString();
 
-    // Open the modal
-    document.getElementById('paymentModal').style.display = 'block';
-}
+            // Open the modal
+            document.getElementById('paymentModal').style.display = 'block';
+        }
 
-// Close modal function
-document.getElementById('closeModal').addEventListener('click', function () {
-    document.getElementById('paymentModal').style.display = 'none';
-});
+        // Close modal function
+        document.getElementById('closeModal').addEventListener('click', function () {
+            document.getElementById('paymentModal').style.display = 'none';
+        });
 
-// Button click to trigger modal
-document.querySelectorAll('.add-payment-btn').forEach(button => {
-    button.addEventListener('click', function () {
-        const reservationId = this.getAttribute('data-reservation-id');
+        // Button click to trigger modal
+        document.querySelectorAll('.add-payment-btn').forEach(button => {
+            button.addEventListener('click', function () {
+                const reservationId = this.getAttribute('data-reservation-id');
 
-        // Fetch reservation details dynamically (this part can be improved with AJAX or prefilled data)
-        const reservationData = {
-            id: reservationId,
-            firstname: "John",  // Replace with actual data
-            surname: "Doe",     // Replace with actual data
-            package: "Lawn",    // Replace with actual data
-            block: "2",         // Replace with actual data
-            plot: "15"          // Replace with actual data
+                // Fetch reservation details dynamically (this part can be improved with AJAX or prefilled data)
+                const reservationData = {
+                    id: reservationId,
+                    firstname: "John",  // Replace with actual data
+                    surname: "Doe",     // Replace with actual data
+                    package: "Lawn",    // Replace with actual data
+                    block: "2",         // Replace with actual data
+                    plot: "15"          // Replace with actual data
+                };
+
+                // Open the modal with dynamic data
+                openPaymentModal(
+                    reservationData.id, 
+                    reservationData.firstname, 
+                    reservationData.surname, 
+                    reservationData.package, 
+                    reservationData.block, 
+                    reservationData.plot
+                );
+            });
+        });
+
+        // Toggle GCash Info based on payment method selection
+        function toggleGcashInfo() {
+            const paymentMethod = document.getElementById("payment-method").value;
+            const gcashInfo = document.getElementById("gcash-info");
+            if (paymentMethod === "gcash") {
+                gcashInfo.style.display = "block";
+            } else {
+                gcashInfo.style.display = "none";
+            }
+        }
+
+        // If the modal is already open and GCash is selected, show the GCash info
+        window.onload = function() {
+            toggleGcashInfo(); // Ensure correct display on page load
         };
-
-        // Open the modal with dynamic data
-        openPaymentModal(
-            reservationData.id, 
-            reservationData.firstname, 
-            reservationData.surname, 
-            reservationData.package, 
-            reservationData.block, 
-            reservationData.plot
-        );
-    });
-});
-
-// Toggle GCash Info based on payment method selection
-function toggleGcashInfo() {
-    const paymentMethod = document.getElementById("payment-method").value;
-    const gcashInfo = document.getElementById("gcash-info");
-    if (paymentMethod === "gcash") {
-        gcashInfo.style.display = "block";
-    } else {
-        gcashInfo.style.display = "none";
-    }
-}
-
-// If the modal is already open and GCash is selected, show the GCash info
-window.onload = function() {
-    toggleGcashInfo(); // Ensure correct display on page load
-};
 
 
 
@@ -641,6 +521,253 @@ window.onload = function() {
                         }
                     });
 }
+
+
+
+
+        // Open modal
+        document.querySelectorAll('.add-payment-btn').forEach(button => {
+                button.addEventListener('click', () => {
+                    const modal = document.getElementById('paymentModal');
+                    modal.style.display = 'block';
+
+                    // Populate modal fields with button data
+                    document.getElementById('reservation-id').value = button.dataset.reservationId;
+                    document.getElementById('firstname').value = button.dataset.firstname;
+                    document.getElementById('surname').value = button.dataset.surname;
+                    document.getElementById('package').value = button.dataset.package;
+                    document.getElementById('block').value = button.dataset.block;
+                    document.getElementById('plot').value = button.dataset.plot;
+
+                    document.getElementById('client-name').textContent = `${button.dataset.firstname} ${button.dataset.surname}`;
+                    document.getElementById('client-package').textContent = `Package: ${button.dataset.package}`;
+                    document.getElementById('client-block').textContent = `Block: ${button.dataset.block}`;
+                    document.getElementById('client-plot').textContent = `Plot: ${button.dataset.plot}`;
+                });
+            });
+
+            // Close modal
+            document.getElementById('closeModal').addEventListener('click', () => {
+                document.getElementById('paymentModal').style.display = 'none';
+            });
+
+            // Toggle GCash info
+            function toggleGcashInfo() {
+                const method = document.getElementById('payment-method').value;
+                document.getElementById('gcash-info').style.display = method === 'gcash' ? 'block' : 'none';
+            }
+
+
+            // Add an event listener for the "Add Payment" buttons
+        document.querySelectorAll('.add-payment-btn').forEach(button => {
+            button.addEventListener('click', function () {
+                // Fetch data attributes from the clicked button
+                const reservationId = this.getAttribute('data-reservation-id');
+                const firstname = this.getAttribute('data-firstname');
+                const surname = this.getAttribute('data-surname');
+                const packageName = this.getAttribute('data-package');
+                const blockNumber = this.getAttribute('data-block');
+                const plotNumber = this.getAttribute('data-plot');
+
+                // Call the function to open and populate the modal
+                openPaymentModal(reservationId, firstname, surname, packageName, blockNumber, plotNumber);
+            });
+        });
+
+        // Function to open the payment modal and populate its fields
+        function openPaymentModal(reservationId, firstname, surname, packageName, blockNumber, plotNumber) {
+            // Define package prices
+            const packagePrices = {
+                lawn: 20000,
+                garden: 30000,
+                family_state: 50000
+            };
+
+            // Calculate the price based on the package
+            const price = packagePrices[packageName.toLowerCase()] || 0;
+
+            // Populate modal fields with fetched data
+            document.getElementById('reservation-id').value = reservationId;
+            document.getElementById('firstname').value = firstname;
+            document.getElementById('surname').value = surname;
+            document.getElementById('package').value = packageName;
+            document.getElementById('block').value = blockNumber;
+            document.getElementById('plot').value = plotNumber;
+
+            // Display client information
+            document.getElementById('client-name').textContent = `${firstname} ${surname}`;
+            document.getElementById('client-package').textContent = `Package: ${packageName}`;
+            document.getElementById('client-block').textContent = `Block: ${blockNumber}`;
+            document.getElementById('client-plot').textContent = `Plot: ${plotNumber}`;
+
+            // Display total price
+            document.getElementById('modal-price').textContent = '₱ ' + price.toLocaleString();
+
+            // Update installment prices
+            document.getElementById('installment-price-6').textContent = '₱ ' + (price / 6).toLocaleString();
+            document.getElementById('installment-price-9').textContent = '₱ ' + (price / 9).toLocaleString();
+
+            // Show the modal
+            document.getElementById('paymentModal').style.display = 'block';
+        }
+
+        // Toggle visibility of installment terms based on installment plan selection
+        function toggleInstallmentTerms() {
+            const installmentPlan = document.querySelector('input[name="installment_plan"]:checked').value;
+            const radioTermSection = document.querySelector('.radio-term');
+            
+            // Show or hide the installment terms based on the selected plan
+            if (installmentPlan === 'installment') {
+                radioTermSection.style.display = 'block';
+            } else {
+                radioTermSection.style.display = 'none';
+            }
+        }
+
+        // Attach event listeners to the installment plan radio buttons
+        document.querySelectorAll('input[name="installment_plan"]').forEach(radio => {
+            radio.addEventListener('change', toggleInstallmentTerms);
+        });
+
+        // Open the payment modal and populate its fields
+        function openPaymentModal(reservationId, firstname, surname, packageName, blockNumber, plotNumber) {
+            // Define package prices
+            const packagePrices = {
+                lawn: 20000,
+                garden: 30000,
+                family_state: 50000
+            };
+
+            // Calculate the price based on the package
+            const price = packagePrices[packageName.toLowerCase()] || 0;
+
+            // Populate modal fields with fetched data
+            document.getElementById('reservation-id').value = reservationId;
+            document.getElementById('firstname').value = firstname;
+            document.getElementById('surname').value = surname;
+            document.getElementById('package').value = packageName;
+            document.getElementById('block').value = blockNumber;
+            document.getElementById('plot').value = plotNumber;
+
+            // Display client information
+            document.getElementById('client-name').textContent = `${firstname} ${surname}`;
+            document.getElementById('client-package').textContent = `Package: ${packageName}`;
+            document.getElementById('client-block').textContent = `Block: ${blockNumber}`;
+            document.getElementById('client-plot').textContent = `Plot: ${plotNumber}`;
+
+            // Display total price
+            document.getElementById('modal-price').textContent = '₱ ' + price.toLocaleString();
+
+            // Update installment prices
+            document.getElementById('installment-price-6').textContent = '₱ ' + (price / 6).toLocaleString();
+            document.getElementById('installment-price-9').textContent = '₱ ' + (price / 9).toLocaleString();
+
+            // Reset to full payment view on modal open
+            document.getElementById('cash-radio').checked = true;
+            toggleInstallmentTerms();
+
+            // Show the modal
+            document.getElementById('paymentModal').style.display = 'block';
+        }
+
+        // Event listeners for "Add Payment" buttons
+        document.querySelectorAll('.add-payment-btn').forEach(button => {
+            button.addEventListener('click', function () {
+                const reservationId = this.getAttribute('data-reservation-id');
+                const firstname = this.getAttribute('data-firstname');
+                const surname = this.getAttribute('data-surname');
+                const packageName = this.getAttribute('data-package');
+                const blockNumber = this.getAttribute('data-block');
+                const plotNumber = this.getAttribute('data-plot');
+
+                openPaymentModal(reservationId, firstname, surname, packageName, blockNumber, plotNumber);
+            });
+        });
+
+        // Close the modal
+        document.getElementById('closeModal').addEventListener('click', () => {
+            document.getElementById('paymentModal').style.display = 'none';
+        });
+
+        // Function to open the payment modal and populate its fields
+        function openPaymentModal(reservationId, firstname, surname, packageName, blockNumber, plotNumber) {
+            // Define package prices
+            const packagePrices = {
+                lawn: 20000,
+                garden: 30000,
+                "family state": 50000 // Ensure proper mapping
+            };
+
+            // Normalize package name to match keys in the packagePrices object
+            const normalizedPackageName = packageName.toLowerCase().replace('_', ' '); // Converts "Family_State" to "family state"
+            const price = packagePrices[normalizedPackageName] || 0;
+
+            // Populate modal fields with fetched data
+            document.getElementById('reservation-id').value = reservationId;
+            document.getElementById('firstname').value = firstname;
+            document.getElementById('surname').value = surname;
+            document.getElementById('package').value = packageName;
+            document.getElementById('block').value = blockNumber;
+            document.getElementById('plot').value = plotNumber;
+
+            // Display client information
+            document.getElementById('client-name').textContent = `${firstname} ${surname}`;
+            document.getElementById('client-package').textContent = `Package: ${packageName}`;
+            document.getElementById('client-block').textContent = `Block: ${blockNumber}`;
+            document.getElementById('client-plot').textContent = `Plot: ${plotNumber}`;
+
+            // Display total price
+            document.getElementById('modal-price').textContent = '₱ ' + price.toLocaleString();
+
+            // Update installment prices
+            document.getElementById('installment-price-6').textContent = '₱ ' + (price / 6).toLocaleString();
+            document.getElementById('installment-price-9').textContent = '₱ ' + (price / 9).toLocaleString();
+
+            // Reset to full payment view on modal open
+            document.getElementById('cash-radio').checked = true;
+            toggleInstallmentTerms();
+
+            // Show the modal
+            document.getElementById('paymentModal').style.display = 'block';
+        }
+
+        // Event listeners for "Add Payment" buttons
+        document.querySelectorAll('.add-payment-btn').forEach(button => {
+            button.addEventListener('click', function () {
+                const reservationId = this.getAttribute('data-reservation-id');
+                const firstname = this.getAttribute('data-firstname');
+                const surname = this.getAttribute('data-surname');
+                const packageName = this.getAttribute('data-package');
+                const blockNumber = this.getAttribute('data-block');
+                const plotNumber = this.getAttribute('data-plot');
+
+                openPaymentModal(reservationId, firstname, surname, packageName, blockNumber, plotNumber);
+            });
+        });
+
+        // Toggle visibility of installment terms based on installment plan selection
+        function toggleInstallmentTerms() {
+            const installmentPlan = document.querySelector('input[name="installment_plan"]:checked').value;
+            const radioTermSection = document.querySelector('.radio-term');
+            
+            // Show or hide the installment terms based on the selected plan
+            if (installmentPlan === 'installment') {
+                radioTermSection.style.display = 'block';
+            } else {
+                radioTermSection.style.display = 'none';
+            }
+        }
+
+        // Attach event listeners to the installment plan radio buttons
+        document.querySelectorAll('input[name="installment_plan"]').forEach(radio => {
+            radio.addEventListener('change', toggleInstallmentTerms);
+        });
+
+        // Close the modal
+        document.getElementById('closeModal').addEventListener('click', () => {
+            document.getElementById('paymentModal').style.display = 'none';
+        });
+
 
     </script>
 
