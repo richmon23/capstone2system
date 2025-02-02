@@ -73,30 +73,32 @@ $payments = $query->fetchAll(PDO::FETCH_ASSOC);
     
     <div class="main">
         <div class="right-content1">
-            <div class="right-header col-9">
-                <span>PAYMENT</span>
-                <br>
-                <br>
-                <br>
-                <br>
-                <h2 class="transactionheader">Your Transactions</h2>
-                <div class="uppersidebar-content">
-                    <br>
-                    <div class="all">
-                        <a href="#all" onclick="showContent('content1')"><p>All</p></a>
-                    </div>
-                    <div class="cash">
-                        <a href="#cash" onclick="showContent('content2')"><p>Cash</p></a>
-                    </div>
-                    <div class="wired">
-                        <a href="#wired" onclick="showContent('content3')"><p>Wired</p></a>
-                    </div>
-                    <div class="installment">
-                        <a href="#installment" onclick="showContent('content4')"><p>Installment</p></a>
-                    </div>
-                </div>
-            </div>
+        <div class="right-header col-9">
+    <span>PAYMENT</span>
+    <br><br><br><br>
+    <h2 class="transactionheader">Your Transactions</h2>
+    
+    <div class="uppersidebar-content">
+        <br>
+        <div class="all">
+            <a href="#all" onclick="showContent('content1')"><p>All</p></a>
         </div>
+        <div class="cash">
+        <a href="#cash" onclick="showContent('content2', 'Cash')"><p>Cash</p></a>
+        </div>
+        <div class="wired">
+            <a href="#gcash" onclick="showContent('content2', 'GCash')"><p>GCash</p></a>
+        </div>
+
+        <div class="installment">
+            <a href="#installment" onclick="showContent('content4', 'Installment')"><p>Installment</p></a>
+        </div>
+    </div>
+</div>
+
+     
+</div>
+
 
             <div class="right-content2">
                 <div class="right-header col-9">
@@ -128,7 +130,7 @@ $payments = $query->fetchAll(PDO::FETCH_ASSOC);
                         <!-- Cash payment data will be dynamically loaded here -->
                     </div>
                     <div class="wired">
-                        <!-- <a href="#wired" onclick="showContent('content3')"><p>Wired</p></a> -->
+                    <a href="#wired" onclick="showContent('content3', 'GCash')">
                     </div>
                     <div class="installment">
                             <!-- <a href="#installment" onclick="showContent('content4')"><p>Installment</p></a> -->
@@ -138,40 +140,43 @@ $payments = $query->fetchAll(PDO::FETCH_ASSOC);
         </div>
     </div>
 <script>
-            function showContent(contentId) {
-    // Hide all content elements
-    const allContents = document.querySelectorAll('.content');
-    allContents.forEach(content => {
-        content.style.display = 'none';
-    });
+    
+    function showContent(contentId, paymentMethod = 'all') {
+    // Hide all content sections
+    document.querySelectorAll('.content').forEach(content => content.style.display = 'none');
 
-    // Show the selected content and fetch data if necessary
+    // Show the selected content
     const selectedContent = document.getElementById(contentId);
     if (selectedContent) {
-        if (selectedContent.style.display === "none" || selectedContent.style.display === "") {
-            selectedContent.style.display = "block";
+        selectedContent.style.display = "block";
 
-            // Check if fetching cash payments is required (specific to `content2`)
-            if (contentId === "content2") {
-                const xhr = new XMLHttpRequest();
-                xhr.open("POST", "fetch_cash_payments.php", true);
-                xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        // Fetch data only for specific payment methods
+        if (paymentMethod === "Cash" || paymentMethod === "GCash") {
+            const xhr = new XMLHttpRequest();
+            xhr.open("POST", "fetch_cash_payments.php", true);
+            xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 
-                xhr.onload = function () {
-                    if (this.status === 200) {
-                        selectedContent.innerHTML = this.responseText;
-                    } else {
-                        console.error("Error fetching cash payments.");
-                        selectedContent.innerHTML = "<p>Error loading data.</p>";
-                    }
-                };
+            xhr.onload = function () {
+                if (this.status === 200) {
+                    selectedContent.innerHTML = this.responseText.trim() !== "" 
+                        ? this.responseText 
+                        : `<p style="color: red; text-align: center;">No ${paymentMethod} payments found.</p>`;
+                } else {
+                    console.error("Error fetching payments.");
+                    selectedContent.innerHTML = "<p style='color: red; text-align: center;'>Error loading data.</p>";
+                }
+            };
 
-                // Send request
-                xhr.send("payment_method=cash");
-            }
+            // Send payment method parameter
+            xhr.send("payment_method=" + encodeURIComponent(paymentMethod));
         }
     }
 }
+
+
+
+    
+    
 
 
 </script>

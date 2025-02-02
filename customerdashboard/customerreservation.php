@@ -769,6 +769,54 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         });
 
 
+        document.addEventListener("DOMContentLoaded", function () {
+    const paymentModal = document.getElementById("paymentModal");
+    const paymentButtons = document.querySelectorAll(".paymentBtn");
+    const closeModal = document.querySelector(".close");
+    const paymentMethodSelect = document.getElementById("paymentMethod");
+    const gcashInfo = document.getElementById("gcashInfo");
+    
+    // Open modal and populate data
+    paymentButtons.forEach(button => {
+        button.addEventListener("click", function () {
+            const package = this.getAttribute("data-package");
+            const block = this.getAttribute("data-block");
+            const plot = this.getAttribute("data-plot");
+            const price = this.getAttribute("data-price");
+            
+            document.getElementById("package").value = package;
+            document.getElementById("block").value = block;
+            document.getElementById("plot").value = plot;
+            document.getElementById("amount").value = price;
+            
+            paymentModal.style.display = "block";
+        });
+    });
+    
+    // Close modal
+    closeModal.addEventListener("click", function () {
+        paymentModal.style.display = "none";
+    });
+    
+    window.addEventListener("click", function (event) {
+        if (event.target === paymentModal) {
+            paymentModal.style.display = "none";
+        }
+    });
+    
+    // Toggle GCash info
+    function toggleGcashInfo() {
+        gcashInfo.style.display = paymentMethodSelect.value === "GCash" ? "block" : "none";
+    }
+    
+    paymentMethodSelect.addEventListener("change", toggleGcashInfo);
+    
+    // Ensure correct display on load
+    toggleGcashInfo();
+});
+
+
+
     </script>
 
 </body>
