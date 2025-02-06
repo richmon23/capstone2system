@@ -327,14 +327,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <input type="file" id="file-upload" name="payment_proof" class="upload-container" title="Upload proof of payment" required>
                             </div>
 
-                            <div class="payment-radio">
+                            <!-- <div class="payment-radio">
                                 <br>
                                 <input type="radio" id="cash-radio" name="installment_plan" value="fullpayment" checked>
                                 <label for="cash-radio">Full Payment</label>
                                 <br>
                                 <input type="radio" id="gcash-radio" name="installment_plan" value="installment">
                                 <label for="gcash-radio">Installment</label>
+                            </div> -->
+
+                            <div class="payment-radio">
+                                <br>
+                                <!-- Set default selection to 'fullpayment' for cash -->
+                                <input type="radio" id="cash-radio" name="installment_plan" value="fullpayment" checked>
+                                <label for="cash-radio">Full Payment</label>
+                                <br>
+                                <input type="radio" id="gcash-radio" name="installment_plan" value="installment">
+                                <label for="gcash-radio">Installment</label>
                             </div>
+
                             
                             <div class="radio-term" style="display: none;">
                                 <div class="radio-group">
@@ -804,16 +815,35 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     });
     
-    // Toggle GCash info
-    function toggleGcashInfo() {
-        gcashInfo.style.display = paymentMethodSelect.value === "GCash" ? "block" : "none";
-    }
+    // // Toggle GCash info
+    // function toggleGcashInfo() {
+    //     gcashInfo.style.display = paymentMethodSelect.value === "GCash" ? "block" : "none";
+    // }
     
     paymentMethodSelect.addEventListener("change", toggleGcashInfo);
     
     // Ensure correct display on load
     toggleGcashInfo();
 });
+
+function toggleGcashInfo() {
+    var paymentMethod = document.getElementById("payment-method").value;
+    var gcashInfo = document.getElementById("gcash-info");
+    var radioTerm = document.querySelector('.radio-term');
+
+    // Show or hide GCash info and installment options based on payment method
+    if (paymentMethod === "gcash") {
+        gcashInfo.style.display = "block";
+        radioTerm.style.display = "block";
+    } else {
+        gcashInfo.style.display = "none";
+        radioTerm.style.display = "none";
+    }
+}
+
+// Initially call toggleGcashInfo() on page load
+toggleGcashInfo();
+
 
 
 

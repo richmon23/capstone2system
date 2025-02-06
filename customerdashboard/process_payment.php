@@ -83,15 +83,46 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 
-    if ($payment_method == 'gcash') {
-        // GCash payment is considered automatically paid
-        $payment_status = 'paid';
-        $amount_paid = $fullpayment_amount; // For GCash, set to the full payment amount
-    } elseif ($payment_method == 'cash') {
-        $payment_status = 'paid'; // Cash payment is also automatically marked as paid
-        $amount_paid = $fullpayment_amount; // Full amount for cash payments
+    // Handle installment logic if applicable
+if ($installment_plan == 'installment') {
+    // Determine installment amount and duration
+    if ($duration == '6months') {
+        $installment_amount = $total_amount / 6;
+    } elseif ($duration == '9months') {
+        $installment_amount = $total_amount / 9;
     }
+} else {
+    // Full payment, set amount_paid to the fullpayment_amount
+    $amount_paid = $fullpayment_amount;  // Full payment amount
+}
 
+// Handle cash payment status and amount
+if ($payment_method == 'gcash') {
+    $payment_status = 'paid';
+    $amount_paid = $fullpayment_amount; // For GCash, set to the full payment amount
+} elseif ($payment_method == 'cash') {
+    $payment_status = 'paid'; // Cash payment is also automatically marked as paid
+    $amount_paid = $fullpayment_amount; // Full amount for cash payments
+}
+
+
+    // if ($payment_method == 'gcash') {
+    //     // GCash payment is considered automatically paid
+    //     $payment_status = 'paid';
+    //     $amount_paid = $fullpayment_amount; // For GCash, set to the full payment amount
+    // } elseif ($payment_method == 'cash') {
+    //     $payment_status = 'paid'; // Cash payment is also automatically marked as paid
+    //     $amount_paid = $fullpayment_amount; // Full amount for cash payments
+    // }
+
+    // if ($payment_method == 'gcash') {
+    //     $payment_status = 'paid';
+    //     $amount_paid = $fullpayment_amount;
+    // } elseif ($payment_method == 'cash') {
+    //     $payment_status = 'paid';
+    //     $amount_paid = $fullpayment_amount; // <-- Ensure this line is present
+    // }
+    
     // Prepare the SQL query to insert payment details
     try {
         // Begin a transaction

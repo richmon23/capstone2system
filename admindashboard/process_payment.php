@@ -18,6 +18,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Debugging package value
     echo "Package selected: " . $package . "<br>";
+    echo "Package (raw): " . $_POST['package'] . "<br>";
 
     // Initialize payment variables
     $amount_paid = 0.00;
@@ -26,8 +27,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $payment_status = 'notpaid';
     $fullpayment_amount = 0.00;  // To store full payment amount
 
-    // Convert package to lowercase for case-insensitive comparison
+    // // Convert package to lowercase for case-insensitive comparison
     $package = strtolower($package);
+    //    // Fix package formatting
+    //    $package = strtolower(str_replace(' ', '_', trim($_POST['package'])));
 
     // Example pricing logic (adjust based on your needs)
     if ($package == 'lawn') {
@@ -36,23 +39,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } elseif ($package == 'garden') {
         $total_amount = 30000.00;
         $fullpayment_amount = $total_amount;
-    } elseif ($package == 'family_state') {
+    } elseif ($package == 'family state') {
         $total_amount = 50000.00;
         $fullpayment_amount = $total_amount;
     } else {
         echo "Error: Invalid package selected.";
     }
 
-    // Debugging to ensure fullpayment_amount is assigned correctly
-    echo "Full Payment Amount: " . $fullpayment_amount . "<br>";
-
     // Handle installment logic if applicable
     if ($installment_plan == 'installment') {
         // Determine installment amount and duration
         if ($duration == '6months') {
             $installment_amount = $total_amount / 6;
+            echo "Installment Amount for 6 months: " . number_format($installment_amount, 2) . "<br>";  // Display installment amount
         } elseif ($duration == '9months') {
             $installment_amount = $total_amount / 9;
+            echo "Installment Amount for 9 months: " . number_format($installment_amount, 2) . "<br>";  // Display installment amount
         }
     } else {
         // Full payment, set amount_paid to the fullpayment_amount
@@ -60,7 +62,32 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // Debugging the amount paid
+    echo "Amount Paid: " . number_format($amount_paid, 2) . "<br>";
+
+
+    // Debugging the amount paid
     echo "Amount Paid: " . $amount_paid . "<br>";
+
+    // Handle file upload for payment proof (only for GCash)
+    if ($payment_method == 'gcash' || isset($_FILES['payment_proof'])) {
+        if ($_FILES['payment_proof']['error'] == 0) {
+            $target_dir = "../uploads/payment_proofs/";
+            $file_name = time() . "_" . basename($_FILES['payment_proof']['name']);
+            $target_file = $target_dir . $file_name;
+
+            // Create directory if it doesn't exist
+            if (!file_exists($target_dir)) {
+                mkdir($target_dir, 0777, true);
+            }
+
+            if (move_uploaded_file($_FILES['payment_proof']['tmp_name'], $target_file)) {
+                $payment_proof = $target_file;
+                echo "File uploaded successfully: " . $payment_proof . "<br>";
+            } else {
+                echo "Failed to upload the payment proof.";
+            }
+        }
+    }
 
     // Handle file upload for payment proof (only for GCash)
     if ($payment_method == 'gcash') {
@@ -105,6 +132,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $updateReservationStatus->bindParam(':reservation_id', $reservation_id, PDO::PARAM_INT);
             $updateReservationStatus->execute();
         }
+
 
         // Commit the transaction
         $conn->commit();

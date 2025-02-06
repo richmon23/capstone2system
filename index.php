@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TimelessCare</title>
     <link rel="stylesheet" href="CSS_FILE/index.css">
+     <!-- <link rel="stylesheet" href="index.css"> -->
     
     <!-- AOS Library CSS -->
     <link href="https://cdn.jsdelivr.net/npm/aos@2.3.1/dist/aos.css" rel="stylesheet">
@@ -82,7 +83,25 @@
             </div>
         </section>
 
-        <section id="about" data-aos="fade-right">
+        <section id="map-navigation" data-aos="fade-up">
+    <h2>Map Navigation</h2>
+    <div class="map-navigation-container">
+        <!-- 3D Image Section -->
+        <div class="map-navigation-image">
+            <img src="images/map3d.png" alt="3D Map Navigation" class="three-d-image">
+        </div>
+
+        <!-- Text Content -->
+        <div class="map-navigation-content">
+            <p>
+                Explore our interactive Map Navigation feature that allows you to locate plots, gardens, and family estates with ease. 
+                Navigate through the memorial park effortlessly and find what you need in moments.
+            </p>
+            <a href="mapping.php" class="button-71" role="button" title="Explore Now">Explore Now</a>
+        </div>
+    </div>
+</section>
+<section id="about" data-aos="fade-right">
             <h2>About Us</h2>
             <p><I>"Bogo Memorial Park serves as a serene sanctuary where families can honor and celebrate the lives of their loved ones in a dignified, tranquil, and beautifully maintained environment, offering comfort and solace during times of remembrance."
             <I></p>

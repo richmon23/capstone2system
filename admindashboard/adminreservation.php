@@ -13,6 +13,8 @@ $sampletotal =200;
 $sampleid =0001;
 
 
+
+
 // Include the database connection
 require_once '../connection/connection.php'; // Include your database connection file
 
@@ -94,7 +96,12 @@ if (isset($pdo)) {
                     echo "ID is required for deletion.";
                 }
             }
+
+
+            
         }
+
+        
 
 
         
@@ -109,6 +116,10 @@ if (isset($pdo)) {
 } else {
     echo 'Database connection failed. Please try again later.';
     exit();
+
+
+
+    
 }
 
  // Fetch user profile picture from the database
@@ -120,6 +131,8 @@ if (isset($pdo)) {
  
  // Check if user profile picture exists
  $profilePic = !empty($user['profile_pic']) ? $user['profile_pic'] : 'default.png'; // Use a default image if none is found
+
+ 
     
  
  
@@ -489,6 +502,7 @@ if (isset($pdo)) {
                                     </label>
                                 </div>
                             </div>
+
                             
                             <div class="payment-button">
                                 <button type="submit" class="form-payment-button">Proceed to Payment</button>
@@ -670,91 +684,83 @@ if (isset($pdo)) {
                         document.getElementById('statusModal').style.display = 'none'; // Hide the modal
                     }
 
-                    // TODO: payment modal functionality
+                    // Define package prices
+                    const packagePrices = {
+                        lawn: 20000,
+                        garden: 30000,
+                        "family state": 50000 // Ensure proper mapping
+                    };
+
+                   // Function to open the payment modal and set dynamic values
                     function openPaymentModal(reservationId, firstname, surname, package, block, plot) {
-                        // Set the values in the modal
                         document.getElementById('reservation-id').value = reservationId;
                         document.getElementById('firstname').value = firstname;
                         document.getElementById('surname').value = surname;
                         document.getElementById('package').value = package;
                         document.getElementById('block').value = block;
                         document.getElementById('plot').value = plot;
-                        
-                        // Set the modal text content for display (can be customized)
+
                         document.getElementById('client-name').textContent = `${firstname} ${surname}`;
                         document.getElementById('client-package').textContent = `Package: ${package}`;
                         document.getElementById('client-block').textContent = `Block: ${block}`;
                         document.getElementById('client-plot').textContent = `Plot: ${plot}`;
-                        
-                        // Set the OR number (reservation ID)
                         document.getElementById('or-number').textContent = `OR-${reservationId}`;
-                        
-                        // Define the package prices
-                        let price = 0;
-                        switch(package.toLowerCase()) {
-                            case 'lawn':
-                                price = 20000;
-                                break;
-                            case 'garden':
-                                price = 30000;
-                                break;
-                            case 'family_state':
-                                price = 50000;
-                                break;
-                            default:
-                                price = 0; // Default case in case the package is not recognized
-                        }
 
-                        // Set the total price for full payment
+                       // Normalize the package name and get the corresponding price
+    const normalizedPackageName = package.toLowerCase().replace('_', ' '); // Converts "Family_State" to "family state"
+    const price = packagePrices[normalizedPackageName] || 0;
+
+                        // Store price in a global variable to use in installment calculations
+                        window.currentPrice = price;
+
                         document.getElementById('modal-price').textContent = '₱ ' + price.toFixed(2);
                         
-                        // Show or hide installment options based on full payment selection
-                        const installmentRadio = document.querySelector('input[name="installment_plan"][value="installment"]');
-                        const fullPaymentRadio = document.querySelector('input[name="installment_plan"][value="fullpayment"]');
+                        // Calculate installment amounts immediately when modal opens
+                        updateInstallmentAmounts(price);
 
-                        if (fullPaymentRadio.checked) {
-                            // If "Full Payment" is selected, show the full amount
-                            document.getElementById('modal-price').textContent = '₱ ' + price.toFixed(2);
-                        }
-
-                        // Open the modal
                         document.getElementById('paymentModal').style.display = 'block';
                     }
 
+                    // Function to update installment amounts based on the selected duration
+                    function updateInstallmentAmounts(price) {
+                        let sixMonthAmount = price / 6;
+                        let nineMonthAmount = price / 9;
+
+                        document.getElementById('installment-price-6').textContent = `₱ ${sixMonthAmount.toFixed(2)} per month`;
+                        document.getElementById('installment-price-9').textContent = `₱ ${nineMonthAmount.toFixed(2)} per month`;
+                    }
+
+                    // Listen for changes in the installment plan
                     document.querySelectorAll('input[name="installment_plan"]').forEach(radio => {
                         radio.addEventListener('change', function() {
                             if (this.value === 'installment') {
-                                // Show installment options
                                 document.querySelector('.radio-term').style.display = 'block';
                             } else {
-                                // Hide installment options for full payment
                                 document.querySelector('.radio-term').style.display = 'none';
                             }
                         });
                     });
 
-
+                    // Listen for changes in the duration and update installment amounts dynamically
                     document.querySelectorAll('input[name="duration"]').forEach(radio => {
                         radio.addEventListener('change', function() {
                             let months = this.value === '6months' ? 6 : 9;
-                            let monthlyAmount = price / months;
+                            let monthlyAmount = window.currentPrice / months;
                             
-                            // Display the installment price for selected duration
+                            // Update the selected installment plan amount
                             document.getElementById(`installment-price-${months}`).textContent = `₱ ${monthlyAmount.toFixed(2)} per month`;
                         });
                     });
 
-
-                    // TODO: function to display the gcash info
-                     // Function to show/hide GCash info based on payment method selection
+                    // Function to toggle GCash info based on payment method
                     function toggleGcashInfo() {
                         var paymentMethod = document.getElementById("payment-method").value;
                         var gcashInfo = document.getElementById("gcash-info");
 
                         if (paymentMethod === "gcash") {
-                            gcashInfo.style.display = "block"; // Show GCash info
+                            gcashInfo.style.display = "block";
                         } else {
-                            gcashInfo.style.display = "none"; // Hide GCash info
+                            gcashInfo.style.display = "none";
                         }
                     }
 
@@ -763,24 +769,14 @@ if (isset($pdo)) {
                         document.getElementById("paymentModal").style.display = "none";
                     }
 
-                    // If the modal is already open and GCash is selected, show the GCash info
+                    // Ensure GCash info is displayed correctly on page load
                     window.onload = function() {
-                        toggleGcashInfo(); // Call to ensure correct display on page load
+                        toggleGcashInfo();
                     };
 
+                    
 
-
-                    // TODO: upload file functionality
-                    const fileUpload = document.getElementById('file-upload');
-                    const fileName = document.getElementById('file-name');
-
-                    fileUpload.addEventListener('change', function() {
-                        if (fileUpload.files.length > 0) {
-                            fileName.textContent = fileUpload.files[0].name;
-                        } else {
-                            fileName.textContent = 'No file chosen';
-                        }
-                    });
+                    
 
                     // TODO: ADDRESS API
                     // Main dropdown elements

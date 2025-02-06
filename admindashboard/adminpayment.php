@@ -230,6 +230,13 @@ function showContent(contentId) {
             if (contentId === "content3") {
                 fetchData("GCash", selectedContent);
             }
+
+
+             // Fetch data for installment payments
+             if (contentId === "content4") {
+                fetchInstallmentData(selectedContent);
+            }
+
         }
     }
 }
@@ -250,6 +257,24 @@ function fetchData(paymentMethod, targetElement) {
 
     // Send the request with the payment method
     xhr.send("payment_method=" + paymentMethod);
+}
+
+function fetchInstallmentData(targetElement) {
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", "fetch_installments.php", true);
+    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+    xhr.onload = function () {
+        if (this.status === 200) {
+            targetElement.innerHTML = this.responseText;
+        } else {
+            console.error("Error fetching installment payments.");
+            targetElement.innerHTML = "<p>Error loading data.</p>";
+        }
+    };
+
+    // Send request to fetch installment data
+    xhr.send("fetch_installments=true");
 }
 
 
