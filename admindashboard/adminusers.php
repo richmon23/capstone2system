@@ -51,6 +51,29 @@ try {
     <link rel="stylesheet" href="./admindashboardcss/adminusers.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> 
+    <style>
+        .modal {
+    display: none; /* Hide modal by default */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: white;
+    padding: 20px;
+    width: 50%;
+    max-width: 400px;
+    border-radius: 10px;
+}
+
+    </style>
 </head>
 <body>
 
@@ -150,11 +173,14 @@ try {
                             <span id="labelEmail">john.doe@example.com</span>
                         </div>
                         <div class="user-row">
-                            <label>Address:</label>
-                            <span id="labelAddress">Bogo City</span>
+                            <!-- <label>Address:</label> -->
+                            <span id="labelAddress"></span>
                         </div>
                         <div class="buttons">
-                            <button onclick="openUpdateModal()">Transaction</button>
+                            <!-- Transaction Button -->
+                            <!-- Updated Transaction Button -->
+                            <button onclick="fetchTransactionDetails(document.getElementById('userId').value)">Transaction</button>
+                             <!-- <button onclick="openUpdateModal()">Transaction</button> -->
                             <button class="btn-danger" onclick="deleteUser()">Delete</button>
                         </div>
                         </center>
@@ -162,16 +188,46 @@ try {
                 </div>  
             </div>
 
+
             <!-- Modal for updating user data -->
-            <div id="updateModal" class="modal">
-                <div id="modalContent" class="modal-content">
-                    <span class="close" onclick="closeModal()">&times;</span>
-                    <h2>Update User</h2>
-                    <br>
-                    <input type="hidden" id="userId" name="userId">
-                    
+                <div id="updateModal" class="modal">
+                    <div id="modalContent" class="modal-content">
+                        <span class="close" onclick="closeModal()">&times;</span>
+                        <h2>Transaction Details</h2>
+                        <br>
+                        <input type="hidden" id="userId" name="userId">
+                        <label><b>Reservation ID:</b></label>
+                        <p id="reservationId"></p>
+
+                        <label><b>Total Amount:</b></label>
+                        <p id="totalAmount"></p>
+
+                        <label><b>Duration (Months):</b></label>
+                        <p id="duration"></p>
+                        
+                        <label><b>Amount Per Month:</b></label>
+                        <p id="installmentAmount"></p>
+
+
+                        <h3>Payment Breakdown</h3>
+                        <table border="1">
+                            <thead>
+                                <tr>
+                                    <th>Month</th>
+                                    <th>Due Amount</th>
+                                    <th>Payment Status</th>
+                                    <th>Print</th>
+                                </tr>
+                            </thead>
+                            <tbody id="paymentBreakdown">
+                            </tbody>
+                        </table>
+
+                    </div>
                 </div>
-            </div>
+
+
+
 
 
             <script>
@@ -211,71 +267,6 @@ try {
                 }
 
 
-                // Function to open the update modal and populate form fields
-            function openUpdateModal() {
-                // Fetch the values from userDetails labels
-                var firstname = document.getElementById("labelFirstname").innerText;
-                var surname = document.getElementById("labelSurname").innerText;
-                var contact = document.getElementById("labelContact").innerText;
-                var email = document.getElementById("labelEmail").innerText;
-                var address = document.getElementById("labelAddress").innerText;
-
-                // Set the values in the modal form
-                document.getElementById("firstname").value = firstname;
-                document.getElementById("surname").value = surname;
-                document.getElementById("contact").value = contact;
-                document.getElementById("email").value = email;
-                document.getElementById("address").value = address;
-
-                // Display the modal
-                document.getElementById("updateModal").style.display = 'block';
-            }
-
-            // Function to close the update modal
-            function closeModal() {
-                document.getElementById("updateModal").style.display = 'none';
-            }
-
-            function updateUser() {
-                // Get the values from the form inputs
-                var userId = document.getElementById("userId").value;
-                var firstname = document.getElementById("firstname").value;
-                var surname = document.getElementById("surname").value;
-                var contact = document.getElementById("contact").value;
-                var email = document.getElementById("email").value;
-                var address = document.getElementById("address").value;
-
-                // Create a FormData object
-                var formData = new FormData();
-                formData.append("userId", userId);
-                formData.append("firstname", firstname);
-                formData.append("surname", surname);
-                formData.append("contact", contact);
-                formData.append("email", email);
-                formData.append("address", address);
-
-                // AJAX request to update the user data
-                var xhr = new XMLHttpRequest();
-                xhr.open("POST", "update_user.php", true);  // 'update_user.php' is the backend script
-                xhr.onload = function () {
-                    if (xhr.status === 200) {
-                        var response = JSON.parse(xhr.responseText);
-
-                        if (response.success) {
-                            alert("User updated successfully!");
-
-                            // Refresh the page to show updated data in the table
-                            location.reload();
-                        } else {
-                            alert("Update failed: " + response.message);
-                        }
-                    } else {
-                        console.error("Failed to update user. Status:", xhr.status);
-                    }
-                };
-
-                xhr.send(formData);  // Send form data to the server
-            }
 
                 function deleteUser() {
                 const userId = document.getElementById("userId").value;
@@ -385,6 +376,161 @@ try {
         window.onload = function() {
             searchUsers(); // This will load all users initially
         };
+
+        function openUpdateModal(reservationId) {
+        fetch(`fetch_payment_details.php?reservation_id=${reservationId}`)
+        .then(response => response.json())
+        .then(data => {
+            console.log(data); // Debugging
+
+            if (data.success) {
+                document.getElementById("reservationId").textContent = data.reservation_id;
+                document.getElementById("totalAmount").textContent = data.total_amount;
+                document.getElementById("installmentAmount").textContent = 
+                    data.installment_amount > 0 ? data.installment_amount : "Not Available";
+
+                // Handle ENUM duration
+                let durationText = "";
+                if (data.duration === "full") {
+                    durationText = "Full Payment";
+                } else if (data.duration === "6months") {
+                    durationText = "6 Months";
+                } else if (data.duration === "9months") {
+                    durationText = "9 Months";
+                } else {
+                    durationText = "Not Available";
+                }
+                document.getElementById("duration").textContent = durationText;
+
+                // Generate payment breakdown
+                let breakdownHTML = "";
+                let months = 0;
+
+                if (data.duration === "6months") {
+                    months = 6;
+                } else if (data.duration === "9months") {
+                    months = 9;
+                }
+
+                if (months > 0 && data.installment_amount > 0) {
+                    for (let i = 1; i <= months; i++) {
+                        breakdownHTML += `<tr>
+                            <td>Month ${i}</td>
+                            <td>${data.installment_amount}</td>
+                        </tr>`;
+                    }
+                } else if (data.duration === "full") {
+                    breakdownHTML = "<tr><td colspan='2'>Paid in Full</td></tr>";
+                } else {
+                    breakdownHTML = "<tr><td colspan='2'>No installment plan available</td></tr>";
+                }
+
+                document.getElementById("paymentBreakdown").innerHTML = breakdownHTML;
+
+                document.getElementById("updateModal").style.display = "flex";
+            } else {
+                alert(data.message);
+            }
+        })
+        .catch(error => console.error("Fetch error:", error));
+}
+
+function closeModal() {
+    document.getElementById("updateModal").style.display = "none";
+}
+
+
+function fetchTransactionDetails(userId) {
+    fetch(`fetch_transaction.php?user_id=${userId}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.length > 0) {
+                let transaction = data[0]; // Get the first transaction
+
+                document.getElementById("reservationId").textContent = transaction.reservation_id;
+                document.getElementById("totalAmount").textContent = "₱ " + parseFloat(transaction.total_amount).toLocaleString();
+                document.getElementById("duration").textContent = transaction.duration === "full" ? "Full Payment" : `${transaction.duration} months`;
+                document.getElementById("installmentAmount").textContent = transaction.duration !== "full" ? 
+                    "₱ " + parseFloat(transaction.installment_amount).toLocaleString() : "N/A";
+
+                generatePaymentBreakdown(transaction, data);
+
+                document.getElementById("updateModal").style.display = "flex";
+            } else {
+                alert("No transaction details found.");
+            }
+        })
+        .catch(error => console.error("Fetch error:", error));
+}
+
+function generatePaymentBreakdown(transaction, payments) {
+    const breakdownTable = document.getElementById("paymentBreakdown");
+    breakdownTable.innerHTML = "";
+
+    let durationMonths = parseInt(transaction.duration) || 0;
+    let installmentAmount = parseFloat(transaction.installment_amount) || 0;
+
+    const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+    let startDate = new Date(transaction.payment_date);
+    let startMonth = startDate.getMonth(); // Get starting month index (0-11)
+    let startYear = startDate.getFullYear(); // Get the starting year
+
+    // Extract paid dates from `payments` array
+    let paidMonths = payments.map(p => new Date(p.payment_date).getMonth() + "-" + new Date(p.payment_date).getFullYear());
+
+    for (let i = 0; i < durationMonths; i++) {
+        let monthIndex = (startMonth + i) % 12;
+        let year = startYear + Math.floor((startMonth + i) / 12);
+        let monthName = `${monthNames[monthIndex]} ${year}`;
+        
+        // Check if payment was made for this month-year combination
+        let paymentKey = monthIndex + "-" + year;
+        let isPaid = paidMonths.includes(paymentKey);
+
+        let printButton = isPaid 
+            ? `<button onclick="printReceipt('${transaction.reservation_id}', '${monthName}', ${installmentAmount})" 
+                      style="background: white; border: none; cursor: pointer;">
+                 🖨️
+               </button>` 
+            : "";
+
+        let row = `<tr style="background-color: ${isPaid ? 'red' : 'green'}; color: white;">
+                      <td>${monthName}</td>
+                      <td>₱ ${installmentAmount.toLocaleString()}</td>
+                      <td>${isPaid ? "✅ Paid" : "❌ Not Paid"}</td>
+                      <td>${printButton}</td>
+                   </tr>`;
+
+        breakdownTable.innerHTML += row;
+    }
+}
+
+function printReceipt(reservationId, monthName, amount) {
+    let receiptWindow = window.open('', '', 'width=600,height=400');
+    receiptWindow.document.write(`
+        <html>
+        <head>
+            <title>Payment Receipt</title>
+        </head>
+        <body style="font-family: Arial, sans-serif;">
+            <h2>Payment Receipt</h2>
+            <p><strong>Reservation ID:</strong> ${reservationId}</p>
+            <p><strong>Month Paid:</strong> ${monthName}</p>
+            <p><strong>Amount:</strong> ₱ ${amount.toLocaleString()}</p>
+            <p><strong>Status:</strong> Paid</p>
+            <hr>
+            <p>Thank you for your payment!</p>
+        </body>
+        </html>
+    `);
+    receiptWindow.document.close();
+    receiptWindow.print();
+}
+
+
+
+
 
             </script>
 
