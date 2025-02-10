@@ -52,27 +52,33 @@ try {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> 
     <style>
-        .modal {
+    .modal {
     display: none; /* Hide modal by default */
     position: fixed;
     z-index: 1000;
     left: 0;
     top: 0;
-    width: 100%;
-    height: 100%;
+    right:50px;
+    width: 140%;
+    height: 110%;
     background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
     justify-content: center;
     align-items: center;
+    padding-right:40%;
 }
 
 .modal-content {
     background: white;
-    padding: 20px;
-    width: 50%;
-    max-width: 400px;
+    padding:10px;
+    width: 100%;
+    max-width: 800px;
     border-radius: 10px;
+   
 }
-
+.label{
+    float: left;
+    padding: 1px;
+}
     </style>
 </head>
 <body>
@@ -188,7 +194,7 @@ try {
                 </div>  
             </div>
 
-
+                
             <!-- Modal for updating user data -->
                 <div id="updateModal" class="modal">
                     <div id="modalContent" class="modal-content">
@@ -196,25 +202,32 @@ try {
                         <h2>Transaction Details</h2>
                         <br>
                         <input type="hidden" id="userId" name="userId">
-                        <label><b>Reservation ID:</b></label>
+                        <label class="label"><b>Reservation ID:</b></label>
                         <p id="reservationId"></p>
-
-                        <label><b>Total Amount:</b></label>
+                        <br>
+                        <label class="label"><b>Total Amount:</b></label>
                         <p id="totalAmount"></p>
-
-                        <label><b>Duration (Months):</b></label>
+                        <br>
+                        <label class="label"><b>Duration (Months):</b></label>
                         <p id="duration"></p>
-                        
-                        <label><b>Amount Per Month:</b></label>
+                        <br>
+                        <label class="label"><b>Amount:</b></label>
                         <p id="installmentAmount"></p>
+                        <br>
+                        <!-- NEW: Remaining Balance -->
+                        <label class="label"><b>Remaining Balance:</b></label>
+                        <p id="remainingBalance" style="color: red; font-weight: bold;"></p>
+                        <br>
 
-
-                        <h3>Payment Breakdown</h3>
+                        <center><h3>Payment Breakdown</h3></center>
+                        <br>
                         <table border="1">
                             <thead>
                                 <tr>
                                     <th>Month</th>
-                                    <th>Due Amount</th>
+                                    <th>Due Date</th>
+                                    <th>Amount</th>
+                                    <th>Payment Date</th>
                                     <th>Payment Status</th>
                                     <th>Print</th>
                                 </tr>
@@ -439,22 +452,48 @@ function closeModal() {
     document.getElementById("updateModal").style.display = "none";
 }
 
-
 function fetchTransactionDetails(userId) {
     fetch(`fetch_transaction.php?user_id=${userId}`)
         .then(response => response.json())
         .then(data => {
             if (data.length > 0) {
-                let transaction = data[0]; // Get the first transaction
+                let transaction = data[0]; // Get the first transaction entry
 
+                let totalAmount = parseFloat(transaction.total_amount);
+                let installmentAmount = parseFloat(transaction.installment_amount || 0);
+                let remainingBalance = parseFloat(transaction.remaining_balance ?? (totalAmount - installmentAmount));
+
+                console.log("Transaction Data:", transaction);
+                console.log("Remaining Balance from DB:", remainingBalance);
+
+                let displayedAmount;
+                let remainingBalanceText;
+
+                if (transaction.installment_plan === "fullpayment") {
+                    displayedAmount = totalAmount;
+                    remainingBalanceText = "No remaining balance";
+                    transaction.duration = "0"; 
+                    transaction.installment_amount = "0";
+                } else {
+                    displayedAmount = installmentAmount;
+                    remainingBalanceText = remainingBalance > 0 
+                        ? "₱ " + remainingBalance.toLocaleString() 
+                        : "No remaining balance";
+                }
+
+                // ✅ Display Data in Modal
                 document.getElementById("reservationId").textContent = transaction.reservation_id;
-                document.getElementById("totalAmount").textContent = "₱ " + parseFloat(transaction.total_amount).toLocaleString();
-                document.getElementById("duration").textContent = transaction.duration === "full" ? "Full Payment" : `${transaction.duration} months`;
-                document.getElementById("installmentAmount").textContent = transaction.duration !== "full" ? 
-                    "₱ " + parseFloat(transaction.installment_amount).toLocaleString() : "N/A";
+                document.getElementById("totalAmount").textContent = "₱ " + totalAmount.toLocaleString();
+                document.getElementById("duration").textContent = transaction.duration;
+                document.getElementById("installmentAmount").textContent = displayedAmount !== 0 
+                    ? "₱ " + displayedAmount.toLocaleString() 
+                    : "0";
+                document.getElementById("remainingBalance").textContent = remainingBalanceText;
 
+                // ✅ Generate payment breakdown
                 generatePaymentBreakdown(transaction, data);
 
+                // ✅ Show the modal
                 document.getElementById("updateModal").style.display = "flex";
             } else {
                 alert("No transaction details found.");
@@ -463,69 +502,162 @@ function fetchTransactionDetails(userId) {
         .catch(error => console.error("Fetch error:", error));
 }
 
+
 function generatePaymentBreakdown(transaction, payments) {
     const breakdownTable = document.getElementById("paymentBreakdown");
+    const remainingBalanceElement = document.getElementById("remainingBalance");
     breakdownTable.innerHTML = "";
 
     let durationMonths = parseInt(transaction.duration) || 0;
     let installmentAmount = parseFloat(transaction.installment_amount) || 0;
+    let totalAmount = parseFloat(transaction.total_amount) || 0;
+    let remainingBalance = parseFloat(transaction.remaining_balance) || totalAmount;
 
-    const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    console.log("Transaction Data:", transaction);
+    console.log("Payments Data:", payments);
+    console.log("Installment Plan:", transaction.installment_plan);
+
+    // ✅ If Full Payment
+    if (transaction.installment_plan === "fullpayment") {
+        let paymentDate = payments[0]?.payment_date || "N/A";
+        let paymentTime = payments[0]?.created_at || "N/A";
+        let paidAmount = parseFloat(payments[0]?.amount_paid) || 0; // ✅ Ensure we use amount_paid
+
+        let row = `<tr style="background-color: green; color: white;">
+                      <td colspan="2">Full Payment</td>
+                      <td>₱${paidAmount.toLocaleString()}</td>
+                      <td>${paymentDate}</td>
+                      <td>✅ Paid</td>
+                      <td>
+                          <button onclick="printReceipt(
+                              '${transaction.reservation_id}', 
+                              'Full Payment', 
+                              '${paymentDate}', 
+                              '${paymentTime}', 
+                              ${paidAmount}, 
+                              'No remaining balance'
+                          )"> 🖨 Print</button>
+                      </td>
+                   </tr>`;
+        breakdownTable.innerHTML += row;
+        remainingBalanceElement.innerHTML = "No remaining balance";
+        return;
+    }
 
     let startDate = new Date(transaction.payment_date);
-    let startMonth = startDate.getMonth(); // Get starting month index (0-11)
-    let startYear = startDate.getFullYear(); // Get the starting year
-
-    // Extract paid dates from `payments` array
-    let paidMonths = payments.map(p => new Date(p.payment_date).getMonth() + "-" + new Date(p.payment_date).getFullYear());
 
     for (let i = 0; i < durationMonths; i++) {
-        let monthIndex = (startMonth + i) % 12;
-        let year = startYear + Math.floor((startMonth + i) / 12);
-        let monthName = `${monthNames[monthIndex]} ${year}`;
-        
-        // Check if payment was made for this month-year combination
-        let paymentKey = monthIndex + "-" + year;
-        let isPaid = paidMonths.includes(paymentKey);
+        let dueDate = new Date(startDate);
+        dueDate.setMonth(startDate.getMonth() + i);
+        let dueMonth = dueDate.toLocaleString("en-US", { month: "long", year: "numeric" });
+        let formattedDueDate = dueDate.toLocaleDateString("en-US", { month: "long", day: "2-digit", year: "numeric" });
 
-        let printButton = isPaid 
-            ? `<button onclick="printReceipt('${transaction.reservation_id}', '${monthName}', ${installmentAmount})" 
-                      style="background: white; border: none; cursor: pointer;">
-                 🖨️
-               </button>` 
-            : "";
+        console.log(`Month ${i + 1}: Due Date = ${formattedDueDate}, Month Name = ${dueMonth}`);
 
-        let row = `<tr style="background-color: ${isPaid ? 'red' : 'green'}; color: white;">
-                      <td>${monthName}</td>
-                      <td>₱ ${installmentAmount.toLocaleString()}</td>
-                      <td>${isPaid ? "✅ Paid" : "❌ Not Paid"}</td>
-                      <td>${printButton}</td>
-                   </tr>`;
+        let paidEntry = payments.find(p => {
+            let paidDate = new Date(p.payment_date);
+            return paidDate.getMonth() === dueDate.getMonth() && paidDate.getFullYear() === dueDate.getFullYear();
+        });
+
+        let isPaid = paidEntry !== undefined;
+        let paymentDate = isPaid ? paidEntry.payment_date : "Not Paid";
+        let paymentTime = isPaid ? paidEntry.created_at : "N/A";
+        let paidAmount = isPaid ? parseFloat(paidEntry.amount_paid) || 0 : 0; // ✅ Use amount_paid when available
+
+        if (isPaid) {
+            console.log(`Paid Entry Found for ${dueMonth}: Amount = ${paidAmount}`);
+            remainingBalance -= paidAmount;
+            console.log(`Updated Remaining Balance: ${remainingBalance}`);
+        }
+
+        let remainingBalanceText = remainingBalance > 0 ? `₱${remainingBalance.toLocaleString()}` : "No remaining balance";
+
+        let row = `<tr style="background-color: ${isPaid ? 'dodgerblue' : 'orange'}; color: white;">
+              <td>${dueMonth}</td>
+              <td>${formattedDueDate}</td>
+              <td>₱${installmentAmount.toLocaleString()}</td>
+              <td>${paymentDate}</td>
+              <td>${isPaid ? "✅ Paid" : "❌ Not Paid"}</td>
+              <td>
+                  ${isPaid ? `<button onclick="printReceipt(
+                      '${transaction.reservation_id}', 
+                      '${dueMonth}', 
+                      '${paymentDate}', 
+                      '${paymentTime}', 
+                      ${paidAmount}, 
+                      '${remainingBalanceText}'
+                  )"> 🖨 Print</button>` : ""}
+              </td>
+           </tr>`;
 
         breakdownTable.innerHTML += row;
     }
+
+    remainingBalanceElement.innerHTML = remainingBalance > 0 
+        ? `₱${remainingBalance.toLocaleString()}`
+        : "No remaining balance";
+
+    console.log("Final Remaining Balance:", remainingBalance);
 }
 
-function printReceipt(reservationId, monthName, amount) {
-    let receiptWindow = window.open('', '', 'width=600,height=400');
-    receiptWindow.document.write(`
+function printReceipt(reservationId, paymentType, paymentDate, paymentTime, amountPaid, remainingBalance, totalAmount, installmentAmount, installmentPlan) {
+    console.log("🔹 Print Receipt Triggered!");
+    console.log("Reservation ID:", reservationId);
+    console.log("Payment Type:", paymentType);
+    console.log("Payment Date:", paymentDate);
+    console.log("Payment Time:", paymentTime);
+    console.log("Amount Paid:", amountPaid);
+    console.log("Remaining Balance:", remainingBalance);
+    console.log("Total Amount:", totalAmount);
+    console.log("Installment Amount:", installmentAmount);
+    console.log("Installment Plan:", installmentPlan);
+
+    // ✅ Determine the correct amount to display
+    let displayedAmount = installmentPlan === "fullpayment" 
+        ? parseFloat(amountPaid) 
+        : parseFloat(installmentAmount);
+
+    let paymentDetails = "";
+
+    if (installmentPlan === "fullpayment") {
+        paymentDetails = `<p><strong>Payment Type:</strong> Full Payment</p>
+                          <p><strong>Total Amount:</strong> ₱${parseFloat(totalAmount).toLocaleString()}</p>
+                          <p><strong>Amount Paid:</strong> ₱${displayedAmount.toLocaleString()}</p>`;
+    } else {
+        paymentDetails = `<p><strong>Payment Type:</strong> Installment (${installmentPlan})</p>
+                          <p><strong>Total Amount:</strong> ₱${parseFloat(totalAmount).toLocaleString()}</p>
+                          <p><strong>Installment Amount:</strong> ₱${displayedAmount.toLocaleString()}</p>
+                          <p><strong>Amount Paid:</strong> ₱${parseFloat(amountPaid).toLocaleString()}</p>`;
+    }
+
+    let receiptContent = `
         <html>
         <head>
             <title>Payment Receipt</title>
+            <style>
+                body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
+                h2 { color: #333; }
+                p { margin: 5px 0; }
+                hr { margin: 15px 0; }
+            </style>
         </head>
-        <body style="font-family: Arial, sans-serif;">
+        <body>
             <h2>Payment Receipt</h2>
             <p><strong>Reservation ID:</strong> ${reservationId}</p>
-            <p><strong>Month Paid:</strong> ${monthName}</p>
-            <p><strong>Amount:</strong> ₱ ${amount.toLocaleString()}</p>
-            <p><strong>Status:</strong> Paid</p>
+            ${paymentDetails}
+            <p><strong>Payment Date:</strong> ${paymentDate}</p>
+            <p><strong>Payment Time:</strong> ${paymentTime}</p>
+            <p><strong>Remaining Balance:</strong> ₱${parseFloat(remainingBalance).toLocaleString()}</p>
             <hr>
             <p>Thank you for your payment!</p>
         </body>
         </html>
-    `);
-    receiptWindow.document.close();
-    receiptWindow.print();
+    `;
+
+    let printWindow = window.open("", "_blank");
+    printWindow.document.write(receiptContent);
+    printWindow.document.close();
+    printWindow.print();
 }
 
 
