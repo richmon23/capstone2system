@@ -572,25 +572,29 @@ function generatePaymentBreakdown(transaction, payments) {
 
         let remainingBalanceText = remainingBalance > 0 ? `₱${remainingBalance.toLocaleString()}` : "No remaining balance";
 
-        let row = `<tr style="background-color: ${isPaid ? 'dodgerblue' : 'orange'}; color: white;">
-              <td>${dueMonth}</td>
-              <td>${formattedDueDate}</td>
-              <td>₱${installmentAmount.toLocaleString()}</td>
-              <td>${paymentDate}</td>
-              <td>${isPaid ? "✅ Paid" : "❌ Not Paid"}</td>
-              <td>
-                  ${isPaid ? `<button onclick="printReceipt(
-                      '${transaction.reservation_id}', 
-                      '${dueMonth}', 
-                      '${paymentDate}', 
-                      '${paymentTime}', 
-                      ${paidAmount}, 
-                      '${remainingBalanceText}'
-                  )"> 🖨 Print</button>` : ""}
-              </td>
-           </tr>`;
+let row = `<tr style="background-color: ${isPaid ? 'dodgerblue' : 'orange'}; color: white;">
+      <td>${dueMonth}</td>
+      <td>${formattedDueDate}</td>
+      <td>₱${installmentAmount.toLocaleString()}</td>
+      <td>${paymentDate}</td>
+      <td>${isPaid ? "✅ Paid" : "❌ Not Paid"}</td>
+      <td>
+          ${isPaid ? `<button onclick="printReceipt(
+              '${transaction.reservation_id}', 
+              '${dueMonth}', 
+              '${paymentDate}', 
+              '${paymentTime}', 
+              ${paidAmount}, 
+              '${remainingBalanceText}', 
+              '${totalAmount}', 
+              '${installmentAmount}', 
+              '${transaction.installment_plan}'
+          )"> 🖨 Print</button>` : ""}
+      </td>
+   </tr>`;
 
-        breakdownTable.innerHTML += row;
+breakdownTable.innerHTML += row;
+
     }
 
     remainingBalanceElement.innerHTML = remainingBalance > 0 
@@ -599,35 +603,48 @@ function generatePaymentBreakdown(transaction, payments) {
 
     console.log("Final Remaining Balance:", remainingBalance);
 }
-
 function printReceipt(reservationId, paymentType, paymentDate, paymentTime, amountPaid, remainingBalance, totalAmount, installmentAmount, installmentPlan) {
     console.log("🔹 Print Receipt Triggered!");
     console.log("Reservation ID:", reservationId);
-    console.log("Payment Type:", paymentType);
+    console.log("Payment Type (Before Fix):", paymentType);
+    console.log("Installment Plan:", installmentPlan);
     console.log("Payment Date:", paymentDate);
     console.log("Payment Time:", paymentTime);
-    console.log("Amount Paid:", amountPaid);
+    console.log("Amount Paid (Before Fix):", amountPaid);
+    console.log("Installment Amount:", installmentAmount);
     console.log("Remaining Balance:", remainingBalance);
     console.log("Total Amount:", totalAmount);
-    console.log("Installment Amount:", installmentAmount);
-    console.log("Installment Plan:", installmentPlan);
 
-    // ✅ Determine the correct amount to display
-    let displayedAmount = installmentPlan === "fullpayment" 
-        ? parseFloat(amountPaid) 
-        : parseFloat(installmentAmount);
+    // Ensure all numeric values are properly converted
+    totalAmount = parseFloat(totalAmount) || 0;
+    installmentAmount = parseFloat(installmentAmount) || 0;
+    amountPaid = parseFloat(amountPaid) || 0;
+    remainingBalance = parseFloat(remainingBalance) || 0;
 
     let paymentDetails = "";
 
     if (installmentPlan === "fullpayment") {
-        paymentDetails = `<p><strong>Payment Type:</strong> Full Payment</p>
-                          <p><strong>Total Amount:</strong> ₱${parseFloat(totalAmount).toLocaleString()}</p>
-                          <p><strong>Amount Paid:</strong> ₱${displayedAmount.toLocaleString()}</p>`;
-    } else {
+        // ✅ Full Payment Case - Ensure correct values
+        paymentType = "Full Payment"; // Fix payment type
+        amountPaid = totalAmount; // Set amount paid to full amount
+        remainingBalance = 0; // No remaining balance
+
+        paymentDetails = `<p><strong>Payment Type:</strong> ${paymentType}</p>
+                          <p><strong>Total Amount:</strong> ₱${totalAmount.toLocaleString()}</p>
+                          <p><strong>Amount Paid:</strong> ₱${amountPaid.toLocaleString()}</p>`;
+    } else if (installmentPlan === "installment") {
+        // ✅ Keep Installment Logic Unchanged
+        amountPaid = installmentAmount; // Keep installment logic same
+        remainingBalance = totalAmount - amountPaid;
+
         paymentDetails = `<p><strong>Payment Type:</strong> Installment (${installmentPlan})</p>
-                          <p><strong>Total Amount:</strong> ₱${parseFloat(totalAmount).toLocaleString()}</p>
-                          <p><strong>Installment Amount:</strong> ₱${displayedAmount.toLocaleString()}</p>
-                          <p><strong>Amount Paid:</strong> ₱${parseFloat(amountPaid).toLocaleString()}</p>`;
+                          <p><strong>Total Amount:</strong> ₱${totalAmount.toLocaleString()}</p>
+                          <p><strong>Installment Amount:</strong> ₱${installmentAmount.toLocaleString()}</p>
+                          <p><strong>Amount Paid:</strong> ₱${amountPaid.toLocaleString()}</p>`;
+    } else {
+        // ✅ Handle missing or unknown payment plans
+        paymentType = "Unknown";
+        paymentDetails = `<p><strong>Payment Type:</strong> ${paymentType}</p>`;
     }
 
     let receiptContent = `
@@ -647,7 +664,7 @@ function printReceipt(reservationId, paymentType, paymentDate, paymentTime, amou
             ${paymentDetails}
             <p><strong>Payment Date:</strong> ${paymentDate}</p>
             <p><strong>Payment Time:</strong> ${paymentTime}</p>
-            <p><strong>Remaining Balance:</strong> ₱${parseFloat(remainingBalance).toLocaleString()}</p>
+            <p><strong>Remaining Balance:</strong> ₱${remainingBalance.toLocaleString()}</p>
             <hr>
             <p>Thank you for your payment!</p>
         </body>
@@ -659,6 +676,8 @@ function printReceipt(reservationId, paymentType, paymentDate, paymentTime, amou
     printWindow.document.close();
     printWindow.print();
 }
+
+
 
 
 
