@@ -29,7 +29,7 @@ $conn->close();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Transaction</title>
-    <link rel="stylesheet" href="/customerdashboard/customerdashboard_css/customerpayment.css">
+    <link rel="stylesheet" href="./customerdashboard/customerdashboard_css/customerpayment.css">
 </head> 
 <body>
 
@@ -59,28 +59,17 @@ $conn->close();
     
     <div class="main">
         <div class="right-content1">
-        <div class="right-header col-9">
-            <span>PAYMENT</span>
-            <br><br><br><br>
-            <h2 class="transactionheader">Your Transactions</h2>
+            <div class="right-header col-9">
+                <span>PAYMENT</span>
+                <h2 class="transactionheader">Your Transactions</h2>
 
-            <div class="uppersidebar-content">
-                <br>
-                <div class="all">
-                    <a href="#all" onclick="showContent('content1')"><p>All</p></a>
-                </div>
-                <div class="cash">
-                    <a href="#cash" onclick="showContent('content2', 'cash')"><p>Cash</p></a>
-                </div>
-                <div class="wired">
-                    <a href="#gcash" onclick="showContent('content3', 'GCash')"><p>GCash</p></a>
-                </div>
-                <div class="installment">
-                    <a href="#installment" onclick="showContent('content4', 'Installment')"><p>Installment</p></a>
+                <div class="uppersidebar-content">
+                    <div class="all"><a href="#all" onclick="showContent('content1')"><p>All</p></a></div>
+                    <div class="cash"><a href="#cash" onclick="showContent('content2', 'Cash')"><p>Cash</p></a></div>
+                    <div class="wired"><a href="#gcash" onclick="showContent('content3', 'GCash')"><p>GCash</p></a></div>
+                    <div class="installment"><a href="#installment" onclick="fetchInstallmentData()"><p>Installment</p></a></div>
                 </div>
             </div>
-        </div>
-
         </div>
 
         <div class="right-content2">
@@ -88,7 +77,6 @@ $conn->close();
 
                 <!-- All Payments -->
                 <div id="content1" class="content" style="display: none;">
-                    <br>
                     <table>
                         <tr>
                             <th>Payment ID</th>
@@ -98,21 +86,19 @@ $conn->close();
                             <th>Date</th>
                         </tr>
                         <?php if (!empty($payments)): ?>
-    <?php foreach ($payments as $payment): ?>
-        <tr>
-            <td><?php echo htmlspecialchars($payment['payment_id']); ?></td>
-            <td>$<?php echo htmlspecialchars($payment['total_amount']); ?></td>
-            <td><?php echo htmlspecialchars($payment['payment_method']); ?></td>
-            <td><?php echo htmlspecialchars($payment['payment_status']); ?></td>
-            <td><?php echo htmlspecialchars($payment['payment_date']); ?></td>
-        </tr>
-    <?php endforeach; ?>
-<?php else: ?>
-    <tr><td colspan="5">No payments found.</td></tr>
-<?php endif; ?>
-
+                            <?php foreach ($payments as $payment): ?>
+                                <tr>
+                                    <td><?php echo htmlspecialchars($payment['payment_id']); ?></td>
+                                    <td>₱<?php echo htmlspecialchars($payment['total_amount']); ?></td>
+                                    <td><?php echo htmlspecialchars($payment['payment_method']); ?></td>
+                                    <td><?php echo htmlspecialchars($payment['payment_status']); ?></td>
+                                    <td><?php echo htmlspecialchars($payment['payment_date']); ?></td>
+                                </tr>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <tr><td colspan="5">No payments found.</td></tr>
+                        <?php endif; ?>
                     </table>
-                    <br>
                 </div>
 
                 <!-- Cash Payments -->
@@ -122,7 +108,10 @@ $conn->close();
                 <div id="content3" class="content" style="display: none;"></div>
 
                 <!-- Installment Payments -->
-                <div id="content4" class="content" style="display: none;"></div>
+                <div id="content4" class="content" style="display: none;">
+                    <h3>Installment Breakdown</h3>
+                    <div id="installmentDetails"></div>
+                </div>
 
             </div>  
         </div>
@@ -133,48 +122,69 @@ $conn->close();
 <script>
     function showContent(contentId, paymentMethod = 'all') {
         $('.content').hide();
+        $('#' + contentId).show();
 
-        const selectedContent = $('#' + contentId);
-        if (selectedContent.length) {
-            selectedContent.show();
-
-            if (paymentMethod !== 'all') {
-                $.ajax({
-                    url: 'fetch_cash_payments.php',
-                    type: 'POST',
-                    data: { payment_method: paymentMethod },
-                    success: function(response) {
-                        try {
-                            const data = JSON.parse(response);
-                            if (data.error) {
-                                selectedContent.html(`<p style="color: red; text-align: center;">${data.error}</p>`);
-                            } else {
-                                let table = '<table border="1">';
-                                table += '<tr><th>Payment ID</th><th>Total Amount</th><th>Payment Method</th><th>Payment Status</th><th>Date</th></tr>';
-                                data.forEach(function(row) {
-                                    table += '<tr>';
-                                    table += '<td>' + row.payment_id + '</td>';
-                                    table += '<td>$' + row.total_amount + '</td>';
-                                    table += '<td>' + row.payment_method + '</td>';
-                                    table += '<td>' + row.payment_status + '</td>';
-                                    table += '<td>' + row.payment_date + '</td>';
-                                    table += '</tr>';
-                                });
-                                table += '</table>';
-                                selectedContent.html(table);
-                            }
-                        } catch (e) {
-                            selectedContent.html("<p style='color: red; text-align: center;'>Error parsing data.</p>");
-                        }
-                    },
-                    error: function() {
-                        console.error("Error fetching payments.");
-                        selectedContent.html("<p style='color: red; text-align: center;'>Error loading data.</p>");
+        if (paymentMethod !== 'all') {
+            $.ajax({
+                url: 'fetch_cash_payments.php',
+                type: 'POST',
+                data: { payment_method: paymentMethod },
+                success: function(response) {
+                    try {
+                        const data = JSON.parse(response);
+                        let table = '<table><tr><th>Payment ID</th><th>Total Amount</th><th>Payment Method</th><th>Payment Status</th><th>Date</th></tr>';
+                        data.forEach(function(row) {
+                            table += `<tr>
+                                <td>${row.payment_id}</td>
+                                <td>₱${row.total_amount}</td>
+                                <td>${row.payment_method}</td>
+                                <td>${row.payment_status}</td>
+                                <td>${row.payment_date}</td>
+                            </tr>`;
+                        });
+                        table += '</table>';
+                        $('#' + contentId).html(table);
+                    } catch (e) {
+                        $('#' + contentId).html("<p style='color: red;'>Error parsing data.</p>");
                     }
-                });
-            }
+                },
+                error: function() {
+                    $('#' + contentId).html("<p style='color: red;'>Error loading data.</p>");
+                }
+            });
         }
     }
+
+  // Fetch installment data
+function fetchInstallmentData() {
+    $('.content').hide();
+    $('#content4').show();
+
+    $.ajax({
+        url: 'process_payment.php',
+        type: 'POST',
+        data: { action: 'installment' },
+        dataType: 'json',
+        success: function(response) {
+            if (response.status === 'success') {
+                let breakdown = '<ul>';
+                response.months.forEach(month => {
+                    breakdown += `<li>Month ${month.month_number}: ₱${month.amount}</li>`;
+                });
+                breakdown += '</ul>';
+                $('#installmentDetails').html(breakdown);
+            } else {
+                $('#installmentDetails').html("<p style='color: red;'>Failed to fetch installment data.</p>");
+            }
+        },
+        error: function(xhr, status, error) {
+            console.log('AJAX Error:', status, error);
+            console.log('Response:', xhr.responseText);
+            $('#installmentDetails').html("<p style='color: red;'>Error fetching installment data.</p>");
+        }
+    });
+}
+
 </script>
 
 </body>
