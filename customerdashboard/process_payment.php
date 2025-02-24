@@ -1,23 +1,43 @@
 <?php
-// Include database connection
-require_once '../connection/connection.php'; // Include your database connection file
+session_start();
+require_once '../connection/connection.php';
+
+// Set JSON header for response
+header('Content-Type: application/json');
 
 // Check if the form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Retrieve form data
-    $reservation_id = $_POST['reservation_id'];
-    $firstname = $_POST['firstname'];
-    $surname = $_POST['surname'];
-    $package = $_POST['package'];
-    $block = $_POST['block'];
-    $plot = $_POST['plot'];
-    $payment_method = $_POST['payment_method'];
+    // Check if the action is 'installment'
+    if (isset($_POST['action']) && $_POST['action'] == 'installment') {
+        // Fetch installment data from the payment table
+        try {
+            $stmt = $conn->prepare("SELECT payment_id, reservation_id, client_name, payment_date, payment_method, payment_status, total_amount, duration, installment_amount, amount_paid, payment_proof, package, installment_plan, fullpayment_amount, status FROM payment WHERE payment_id = :payment_id");
+            $stmt->bindParam(':user_id', $_SESSION['user_id'], PDO::PARAM_INT);
+            $stmt->execute();
+            $installments = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            if ($installments) {
+                echo json_encode(['status' => 'success', 'months' => $installments]);
+            } else {
+                echo json_encode(['status' => 'error', 'message' => 'No installment data found.']);
+            }
+        } catch (PDOException $e) {
+            echo json_encode(['status' => 'error', 'message' => 'Database error: ' . $e->getMessage()]);
+        }
+        exit();
+    }
+
+    // Retrieve form data with checks
+    $reservation_id = isset($_POST['reservation_id']) ? $_POST['reservation_id'] : null;
+    $firstname = isset($_POST['firstname']) ? $_POST['firstname'] : null;
+    $surname = isset($_POST['surname']) ? $_POST['surname'] : null;
+    $package = isset($_POST['package']) ? $_POST['package'] : null;
+    $block = isset($_POST['block']) ? $_POST['block'] : null;
+    $plot = isset($_POST['plot']) ? $_POST['plot'] : null;
+    $payment_method = isset($_POST['payment_method']) ? $_POST['payment_method'] : null;
     $installment_plan = isset($_POST['installment_plan']) ? $_POST['installment_plan'] : '';
     $duration = isset($_POST['duration']) ? $_POST['duration'] : '';
     $payment_proof = null;
-
-    // Debugging package value
-    echo "Package selected: " . $package . "<br>";
 
     // Initialize payment variables
     $amount_paid = 0.00;
@@ -40,11 +60,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $total_amount = 50000.00;
         $fullpayment_amount = $total_amount;
     } else {
-        echo "Error: Invalid package selected.";
+        echo json_encode(['status' => 'error', 'message' => 'Invalid package selected.']);
+        exit();
     }
-
-    // Debugging to ensure fullpayment_amount is assigned correctly
-    echo "Full Payment Amount: " . $fullpayment_amount . "<br>";
 
     // Handle installment logic if applicable
     if ($installment_plan == 'installment') {
@@ -58,9 +76,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Full payment, set amount_paid to the fullpayment_amount
         $amount_paid = $fullpayment_amount;  // Use full payment amount if it's full payment
     }
-
-    // Debugging the amount paid
-    echo "Amount Paid: " . $amount_paid . "<br>";
 
     // Handle file upload for payment proof (only for GCash)
     if ($payment_method == 'gcash' || isset($_FILES['payment_proof'])) {
@@ -76,53 +91,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             if (move_uploaded_file($_FILES['payment_proof']['tmp_name'], $target_file)) {
                 $payment_proof = $target_file;
-                echo "File uploaded successfully: " . $payment_proof . "<br>";
             } else {
-                echo "Failed to upload the payment proof.";
+                echo json_encode(['status' => 'error', 'message' => 'Failed to upload the payment proof.']);
+                exit();
             }
         }
     }
 
-    // Handle installment logic if applicable
-if ($installment_plan == 'installment') {
-    // Determine installment amount and duration
-    if ($duration == '6months') {
-        $installment_amount = $total_amount / 6;
-    } elseif ($duration == '9months') {
-        $installment_amount = $total_amount / 9;
+    // Handle cash payment status and amount
+    if ($payment_method == 'gcash') {
+        $payment_status = 'paid';
+        $amount_paid = $fullpayment_amount; // For GCash, set to the full payment amount
+    } elseif ($payment_method == 'cash') {
+        $payment_status = 'paid'; // Cash payment is also automatically marked as paid
+        $amount_paid = $fullpayment_amount; // Full amount for cash payments
     }
-} else {
-    // Full payment, set amount_paid to the fullpayment_amount
-    $amount_paid = $fullpayment_amount;  // Full payment amount
-}
 
-// Handle cash payment status and amount
-if ($payment_method == 'gcash') {
-    $payment_status = 'paid';
-    $amount_paid = $fullpayment_amount; // For GCash, set to the full payment amount
-} elseif ($payment_method == 'cash') {
-    $payment_status = 'paid'; // Cash payment is also automatically marked as paid
-    $amount_paid = $fullpayment_amount; // Full amount for cash payments
-}
-
-
-    // if ($payment_method == 'gcash') {
-    //     // GCash payment is considered automatically paid
-    //     $payment_status = 'paid';
-    //     $amount_paid = $fullpayment_amount; // For GCash, set to the full payment amount
-    // } elseif ($payment_method == 'cash') {
-    //     $payment_status = 'paid'; // Cash payment is also automatically marked as paid
-    //     $amount_paid = $fullpayment_amount; // Full amount for cash payments
-    // }
-
-    // if ($payment_method == 'gcash') {
-    //     $payment_status = 'paid';
-    //     $amount_paid = $fullpayment_amount;
-    // } elseif ($payment_method == 'cash') {
-    //     $payment_status = 'paid';
-    //     $amount_paid = $fullpayment_amount; // <-- Ensure this line is present
-    // }
-    
     // Prepare the SQL query to insert payment details
     try {
         // Begin a transaction
@@ -160,15 +144,18 @@ if ($payment_method == 'gcash') {
         // Commit the transaction
         $conn->commit();
 
-        // Redirect or display success message
-        echo "Payment processed successfully.";
-        // Redirect to a confirmation page or back to the reservations page
-        header("Location: customerreservation.php");
-        exit;
+        // Return success response
+        echo json_encode(['status' => 'success', 'message' => 'Payment processed successfully.']);
+        exit();
 
     } catch (Exception $e) {
         // Rollback the transaction in case of error
         $conn->rollBack();
-        echo "Error: " . $e->getMessage();
+        echo json_encode(['status' => 'error', 'message' => 'Error: ' . $e->getMessage()]);
+        exit();
     }
+} else {
+    echo json_encode(['status' => 'error', 'message' => 'Invalid request method.']);
+    exit();
 }
+?>
