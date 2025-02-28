@@ -67,6 +67,51 @@ if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQU
     <link rel="stylesheet" href="./admindashboardcss/adminpayment.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> 
+    <style>
+        /* Sidebar Buttons Container */
+.uppersidebar-content {
+    display: flex;
+    gap: 15px;
+    margin-top: 10px;
+    justify-content: center;
+    margin-right:620px;
+    margin-top:100px;
+}
+
+/* Button Styling */
+.filter-btn {
+    display: block;
+    padding: 15px 20px;
+    background: #f8f9fa;
+    border: 2px solid #3498db;
+    border-radius: 8px;
+    color: #3498db;
+    font-weight: bold;
+    text-align: center;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width:120px;
+}
+
+/* Hover Effect */
+.filter-btn:hover {
+    background: #3498db;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* Active Button (Selected) */
+.filter-btn.active {
+    background: #2980b9;
+    color: white;
+    border-color: #2980b9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+    </style>
 </head> 
 <body>
 
@@ -106,31 +151,25 @@ if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQU
                 </div>
 
                 <div class="main">
-        <div class="right-content1">
-            <div class="right-header col-9">
-                <span> <h2>TRANSACTION</h2></span>
-                <br>
-                <br>
-                <br>
-                <br>
-                <h2 class="transactionheader">Your Transactions</h2>
-                <div class="uppersidebar-content">
-                    <br>
-                    <div class="all">
-                        <a href="#all" onclick="showContent('content1')"><p>All</p></a>
-                        </div>
-                        <div class="cash">
-                            <a href="#cash" onclick="showContent('content2')"><p>Cash</p></a>
-                        </div>
-                        <div class="wired">
-                            <a href="#wired" onclick="showContent('content3')"><p>Wired</p></a>
-                        </div>
-                        <div class="installment">
-                            <a href="#installment" onclick="showContent('content4')"><p>Installment</p></a>
+                    <div class="right-content1">
+                        <div class="right-header col-9">
+                        <h2>TRANSACTION</h2>
+                        <div class="uppersidebar-content">
+                            <div class="all">
+                                <a href="#all" class="filter-btn active" onclick="showContent('content1', this)"><p>All</p></a>
+                            </div>
+                            <div class="cash">
+                                <a href="#cash" class="filter-btn" onclick="showContent('content2', this)"><p>Cash</p></a>
+                            </div>
+                            <div class="wired">
+                                <a href="#wired" class="filter-btn" onclick="showContent('content3', this)"><p>Wired</p></a>
+                            </div>
+                            <div class="installment">
+                                <a href="#installment" class="filter-btn" onclick="showContent('content4', this)"><p>Installment</p></a>
+                            </div>
                         </div>
                 </div>
-               
-            </div>
+
         </div>
 
         <div class="right-content2">
@@ -171,72 +210,36 @@ if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQU
 </div>
 
 <script>
-            function showContent(contentId) {
+    function showContent(contentId, element) {
     // Hide all content elements
-    const allContents = document.querySelectorAll('.content');
-    allContents.forEach(content => {
-        content.style.display = 'none';
-    });
+    document.querySelectorAll('.content').forEach(content => content.style.display = 'none');
 
-    // Show the selected content and fetch data if necessary
+    // Remove active class from all buttons
+    document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+
+    // Show the selected content
     const selectedContent = document.getElementById(contentId);
     if (selectedContent) {
-        if (selectedContent.style.display === "none" || selectedContent.style.display === "") {
-            selectedContent.style.display = "block";
+        selectedContent.style.display = "block";
 
-            // Check if fetching cash payments is required (specific to `content2`)
-            if (contentId === "content2") {
-                const xhr = new XMLHttpRequest();
-                xhr.open("POST", "fetch_cash_payments.php", true);
-                xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-
-                xhr.onload = function () {
-                    if (this.status === 200) {
-                        selectedContent.innerHTML = this.responseText;
-                    } else {
-                        console.error("Error fetching cash payments.");
-                        selectedContent.innerHTML = "<p>Error loading data.</p>";
-                    }
-                };
-
-                // Send request
-                xhr.send("payment_method=cash");
-            }
+        // Add active class to clicked button
+        if (element) {
+            element.classList.add("active");
         }
-    }
-}
 
-
-
-function showContent(contentId) {
-    // Hide all content elements
-    const allContents = document.querySelectorAll('.content');
-    allContents.forEach(content => {
-        content.style.display = 'none';
-    });
-
-    // Show the selected content and fetch data if necessary
-    const selectedContent = document.getElementById(contentId);
-    if (selectedContent) {
-        if (selectedContent.style.display === "none" || selectedContent.style.display === "") {
-            selectedContent.style.display = "block";
-
-            // Fetch data for cash payments
-            if (contentId === "content2") {
-                fetchData("cash", selectedContent);
-            }
-
-            // Fetch data for GCash payments
-            if (contentId === "content3") {
-                fetchData("GCash", selectedContent);
-            }
-
-
-             // Fetch data for installment payments
-             if (contentId === "content4") {
-                fetchInstallmentData(selectedContent);
-            }
-
+        // Fetch data based on the selected content
+        switch (contentId) {
+            case "content2": 
+                fetchData("cash", selectedContent); 
+                break;
+            case "content3": 
+                fetchData("GCash", selectedContent); 
+                break;
+            case "content4": 
+                fetchInstallmentData(selectedContent); 
+                break;
+            default: 
+                console.log("Showing all transactions.");
         }
     }
 }
@@ -255,7 +258,6 @@ function fetchData(paymentMethod, targetElement) {
         }
     };
 
-    // Send the request with the payment method
     xhr.send("payment_method=" + paymentMethod);
 }
 
@@ -273,10 +275,10 @@ function fetchInstallmentData(targetElement) {
         }
     };
 
-    // Send request to fetch installment data
     xhr.send("fetch_installments=true");
 }
 
+</script>
 
 
 

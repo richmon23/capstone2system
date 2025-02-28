@@ -1,43 +1,23 @@
 <?php
-// Database connection
-$servername = "localhost";  // Replace with your server name
-$username = "root";         // Replace with your database username
-$password = "";             // Replace with your database password
-$dbname = "capstone2db";  // Replace with your database name
+// Include the database connection
+require_once '../connection/connection.php'; // Ensure this file contains a valid PDO connection
 
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
-// Check if block is set
+// Check if block is set in the request
 if (isset($_GET['block'])) {
     $block = intval($_GET['block']);  // Get block number from the request
 
-    // Prepare an SQL query to get available plots for the selected block
-    // Only fetch plots where `is_available = 1` (available for reservation)
-    $sql = "SELECT plot_number FROM plots WHERE block = ? AND is_available = 1 ORDER BY plot_number ASC";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("i", $block);
-    $stmt->execute();
-    $result = $stmt->get_result();
+    try {
+        // Fetch all plots for the selected block
+        $sql = "SELECT plot_number, is_available FROM plots WHERE block = :block ORDER BY plot_number ASC";
+        $stmt = $conn->prepare($sql);
+        $stmt->bindParam(":block", $block, PDO::PARAM_INT);
+        $stmt->execute();
+        $plots = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    $availablePlots = [];
-    while ($row = $result->fetch_assoc()) {
-        $availablePlots[] = $row['plot_number'];  // Add each available plot to the array
+        // Return JSON response
+        echo json_encode($plots);
+    } catch (PDOException $e) {
+        echo json_encode(["error" => "Database error: " . $e->getMessage()]);
     }
-
-    // Return the available plots as JSON
-    echo json_encode($availablePlots);
-
-    $stmt->close();
 }
-
-
-
-
-$conn->close();
 ?>

@@ -147,59 +147,42 @@ if (!isset($_SESSION['user_id'])) {
         <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
     <script>
-        // Initialize the map
         var map = L.map('map').setView([11.043601457994624, 123.98979557034839], 19);
 
-        // Add a tile layer to the map (using OpenStreetMap tiles)
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
         }).addTo(map);
 
-        // Base coordinates for blocks
         var blockCoordinates = {
-            '1': { lat: 11.0435698361405, lng: 123.98982242330341 },
-            '2': { lat: 11.043717289687812, lng: 123.99016571516783 },
-            '3': { lat: 11.043196046708548, lng: 123.98990822311953 },
-            '4': { lat: 11.043190781623228, lng: 123.99015498633248 }
+            '1': { lat: 11.04350923890096, lng: 123.98980085290329 },
+            '2': { lat: 11.04351919270268, lng: 123.99017281573597 },
+            '3': { lat: 11.043146307745978, lng: 123.98983080964149 },
+            '4': { lat: 11.043140747297683, lng: 123.99013973786977 }
         };
 
-        // Function to generate plot coordinates within a block using a grid layout
         function generatePlotCoordinates(block, plotNumber) {
             var base = blockCoordinates[block];
-            var row = Math.floor((plotNumber - 1) / 5); // 5 columns
-            var col = (plotNumber - 1) % 5; // Change to 5 for number of plots per column
-
-            // Adjust these values to control the padding between plots
-            var latOffset = row * 0.000055; // Increase to add vertical space between plots
-            var lngOffset = col * 0.000055; // Increase to add horizontal space between plots
-
+            var row = Math.floor((plotNumber - 1) / 5);
+            var col = (plotNumber - 1) % 5;
+            var latOffset = row * 0.000055;
+            var lngOffset = col * 0.000055;
             return [base.lat + latOffset, base.lng + lngOffset];
         }
 
-        // Sample plot data (from PHP)
         var plots = <?php echo json_encode($plots); ?>;
 
-        // Debugging: Log the fetched plots to the console
-        console.log(plots);
-
-        // Add markers to the map based on availability
-        plots.forEach(function(plot) {
+        plots.forEach(function (plot) {
             var coordinates = generatePlotCoordinates(plot.block, plot.plot_number);
-            var markerColor = plot.is_available === '1' ? 'blue' : 'red'; // Change color based on availability
+            var markerColor = plot.is_available == '1' ? 'blue' : 'red';
 
-            // Custom marker with size 5px
-            var marker = L.circleMarker(coordinates, {
+            L.circleMarker(coordinates, {
                 color: markerColor,
-                radius: 5, // Set marker size to 5px
+                radius: 5,
                 fillOpacity: 0.5,
-                weight: 2 // Border thickness
-            }).addTo(map);
-
-            // Optional: Add popups to each marker
-            marker.bindPopup('Block: ' + plot.block + ', Plot Number: ' + plot.plot_number + ', Available: ' + (plot.is_available === '1' ? 'Yes' : 'No'));
+                weight: 2
+            }).addTo(map).bindPopup('Block: ' + plot.block + ', Plot Number: ' + plot.plot_number + ', Available: ' + (plot.is_available == '1' ? 'Yes' : 'No'));
         });
 
-        // Function to locate and navigate to a plot
         function locatePlot() {
             var block = document.getElementById('block-number').value;
             var plotNumber = document.getElementById('plot-number').value;
@@ -210,54 +193,52 @@ if (!isset($_SESSION['user_id'])) {
             }
 
             var plotCoordinates = generatePlotCoordinates(block, plotNumber);
-            
-            // Add a marker at the plot location
-            var plotMarker = L.marker(plotCoordinates).addTo(map)
-                .bindPopup("Plot " + plotNumber + " in Block " + block)
-                .openPopup();
 
-            // Use Geolocation API to get the user's current location
             if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(function(position) {
+                navigator.geolocation.getCurrentPosition(function (position) {
                     var currentLocation = [position.coords.latitude, position.coords.longitude];
 
-                    // Add a marker for the current location
-                    L.marker(currentLocation).addTo(map).bindPopup("You are here").openPopup();
+                    map.setView(currentLocation, 19);
 
-                    // Use Leaflet Routing Machine to draw a route from current location to the plot
+                    L.marker(currentLocation).addTo(map).bindPopup("You are here").openPopup();
+                    L.marker(plotCoordinates).addTo(map).bindPopup("Plot " + plotNumber + " in Block " + block).openPopup();
+
                     var routeControl = L.Routing.control({
-                        waypoints: [
-                            L.latLng(currentLocation),
-                            L.latLng(plotCoordinates)
-                        ],
+                        waypoints: [L.latLng(currentLocation), L.latLng(plotCoordinates)],
                         routeWhileDragging: true
                     }).addTo(map);
 
-                    // Listen for routing events and provide voice navigation
-                    routeControl.on('routesfound', function(e) {
+                    routeControl.on('routesfound', function (e) {
                         var routes = e.routes;
+                        if (routes.length === 0) return;
                         var instructions = routes[0].instructions;
 
-                        // Function to speak text using Web Speech API
                         function speak(text) {
-                            var msg = new SpeechSynthesisUtterance();
-                            msg.text = text;
+                            var msg = new SpeechSynthesisUtterance(text);
                             window.speechSynthesis.speak(msg);
                         }
 
-                        // Loop through the instructions and give voice directions
-                        instructions.forEach(function(instruction, i) {
-                            setTimeout(function() {
-                                speak(instruction.text); // Speak out the instruction
-                            }, i * 5000); // Delay between each instruction
+                        if (instructions.length > 0) speak(instructions[0].text);
+
+                        instructions.forEach(function (instruction, i) {
+                            setTimeout(function () {
+                                speak(instruction.text);
+                            }, i * 5000);
                         });
                     });
+                }, function (error) {
+                    console.error("Geolocation error:", error);
+                    alert("Unable to retrieve your location. Error: " + error.message);
+                }, {
+                    enableHighAccuracy: true,
+                    timeout: 15000,
+                    maximumAge: 0
                 });
             } else {
                 alert("Geolocation is not supported by this browser.");
             }
         }
-</Script>
+    </script>
 </body>
 </html>
 

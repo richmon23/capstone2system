@@ -43,61 +43,91 @@ $payments = $query->fetchAll(PDO::FETCH_ASSOC);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Transaction</title>
     <link rel="stylesheet" href="/customerdashboard/customerdashboard_css/customerpayment.css">
+    <style>
+     .uppersidebar-content {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    padding: 10px;
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    padding-right: 700px;
+   
+}
+
+.tab-link {
+    display: inline-block;
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #fff;
+    background: linear-gradient(45deg, #FF416C, #FF4B2B);
+    border-radius: 20px;
+    text-decoration: none;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+   
+}
+
+.tab-link:hover {
+    background: linear-gradient(45deg, #FF4B2B, #FF416C);
+    transform: scale(1.1);
+}
+
+
+    </style>
 </head> 
 <body>
 
-<div class="row">
-    <div class="left-content col-3">
-        <div class="adminprofile">
-            <center>
-                <img src="../uploads/profile_pics/<?php echo $profilePic; ?>" alt="Profile Picture">
-                <div class="dropdown">
-                    <button class="dropdown-btn">
-                        <?php echo "<h4> $firstname</h4>" ?> 
-                    </button>
+        <div class="row">
+            <div class="left-content col-3">
+                <div class="adminprofile">
+                    <center>
+                        <img src="../uploads/profile_pics/<?php echo $profilePic; ?>" alt="Profile Picture">
+                        <div class="dropdown">
+                            <button class="dropdown-btn">
+                                <?php echo "<h4> $firstname</h4>" ?> 
+                            </button>
+                        </div>
+                    </center>
                 </div>
-            </center>
-        </div>
-        <br>
-        <div class="adminlinks">
-        <span><img src="../images/dashboard.png" alt="">&nbsp;&nbsp;&nbsp;<a href="customerDashboard.php">Dashboard</a></span> 
-        <!-- <span><img src="../images/deceased.png" alt="">&nbsp;&nbsp;&nbsp;<a href="customerDeceased.php">Deceased</a></span> -->
-        <span><img src="../images/reservation.png" alt="">&nbsp;&nbsp;&nbsp;<a href="customerreservation.php">Reservation</a></span>
-        <span><img src="../images/payment.png" alt="">&nbsp;&nbsp;&nbsp;<a href="customerpayment.php">Transaction</a></span>
-        <span><img src="../images/plot.png" alt="">&nbsp;&nbsp;&nbsp;<a href="customerviewavailableplot.php">Available Plot & Block</a></span>
-        <span><img src="../images/review.png" alt="">&nbsp;&nbsp;&nbsp;<a href="customerreviews.php">Reviews</a></span>
-        <span><img src="../images/logout.png" alt="">&nbsp;&nbsp;&nbsp;<a href="../logout.php">Logout</a></span>
-        </div>
-        <br>
-    </div>
+                <br>
+                <div class="adminlinks">
+                <span><img src="../images/dashboard.png" alt="">&nbsp;&nbsp;&nbsp;<a href="customerDashboard.php">Dashboard</a></span> 
+                <!-- <span><img src="../images/deceased.png" alt="">&nbsp;&nbsp;&nbsp;<a href="customerDeceased.php">Deceased</a></span> -->
+                <span><img src="../images/reservation.png" alt="">&nbsp;&nbsp;&nbsp;<a href="customerreservation.php">Reservation</a></span>
+                <span><img src="../images/payment.png" alt="">&nbsp;&nbsp;&nbsp;<a href="customerpayment.php">Transaction</a></span>
+                <span><img src="../images/plot.png" alt="">&nbsp;&nbsp;&nbsp;<a href="customerviewavailableplot.php">Available Plot & Block</a></span>
+                <span><img src="../images/review.png" alt="">&nbsp;&nbsp;&nbsp;<a href="customerreviews.php">Reviews</a></span>
+                <span><img src="../images/logout.png" alt="">&nbsp;&nbsp;&nbsp;<a href="../logout.php">Logout</a></span>
+                </div>
+                <br>
+            </div>
     
-    <div class="main">
-        <div class="right-content1">
-        <div class="right-header col-9">
-    <span>PAYMENT</span>
-    <br><br><br><br>
-    <h2 class="transactionheader">Your Transactions</h2>
-    
-    <div class="uppersidebar-content">
-        <br>
-        <div class="all">
-            <a href="#all" onclick="showContent('content1')"><p>All</p></a>
+            <div class="main">
+            <div class="right-content1">
+                <div class="right-header col-9">
+                   <h2> <span>PAYMENT TRANSACTIONS</span></h2>
+                    <br><br><br><br>
+                    <!-- <h2 class="transactionheader"></h2> -->
+                    <br>
+                    <div class="uppersidebar-content">
+                    <br>
+                    <div class="all">
+                        <a href="#all" onclick="showContent('content1')" class="tab-link">All</a>
+                    </div>
+                    <div class="cash">
+                        <a href="#cash" onclick="showContent('content2', 'Cash')" class="tab-link">Cash</a>
+                    </div>
+                    <div class="wired">
+                        <a href="#gcash" onclick="showContent('content2', 'GCash')" class="tab-link">GCash</a>
+                    </div>
+                    <div class="installment">
+                        <a href="#installment" onclick="showContent('content4', 'Installment')" class="tab-link">Installment</a>
+                    </div>
+                </div>
+                </div>    
         </div>
-        <div class="cash">
-        <a href="#cash" onclick="showContent('content2', 'Cash')"><p>Cash</p></a>
-        </div>
-        <div class="wired">
-            <a href="#gcash" onclick="showContent('content2', 'GCash')"><p>GCash</p></a>
-        </div>
-
-        <div class="installment">
-            <a href="#installment" onclick="showContent('content4', 'Installment')"><p>Installment</p></a>
-        </div>
-    </div>
-</div>
-
-     
-</div>
 
 
             <div class="right-content2">

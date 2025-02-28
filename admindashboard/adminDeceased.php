@@ -517,52 +517,85 @@ if (isset($pdo)) {
                         });
 
                         document.addEventListener("DOMContentLoaded", function () {
-                        // When block changes, fetch available plots for the add modal
-                        document.getElementById("add_block").addEventListener("change", function () {
-                            var block = this.value;
-                            fetchAvailablePlots(block, "add_plot");
-                        });
+                        // Ensure elements exist before adding event listeners
+                        var addBlock = document.getElementById("add_block");
+                        var modalBlock = document.getElementById("modal_block");
 
-                        // When block changes, fetch available plots for the update modal
-                        document.getElementById("modal_block").addEventListener("change", function () {
-                            var block = this.value;
-                            fetchAvailablePlots(block, "modal_plot");
-                        });
+                        if (addBlock) {
+                            addBlock.addEventListener("change", function () {
+                                fetchAvailablePlots(this.value, "add_plot");
+                            });
+                        }
+
+                        if (modalBlock) {
+                            modalBlock.addEventListener("change", function () {
+                                fetchAvailablePlots(this.value, "modal_plot");
+                            });
+                        }
                     });
 
-                    // Function to fetch available plots based on selected block
+                    // Function to fetch available plots
                     function fetchAvailablePlots(block, plotDropdownId, selectedPlot = null) {
-                        if (block) {
-                            var xhr = new XMLHttpRequest();
-                            xhr.open("GET", "get_plots.php?block=" + block, true);
-                            xhr.onload = function () {
-                                if (this.status === 200) {
-                                    var plots = JSON.parse(this.responseText);
-                                    var plotDropdown = document.getElementById(plotDropdownId);
-                                    plotDropdown.innerHTML = '<option value="" disabled>Select Plot</option>'; // Clear previous options
+                        if (!block) return;
 
-                                    // Populate the dropdown with available plots
-                                    plots.forEach(function (plot) {
+                        var xhr = new XMLHttpRequest();
+                        xhr.open("GET", "get_plots.php?block=" + block, true);
+                        xhr.onload = function () {
+                            if (this.status === 200) {
+                                try {
+                                    var response = JSON.parse(this.responseText);
+                                    var plotDropdown = document.getElementById(plotDropdownId);
+
+                                    if (!plotDropdown) {
+                                        console.error("Dropdown not found:", plotDropdownId);
+                                        return;
+                                    }
+
+                                    // Clear dropdown before adding new options
+                                    plotDropdown.innerHTML = '<option value="" disabled selected>Select Plot</option>';
+
+                                    // Filter available plots
+                                    var availablePlots = response.filter(plot => plot.is_available);
+
+                                    if (availablePlots.length === 0) {
+                                        var noPlotOption = document.createElement("option");
+                                        noPlotOption.value = "";
+                                        noPlotOption.textContent = "No available plots";
+                                        noPlotOption.disabled = true;
+                                        plotDropdown.appendChild(noPlotOption);
+                                        return;
+                                    }
+
+                                    // Populate dropdown with available plots
+                                    availablePlots.forEach(function (plot) {
                                         var option = document.createElement("option");
-                                        option.value = plot;
-                                        option.textContent = "Plot " + plot;
+                                        option.value = plot.plot_number; // Ensure correct value
+                                        option.textContent = "Plot " + plot.plot_number;
                                         plotDropdown.appendChild(option);
                                     });
 
-                                    // If there's a selected plot, add it back to the dropdown
-                                    if (selectedPlot) {
+                                    // Re-add selected plot if it's no longer available
+                                    if (selectedPlot && !availablePlots.some(p => p.plot_number == selectedPlot)) {
                                         var oldOption = document.createElement("option");
                                         oldOption.value = selectedPlot;
-                                        oldOption.textContent = "Plot " + selectedPlot;
+                                        oldOption.textContent = "Plot " + selectedPlot + " (Currently Selected)";
                                         plotDropdown.appendChild(oldOption);
-                                        plotDropdown.value = selectedPlot; // Set the selected plot as the current value
+                                        plotDropdown.value = selectedPlot;
                                     }
-                                } else {
-                                    console.error("Failed to load plots: " + this.status);
+
+                                } catch (error) {
+                                    console.error("JSON Parse Error:", error, this.responseText);
                                 }
-                            };
-                            xhr.send();
-                        }
+                            } else {
+                                console.error("Failed to load plots:", this.status);
+                            }
+                        };
+
+                        xhr.onerror = function () {
+                            console.error("Request failed.");
+                        };
+
+                        xhr.send();
                     }
 
                     // TODO: ADDRESS API

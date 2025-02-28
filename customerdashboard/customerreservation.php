@@ -63,10 +63,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->execute();
 
     // Now update the plot availability to mark it as taken
-    $sqlUpdatePlot = "UPDATE plots SET is_available = 0 WHERE plot_number = :plotnumber";
+    $sqlUpdatePlot = "UPDATE plots SET is_available = 0 WHERE plot_number = :plotnumber AND block = :blocknumber";
     $stmtUpdate = $pdo->prepare($sqlUpdatePlot);
     $stmtUpdate->bindParam(':plotnumber', $plotnumber);
+    $stmtUpdate->bindParam(':blocknumber', $blocknumber);
     $stmtUpdate->execute();
+
 
     echo "Reservation successfully saved!";
 }

@@ -8,16 +8,19 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.css" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
+
     <style>
         #map {
-            margin-top: 5px;
-            height: 500px;
+            height: 600px;
             width: 100%;
         }
 
         #search-box {
             margin: 20px;
             text-align: center;
+            width: 100%;
         }
 
         h3 {
@@ -31,148 +34,167 @@
             border-radius: 5px;
             border: 1px solid #ccc;
         }
+/* General styling for header */
+.header {
+    text-align: center;
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    position: relative;
+}
 
-        button {
-            padding: 8px 15px;
-            border-radius: 5px;
-            border: none;
-            background-color: #007bff;
-            color: white;
-            cursor: pointer;
-        }
+/* Title styling */
+.header h1 {
+    font-size: 28px;
+    color: #333;
+    margin-bottom: 15px;
+}
 
-        button:hover {
-            background-color: #0056b3;
-        }
-        #map-container1{
-           width: 100%;
-           display: flex;
-        }
-        .map-container2{
-          display: flex;
-          margin-left:27%;
-          gap:15px;
-        }
-        .availalble {
-            background-color: blue;
-            width:100px;
-            height: 15px;
-        }
-        .notavailable {
-            background-color: red;
-            width:100px;
-            height: 15px;
-        }
-        button{
-          cursor: pointer;
-        }
-    </style>
+/* Styling for the map legend */
+.map-container2 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #555;
+}
+
+/* Available and Not Available legend boxes */
+.available, .notavailable {
+    width: 100px;
+    height: 20px;
+    border-radius: 5px;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.available {
+    background-color: #007bff;
+}
+
+.notavailable {
+    background-color: #dc3545;
+}
+
+/* Button styling */
+button {
+    padding: 10px 18px;
+    border-radius: 8px;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s ease;
+    box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.15);
+}
+
+button:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+}
+
+/* Move Back button to the left */
+.button-back {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+}
+
+.button-back a {
+    text-decoration: none;
+}
+
+.button-back button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Icon inside button */
+.button-back i {
+    font-size: 16px;
+}
+   </style>
 </head>
 
 <body>
-    <center><h2>View Available Plots and Block </h2></center>
-    <div id="map-container1">
-        <!-- <input type="text" id="block-number" placeholder="Enter Block (1-4)">
-        <input type="number" id="plot-number" placeholder="Enter Plot Number (1-50)"> -->
-        <!-- <button onclick="locatePlot()">Locate Plot</button>  -->
-        <div class="button">
-           <a href="adminDashboard.php"><button><i class="fas fa-arrow-left"></i> Back to Main</button></a>
-        </div>
-       <div class="map-container2">
-        Available: <div class="availalble"> > </div>
-        Not Available:<div class="notavailable"></div>
-       </div>
-
+    <br>
+    <br>
+    <div class="header">
+    <center><h1>View Available Plot</h1>
+    <div class="map-container2">
+                Available: <div class="available"></div>
+                Not Available: <div class="notavailable"></div>
+            </div></center>
+    <div class="button-back">
+                <a href="adminDashboard.php"><button><i class="fas fa-arrow-left"></i> Back to Main</button></a>
+            </div>       
     </div>
     <div id="map"></div>
 
     <?php
     error_reporting(E_ALL);
     ini_set('display_errors', 1);
-    
-    // Database connection details
-    $host = 'localhost'; // Change as needed
-    $db = 'capstone2db'; // Replace with your database name
-    $user = 'root'; // Replace with your username
-    $pass = ''; // Replace with your password
-    
+
+    $host = 'localhost'; 
+    $db = 'capstone2db'; 
+    $user = 'root'; 
+    $pass = '';
+
     try {
-        // Create a new PDO connection
         $conn = new PDO("mysql:host=$host;dbname=$db", $user, $pass);
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    
-        // Fetch all plots from the table
         $stmt = $conn->prepare("SELECT plot_id, block, plot_number, is_available FROM plots");
         $stmt->execute();
-    
-        // Check if any records are found
-        if ($stmt->rowCount() > 0) {
-            // Fetch the data as an associative array
-            $plots = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        } else {
-            $plots = []; // No records found
-        }
+        $plots = $stmt->fetchAll(PDO::FETCH_ASSOC);
     } catch (PDOException $e) {
         echo 'Connection failed: ' . $e->getMessage();
+        $plots = [];
     }
     ?>
 
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-    <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
     <script>
-        // Initialize the map
         var map = L.map('map').setView([11.043601457994624, 123.98979557034839], 19);
 
-        // Add a tile layer to the map (using OpenStreetMap tiles)
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
         }).addTo(map);
 
-        // Base coordinates for blocks
         var blockCoordinates = {
-            '1': { lat: 11.0435698361405, lng: 123.98982242330341 },
-            '2': { lat: 11.043717289687812, lng: 123.99016571516783 },
-            '3': { lat: 11.043196046708548, lng: 123.98990822311953 },
-            '4': { lat: 11.043190781623228, lng: 123.99015498633248 }
+            '1': { lat: 11.04350923890096, lng: 123.98980085290329 },
+            '2': { lat: 11.04351919270268, lng: 123.99017281573597 },
+            '3': { lat: 11.043146307745978, lng: 123.98983080964149 },
+            '4': { lat: 11.043140747297683, lng: 123.99013973786977 }
         };
 
-        // Function to generate plot coordinates within a block using a grid layout
         function generatePlotCoordinates(block, plotNumber) {
             var base = blockCoordinates[block];
-            var row = Math.floor((plotNumber - 1) / 5); // 5 columns
-            var col = (plotNumber - 1) % 5; // Change to 5 for number of plots per column
-
-            // Adjust these values to control the padding between plots
-            var latOffset = row * 0.000055; // Increase to add vertical space between plots
-            var lngOffset = col * 0.000055; // Increase to add horizontal space between plots
-
+            var row = Math.floor((plotNumber - 1) / 5);
+            var col = (plotNumber - 1) % 5;
+            var latOffset = row * 0.000055;
+            var lngOffset = col * 0.000055;
             return [base.lat + latOffset, base.lng + lngOffset];
         }
 
-        // Sample plot data (from PHP)
         var plots = <?php echo json_encode($plots); ?>;
 
-        // Debugging: Log the fetched plots to the console
-        console.log(plots);
-
-        // Add markers to the map based on availability
-        plots.forEach(function(plot) {
+        plots.forEach(function (plot) {
             var coordinates = generatePlotCoordinates(plot.block, plot.plot_number);
-            var markerColor = plot.is_available === '1' ? 'blue' : 'red'; // Change color based on availability
+            var markerColor = plot.is_available == '1' ? 'blue' : 'red';
 
-            // Custom marker with size 5px
-            var marker = L.circleMarker(coordinates, {
+            L.circleMarker(coordinates, {
                 color: markerColor,
-                radius: 5, // Set marker size to 5px
+                radius: 5,
                 fillOpacity: 0.5,
-                weight: 2 // Border thickness
-            }).addTo(map);
-
-            // Optional: Add popups to each marker
-            marker.bindPopup('Block: ' + plot.block + ', Plot Number: ' + plot.plot_number + ', Available: ' + (plot.is_available === '1' ? 'Yes' : 'No'));
+                weight: 2
+            }).addTo(map).bindPopup('Block: ' + plot.block + ', Plot Number: ' + plot.plot_number + ', Available: ' + (plot.is_available == '1' ? 'Yes' : 'No'));
         });
 
-        // Function to locate and navigate to a plot
         function locatePlot() {
             var block = document.getElementById('block-number').value;
             var plotNumber = document.getElementById('plot-number').value;
@@ -183,127 +205,51 @@
             }
 
             var plotCoordinates = generatePlotCoordinates(block, plotNumber);
-            
-            // Add a marker at the plot location
-            var plotMarker = L.marker(plotCoordinates).addTo(map)
-                .bindPopup("Plot " + plotNumber + " in Block " + block)
-                .openPopup();
 
-            // Use Geolocation API to get the user's current location
             if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(function(position) {
+                navigator.geolocation.getCurrentPosition(function (position) {
                     var currentLocation = [position.coords.latitude, position.coords.longitude];
 
-                    // Add a marker for the current location
-                    L.marker(currentLocation).addTo(map).bindPopup("You are here").openPopup();
+                    map.setView(currentLocation, 19);
 
-                    // Use Leaflet Routing Machine to draw a route from current location to the plot
+                    L.marker(currentLocation).addTo(map).bindPopup("You are here").openPopup();
+                    L.marker(plotCoordinates).addTo(map).bindPopup("Plot " + plotNumber + " in Block " + block).openPopup();
+
                     var routeControl = L.Routing.control({
-                        waypoints: [
-                            L.latLng(currentLocation),
-                            L.latLng(plotCoordinates)
-                        ],
+                        waypoints: [L.latLng(currentLocation), L.latLng(plotCoordinates)],
                         routeWhileDragging: true
                     }).addTo(map);
 
-                    // Listen for routing events and provide voice navigation
-                    routeControl.on('routesfound', function(e) {
+                    routeControl.on('routesfound', function (e) {
                         var routes = e.routes;
+                        if (routes.length === 0) return;
                         var instructions = routes[0].instructions;
 
-                        // Function to speak text using Web Speech API
                         function speak(text) {
-                            var msg = new SpeechSynthesisUtterance();
-                            msg.text = text;
+                            var msg = new SpeechSynthesisUtterance(text);
                             window.speechSynthesis.speak(msg);
                         }
 
-                        // Loop through the instructions and give voice directions
-                        instructions.forEach(function(instruction, i) {
-                            setTimeout(function() {
-                                speak(instruction.text); // Speak out the instruction
-                            }, i * 5000); // Delay between each instruction
+                        if (instructions.length > 0) speak(instructions[0].text);
+
+                        instructions.forEach(function (instruction, i) {
+                            setTimeout(function () {
+                                speak(instruction.text);
+                            }, i * 5000);
                         });
                     });
+                }, function (error) {
+                    console.error("Geolocation error:", error);
+                    alert("Unable to retrieve your location. Error: " + error.message);
+                }, {
+                    enableHighAccuracy: true,
+                    timeout: 15000,
+                    maximumAge: 0
                 });
             } else {
                 alert("Geolocation is not supported by this browser.");
             }
         }
-
-
-//         // Function to locate and navigate to a plot
-// function locatePlot() {
-//     var block = document.getElementById('block-number').value;
-//     var plotNumber = document.getElementById('plot-number').value;
-
-//     if (!blockCoordinates[block] || plotNumber < 1 || plotNumber > 50) {
-//         alert("Invalid block or plot number");
-//         return;
-//     }
-
-//     var plotCoordinates = generatePlotCoordinates(block, plotNumber);
-
-//     // Add a marker at the plot location
-//     var plotMarker = L.marker(plotCoordinates).addTo(map)
-//         .bindPopup("Plot " + plotNumber + " in Block " + block)
-//         .openPopup();
-
-//     // Use Geolocation API to get the user's current location
-//     if (navigator.geolocation) {
-//         navigator.geolocation.getCurrentPosition(function(position) {
-//             var currentLocation = [position.coords.latitude, position.coords.longitude];
-
-//             console.log("Current Location:", currentLocation); // Debugging
-
-//             // Add a marker for the current location
-//             L.marker(currentLocation).addTo(map).bindPopup("You are here").openPopup();
-
-//             // Use Leaflet Routing Machine to draw a route from current location to the plot
-//             var routeControl = L.Routing.control({
-//                 waypoints: [
-//                     L.latLng(currentLocation),
-//                     L.latLng(plotCoordinates)
-//                 ],
-//                 routeWhileDragging: true
-//             }).addTo(map);
-
-//             // Listen for routing events and provide voice navigation
-//             routeControl.on('routesfound', function(e) {
-//                 var routes = e.routes;
-//                 var instructions = routes[0].instructions;
-
-//                 // Debugging: Check instructions
-//                 console.log("Routing Instructions:", instructions); // Debugging
-
-//                 // Function to speak text using Web Speech API
-//                 function speak(text) {
-//                     var msg = new SpeechSynthesisUtterance();
-//                     msg.text = text;
-//                     window.speechSynthesis.speak(msg);
-//                 }
-
-//                 // Loop through the instructions and give voice directions
-//                 instructions.forEach(function(instruction, i) {
-//                     setTimeout(function() {
-//                         speak(instruction.text); // Speak out the instruction
-//                     }, i * 5000); // Delay between each instruction
-//                 });
-//             });
-//         }, function(error) {
-//             console.error("Geolocation error:", error); // Log any errors
-//             alert("Unable to retrieve your location. Please ensure location services are enabled.");
-//         });
-//     } else {
-//         alert("Geolocation is not supported by this browser.");
-//     }
-// }
-// navigator.geolocation.getCurrentPosition(function(position) {
-//     // Success handling
-// }, function(error) {
-//     console.error("Geolocation error:", error); // Log detailed error
-//     alert("Unable to retrieve your location. Error: " + error.message);
-// });
     </script>
 </body>
 

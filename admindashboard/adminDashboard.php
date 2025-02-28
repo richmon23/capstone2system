@@ -155,7 +155,115 @@ if (isset($pdo)) {
     <title>  Admin Dashboard </title>
     <link rel="stylesheet" href="./admindashboardcss/admindashboard.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    
+    <style>
+        @property --eb-progress-value {
+  syntax: "<integer>";
+  inherits: false;
+  initial-value: 0;
+}
+
+@keyframes eb-progress {
+  to {
+    --eb-progress-value: var(--value);
+  }
+}
+
+
+
+.eb-progress-bar {
+  --size: 4.5rem;
+  --inner-bg: #f2f2f2;
+  --primary-color: var(--col);
+  --secondary-color: #dfe0e0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 0px 2px rgb(0 0 0 / 40%), inset 0 0px 1px rgb(0 0 0 / 30%),
+    0 1px 2px rgb(0 0 0 / 60%), 0 4px 2px rgb(0 0 0 / 20%),
+    0 9px 4px rgb(0 0 0 / 10%), inset 0 2px 1px #ffffff8c;
+  width: var(--size);
+  height: var(--size);
+  font-size: calc(var(--size) / 5);
+  color: var(--primary-color);
+  background: radial-gradient(
+      closest-side,
+      var(--inner-bg) 79%,
+      transparent 80% 100%
+    ),
+    conic-gradient(
+      var(--primary-color) calc(var(--eb-progress-value) * 1%),
+      var(--secondary-color) 0
+    );
+  border-radius: 50%;
+
+  &-wrapper {
+    display: grid;
+    place-items: center;
+    gap: 0.5rem;
+    padding: 1rem;
+    transform: scale(1.5);
+  }
+
+  &,
+  &::before {
+    animation: eb-progress 2s 1 forwards;
+  }
+
+  &::before {
+    counter-reset: percentage var(--eb-progress-value);
+    content: counter(percentage) "%";
+    font-weight: 400;
+    font-family: Roboto;
+    font-size: 15px;
+    color: #9e9e9e;
+
+    background: #f5f6f7;
+    background-image: -webkit-gradient(
+      linear,
+      right top,
+      right bottom,
+      color-stop(0%, #ffffff),
+      color-stop(100%, #d3d1cb)
+    );
+
+    box-shadow: 1px 1px 3px rgb(0 0 0 / 15%);
+    padding: 20px 15px;
+    border-radius: 50%;
+    z-index: 1;
+    position: relative;
+    border: 1px solid #d0d0d0;
+  }
+
+  &-title {
+    text-align: center;
+    color: inherit;
+    letter-spacing: 2px;
+    line-height: 1.2;
+    text-transform: uppercase;
+    font-size: 11px;
+    font-weight: 400;
+    font-family: Roboto;
+  }
+
+  progress {
+    visibility: hidden;
+    width: 0;
+    height: 0;
+  }
+}
+
+h2 {
+  font-family: "integralcfmedium" !important;
+  margin-top: 6px;
+}
+
+@media screen and (min-width: 768px) {
+  h1 {
+    font-size: 64px;
+  }
+}
+
+    </style>
 </head>
 <body>
     <!-- <a href="logout.php">Logout</a> -->
@@ -212,30 +320,90 @@ if (isset($pdo)) {
                             <br>
                             <br>
                             <div class="rightsidebar-content">
-                            <div class="div">
-                                <p class="dashboard-counter-number"> <?php echo $total_weekly_reservations; ?></p>
-                                <h5>Weekly Reservations</h5>
-                            </div>
-                            <div class="div">
-                                <p class="dashboard-counter-number"> <?php echo $total_monthly_reservations; ?></p>
-                                <h5>Monthly Reservations</h5>
+                                        <div class="div">
+                                        
+                                            <div class="eb-progress-bar-wrapper">
+                                                <div class="eb-progress-bar html" style="--value: 1; --col: #FF5089">
+                                                    <progress id="html" min="0" max="100" value="85"></progress>
+                                                </div>
+                                                <p class="dashboard-counter-number"> <?php echo $total_weekly_reservations; ?></p>
+                                                <h2>Weekly Reservations</h2>
+                                                <!-- <label for="html" class="eb-progress-bar-title">
+                                                    <h2>Html</h2>
+                                                </label> -->
+                                            </div>
+                                        </div>
+                                        <div class="div">
+                                            
+                                            <div class="eb-progress-bar-wrapper">
+                                                <div class="eb-progress-bar css" style="--value: 1; --col: #FF1659">
+                                                    <progress id="css" min="0" max="100" value="91"></progress>
+                                                </div>
+                                                <p class="dashboard-counter-number"> <?php echo $total_monthly_reservations; ?></p>
+                                                <h2>Monthly Reservations</h2>
+                                                <!-- <label for="css" class="eb-progress-bar-title">
+                                                    <h2>Css</h2>
+                                                </label> -->
+                                            </div>
+                                        </div>
+                                        <div class="div">
+                                            
+                                            <div class="eb-progress-bar-wrapper">
+                                                <div class="eb-progress-bar js" style="--value: 1; --col: #E8232E">
+                                                    <progress id="js" min="0" max="100" value="68"></progress>
+                                                </div>
+                                                <p class="dashboard-counter-number"> <?php echo $total_yearly_reservations; ?></p>
+                                                <h2>Yearly Reservations</h2>
+                                                <!-- <label for="js" class="eb-progress-bar-title">
+                                                    <h2>JavaScript</h2>
+                                                </label> -->
+                                            </div>
+                                        </div>
+                                        <div class="div">
+                                <div class="eb-progress-bar-wrapper">
+                                    <?php
+                                    try {
+                                        // Define total plots in your system
+                                        $total_plots = 100;
 
-                            </div>
-		                    <div class="div">
-                                <p class="dashboard-counter-number"> <?php echo $total_yearly_reservations; ?></p>
-                                <h5>Yearly Reservations</h5>
+                                        // Query to get the total available plots
+                                        $sql = "SELECT COUNT(*) as total_available_plots FROM plots WHERE is_available = 1";
+                                        $stmt = $pdo->prepare($sql); // Assuming $pdo is defined in your connection file
+                                        $stmt->execute();
 
+                                        // Fetch the result
+                                        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+                                        $total_available_plots = $result['total_available_plots'] ?? 0;
+
+                                        // Calculate the dynamic progress value
+                                        $progress_value = ($total_available_plots / $total_plots) * 100;
+                                    } catch (PDOException $e) {
+                                        // Handle potential errors
+                                        echo "<p style='color: red;'>Database error: " . $e->getMessage() . "</p>";
+                                        $progress_value = 0; // Default to 0 in case of an error
+                                    }
+                                    ?>
+
+                                    <!-- Dynamic Progress Bar -->
+                                    <div class="eb-progress-bar js" style="--value: <?php echo $progress_value; ?>; --col: #E8232E">
+                                        <progress id="js" min="0" max="100" value="<?php echo $progress_value; ?>"></progress>
+                                    </div>
+                                    <p  class="dashboard-counter-number"> <?php echo $total_available_plots; ?> / <?php echo $total_plots; ?></p> 
+                                    <!-- Display Total Available Plots -->
+                                    <h2>Available Plots</h2>
+                                    <p style="color: dodgerblue; font-size: 20px; font-weight: bold;">
+                                      
+                                    </p>
+                                </div>
                             </div>
+
+
+                            <!-- <h2>Pending Payments</h2>    -->
                             <!-- <div class="div"> -->
                                 <!-- <h3>Messages</h3> -->
                                 <!-- <p class="dashboard-counter-number"> <?php echo $total_reservations; ?></p> -->
                             <!-- </div> -->
-                            <div class="div">
-                                <h5>Available Plots</h5>
-                            </div>
-                            <div class="div">
-                               <h5>Pending Payments</h5> 
-                            </div>
+                            
                         </div>
                     </div>
                 </div>
@@ -244,7 +412,6 @@ if (isset($pdo)) {
         <!-- TODO: Alert message  -->
         <div id="alertMessage"></div>
 
-        <!-- TODO: Change Password Modal -->
          <!-- TODO: Change Password Modal  -->
         <div id="changePasswordModal" class="modal">
             <div class="modal-content">

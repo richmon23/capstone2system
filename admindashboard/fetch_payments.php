@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['payment_method'])) {
             }
             echo "</table>";
         } else {
-            echo "<p>No payments found for $paymentMethod.</p>";
+            echo " <br>  <br>  <p>No payments found for $paymentMethod.</p>";
         }
     } catch (Exception $e) {
         echo "Error: " . $e->getMessage();

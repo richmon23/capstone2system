@@ -630,46 +630,67 @@ if (isset($pdo)) {
                                 }
                             }
 
+                            document.addEventListener("DOMContentLoaded", function () {
+    // When block changes, fetch available plots for the add modal
+    document.getElementById("add_block").addEventListener("change", function () {
+        var block = this.value;
+        fetchAvailablePlots(block, "add_plot");
+    });
 
-                        document.addEventListener("DOMContentLoaded", function () {
-                        // When block changes, fetch available plots for the add modal
-                        document.getElementById("add_block").addEventListener("change", function () {
-                            var block = this.value;
-                            fetchAvailablePlots(block, "add_plot");
-                        });
+    // When block changes, fetch available plots for the update modal
+    document.getElementById("modal_block").addEventListener("change", function () {
+        var block = this.value;
+        fetchAvailablePlots(block, "modal_plot");
+    });
+});
 
-                        // When block changes, fetch available plots for the update modal
-                        document.getElementById("modal_block").addEventListener("change", function () {
-                            var block = this.value;
-                            fetchAvailablePlots(block, "modal_plot");
-                        });
+// Function to fetch available plots based on selected block
+function fetchAvailablePlots(block, plotDropdownId, selectedPlot = null) {
+    if (block) {
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", "get_plots.php?block=" + block, true);
+        xhr.onload = function () {
+            if (this.status === 200) {
+                try {
+                    var plots = JSON.parse(this.responseText);
+                    var plotDropdown = document.getElementById(plotDropdownId);
+
+                    // Clear previous options
+                    plotDropdown.innerHTML = '<option value="" disabled selected>Select Plot</option>';
+
+                    // Populate dropdown with only available plots
+                    plots.forEach(function (plot) {
+                        if (plot.is_available) { // Only add available plots
+                            var option = document.createElement("option");
+                            option.value = plot.plot_number; // FIX: Assign the correct value
+                            option.textContent = "Plot " + plot.plot_number;
+                            plotDropdown.appendChild(option);
+                        }
                     });
 
-                    // Function to fetch available plots based on selected block
-                    function fetchAvailablePlots(block, plotDropdownId) {
-                        if (block) {
-                            var xhr = new XMLHttpRequest();
-                            xhr.open("GET", "get_plots.php?block=" + block, true);
-                            xhr.onload = function () {
-                                if (this.status === 200) {
-                                    var plots = JSON.parse(this.responseText);
-                                    var plotDropdown = document.getElementById(plotDropdownId);
-                                    plotDropdown.innerHTML = '<option value="" disabled selected>Select Plot</option>'; // Clear previous options
-
-                                    // Populate the dropdown with available plots
-                                    plots.forEach(function (plot) {
-                                        var option = document.createElement("option");
-                                        option.value = plot;
-                                        option.textContent = "Plot " + plot;
-                                        plotDropdown.appendChild(option);
-                                    });
-                                } else {
-                                    console.error("Failed to load plots: " + this.status);
-                                }
-                            };
-                            xhr.send();
-                        }
+                    // If there's a selected plot, re-add it to the dropdown
+                    if (selectedPlot) {
+                        var oldOption = document.createElement("option");
+                        oldOption.value = selectedPlot;
+                        oldOption.textContent = "Plot " + selectedPlot + " (Currently Selected)";
+                        plotDropdown.appendChild(oldOption);
+                        plotDropdown.value = selectedPlot;
                     }
+
+                } catch (error) {
+                    console.error("Error parsing JSON:", error);
+                }
+            } else {
+                console.error("Failed to load plots: " + this.status);
+            }
+        };
+        xhr.onerror = function () {
+            console.error("Request error occurred.");
+        };
+        xhr.send();
+    }
+}
+
 
                     // TODO: status modal functionality
                      // Function to open the modal and set the current reservation ID
@@ -707,8 +728,8 @@ if (isset($pdo)) {
                         document.getElementById('or-number').textContent = `OR-${reservationId}`;
 
                        // Normalize the package name and get the corresponding price
-    const normalizedPackageName = package.toLowerCase().replace('_', ' '); // Converts "Family_State" to "family state"
-    const price = packagePrices[normalizedPackageName] || 0;
+                        const normalizedPackageName = package.toLowerCase().replace('_', ' '); // Converts "Family_State" to "family state"
+                        const price = packagePrices[normalizedPackageName] || 0;
 
                         // Store price in a global variable to use in installment calculations
                         window.currentPrice = price;
